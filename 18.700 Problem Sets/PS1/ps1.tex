@@ -1,0 +1,72 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath}
+\usepackage{amsfonts} 
+\usepackage{enumitem}
+
+\title{Problem Set 1}
+\author{John Hunter Kohler}
+\date{March 2020}
+
+\begin{document}
+	\noindent Question 1: Prove or disprove that $G=\{a+bi \:| \: a,b\in \, \mathbb{Q}\}$ is a field.\\
+
+	Due to the assumption that $\mathbb{C}$ is a field, it is trivial to see we must only verify that $G$ 
+	is closed under addition and multiplication so to satisfy the field axioms. This reduces to proving
+	$\forall x,y\in\mathbb{Q}:xy,x + y\in\mathbb{Q}$ due to the definitions of multiplication and addition 
+	on the complex field. The previous statement on rationals is well known to be true.\\
+
+	\noindent Question 2: Is $M=\{re^{2\pi i\theta}\:|\:r,\theta\in\mathbb{Q}\}$ a field?\\
+
+	$M$ is intuitively a field, being a subset of complex numbers that would fall on the lines at rational
+	angles.\\
+
+	\noindent Question 3: The vector space $V=(\mathbb{F}_2)^2$ has exactly four vectors $(0, 0)$, $(0, 1)$,
+						  $(1, 0)$, and $(1, 1)$; so $V$ has exactly $2^4 = 16$ subsets. How many of these $16$ subsets
+						  are linearly independent? How many bases does $V$ have?\\
+
+	By definition, the null set is LI (linearly independent). Obviously all of the $4$ subsets of length one are LI. Of the
+	$6$ subsets of length two, only the $3$ that do not contain the zero vector are LI. 
+	Of length three, none of the $4$ subsets are LI. The improper subset of $V$ is clearly not LI. 
+	In all, $8$ subsets of $V$ are linearly independent. Of these, there are $3$ subsets that span $V$, namely all those
+	that are LI and length two, therefor $3$ bases.
+
+
+	\noindent Question 4: For Each of the following subsets of $\mathbb{F}^3$, determine wether it is a subspace of $\mathbb{F}^3$
+
+	\begin{enumerate}[label=(\alph*)]
+		\item $\{(x_1,x_2,x_3)\in\mathbb{F}^3\:|\: x_1+2x_2+3x_3=0\}$
+			\begin{itemize}[label=\textendash]
+				\item The set gives a plane through the pole and is thus a subspace.
+			\end{itemize}
+		\item $\{(x_1,x_2,x_3)\in\mathbb{F}^3\:|\: x_1+2x_2+3x_3=4\}$
+			\begin{itemize}[label=\textendash]
+				\item The set does not include the zero vector and is thus not a subspace.
+			\end{itemize}
+		\item $\{(x_1,x_2,x_3)\in\mathbb{F}^3\:|\: x_1 x_2 x_3=0\}$
+			\begin{itemize}[label=\textendash]
+				\item The set is not closed under addition and is thus not a subspace.
+			\end{itemize}
+		\item $\{(x_1,x_2,x_3)\in\mathbb{F}^3\:|\: x_1 = 5x_3\}$
+			\begin{itemize}[label=\textendash]
+				\item The set gives a line through the pole and is thus a subspace.
+			\end{itemize}
+	\end{enumerate}
+
+	\noindent Question 5: Prove or give a counter example: if $U_1,U_2,W$ are subspaces of $V$
+						  such that 
+						  \begin{gather*}
+						      V=U_1\oplus W\\
+						  	  V=U_2\oplus W
+						  \end{gather*}
+						  then $U_1=U_2$.\\
+
+	This theorem is false. For one simple counter example let $V=\mathbb{F}^2$
+	\begin{gather*}
+		W=\{(x,y,0)\:| \:x,y\in\mathbb{F}\}\\
+		U_1=\{(x,x,0)\:| \:x\in\mathbb{F}\}\\
+		U_2=\{(0,0,x)\:| \:x\in\mathbb{F}\}
+	\end{gather*}
+
+
+
+\end{document}

@@ -1,0 +1,5 @@
+tex(){
+ doc = $1
+ pdflatex doc
+ open doc
+}
