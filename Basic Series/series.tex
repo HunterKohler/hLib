@@ -1,0 +1,150 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath}
+\usepackage{amsfonts} 
+\usepackage{enumitem}
+\usepackage{mathtools}
+
+\title{Notes on Introductory Series}
+\author{John Hunter Kohler}
+\date{March 2020}
+
+
+\newcommand{\define}{\coloneqq}
+
+
+\begin{document}
+\maketitle
+
+\quad Though the formal definition of sequences and series limits will not be given. The notation used will be standard and 
+informal. No proofs will be given similar to the entirety of this document. Assume all sequences and series are real.
+
+\section*{Foundation of Sequences}
+	This secition focuses on the basics of sequences and methods of computation on the infinite terms of some sequence. 
+	A sequence $\{a_n\}$ is said to be convergent if
+		\begin{equation}
+			\lim_{n\to\infty} a_n \in\mathbb{R}
+		\end{equation}
+	If the above property is not held, the sequence is said to be divergent. When computing limits of two 
+	convergent sequences $\{a_n\},\{b_n\}$, it is possible to seperatly evaluate the sequences.
+		\begin{equation}
+			\lim_{n\to\infty} f(a_n,b_n) = f(\lim_{n\to\infty} a_n, \lim_{n\to\infty} b_n)
+		\end{equation}
+	A simple tool for the evaluation of limits upon convergent series is the squeeze theorem for series.
+		\begin{gather}
+			a_n <= c_n <= b_n\,,\ \text{for} \ n > (N\in\mathbb{N}) \\ 
+			\lim_{n\to\infty} a_n = \lim_{n\to\infty} b_n = L
+			\implies \lim_{n\to\infty} c_n = L
+		\end{gather}
+	Sequences, like functions, are said to be monotonic if they are strictly increasing or strictly decreasing.
+	Like functions, sequences may be bounded above or below by some constant. If a sequence is bounded and monotonic, 
+	then it must be convergent\footnote{Obviously, the same can be said about those sequences which are simply strictly increasing and 
+	bounded above as well as strictly decreasing and bounded below.}.
+
+\section*{Convergence of Series}
+	Here, let us take a look at simple rules for figuring if a series converges or diverges. Obviously a convergent series is the sum of
+	every term of a series such that the value is finite. If some series does not exist or is infinite, it is said to be divergent.
+	A simple proposition is that
+		\begin{equation}
+			\text{if} \ \sum a_n \ \text{converges, then} \ \lim_{n\to\infty} a_n = 0
+		\end{equation}
+	Now recognize two more properties of series. If some series $\sum a_n$ is convergent yet $\sum |a_n|$ is not, then the series $\sum a_n$
+	is said to be conditionally convergent. If, along with $\sum |a_n|$, $\sum a_n$ is convergent, we say that the series is absolutly
+	convergent. Otherwise, the series is divergent. From this it is important to recognize one thing: if a series is conditionally convergent,
+	then when algabraically rearranging\footnote{For the purposes of computation.} its explicit terms will allow you to, 
+	without logical error, compute the sum of the series as any real number.
+
+	\subsection*{Geometric Sums and P-Series}
+		Firstly define a partial sum -this usually uses confusing notation- as
+			\begin{equation}
+				S_n= \sum_{i = 0}^{n}a_i
+			\end{equation}
+		The lower bound of the sum may change based on context, but this is the general notation with the exception of the differing use of capitalization
+		of $s$. For a geometric sum, based on a sequence where the ratio between each term is a constant, the partial sum formula is slightly unintuitive,
+		though important. It is vital in the proof of the infinite sum, though that will not be exemplified.
+			\begin{gather}
+				\text{for $a,r$ constant} \ S_n= \sum_{i = 0}^{n} ar^i = \dfrac{a(1-r^n)}{1-r} \\
+				\lim_{n\to\infty} S_n = \dfrac{a}{1-r} \ \text{when} \ |r| < 1 
+			\end{gather}
+		As you will see later, this is a form of a power series, with radius of convergence\footnote{Put simply, as expressed above, the infinite
+		geometric sum only converges for $|r| < 1$.} one. The other series to look at of the form for which we know convergence is the p-series
+		\footnote{The special case is $p = 1$ which is the harmonic series. Not discussed here.}. 
+			\begin{equation}
+				\sum_{n=1}^{\infty} \frac{1}{n^p} \ \text{converges for}\ p > 1
+			\end{equation}
+
+	\subsection*{Integral Test}
+		If there is some continuous, positive, strictly decreasing function $f(x)$ on,
+			\begin{align}
+				&\ \ x\in[k,\infty)\ \text{and}\ f(n) = a_n,\, n\in\mathbb{N},\ \text{then}\\
+				&\int_{k}^{\infty} f(x)dx\ \text{and}\ \sum_{k}^{\infty} a_n\ \text{converge or diverge together.}
+			\end{align}
+
+	\subsection*{Comparison Test}
+		This test is similar to, and essentially a pre-requisite of, the last theorem: 
+			\begin{align}
+				\text{If there is some}\ &\sum a_n ,\, \sum b_n \ \text{for} \ a_n \geq b_n \geq 0,\,n\in\mathbb{N}, \\
+				\text{then}\ &\sum_{n=1}^{\infty} a_n \ \text{and} \ \sum_{n=1}^{\infty} b_n \ \text{converge or diverge together.}
+			\end{align}
+
+	\subsection*{Limit Comparison Test}
+		By taking the associated sequences of two series and compair there infinite terms, a similar association of converge as before can
+		be formed\footnote{These associations will let us extend knowledge of convergence from what we have proved to unknowns more easily.
+		Also this would give the option of working the more simple of the two series.}. 
+		\begingroup
+			\begin{align}
+				\text{Let} \sum a_n,\,\sum b_n \ \text{such that}\ &a_n \geq 0,\, b_n > 0, \\
+				n\in\mathbb{N},\ &\text{and let} \ C \define \lim_{n\to\infty} \dfrac{a_n}{b_n}\\
+				\text{If} \ C \in\mathbb{R}^{+} \ \text{then} \ \sum a_n \ \text{and}\ &\sum b_n \\
+				\text{conver}&\text{ge }\text{or diverge together.}
+			\end{align}
+		\endgroup
+
+	\subsection*{Alternating Series Test}
+		To deal with series of the form below, this test is created. Once used, if it is possible to do so, another test may be required
+		to determine the properties of the subseries. An alternating series is of the form:
+			\begin{equation}
+				a_n=(-1)^{n}b_n \ \text{or} \ a_n=(-1)^{n+1}b_n \ \text{for} \ (b_n \geq 0 \ \text{or} \ b_n \leq 0),\,n\in\mathbb{N}
+			\end{equation}
+		Furthermore, the test states:
+			\begin{gather}
+				\text{If} \ \lim_{n\to\infty} b_n = 0 \ \text{and} \{b_n\} \ \text{is monotonic\footnotemark,} \ \sum_{n=1}^{\infty} a_n \ \text{is convergent.}
+			\end{gather}
+		\footnotetext{For ($b_n \geq 0$ and strictly decreasing), or ($b_n \leq 0$ and strictly increasing).}
+
+	\subsection*{Ratio Test}
+		The ratio test will be the best tool presented here to deal with sequences involving factorials as well as rational equations of polynomials.
+		By reviewing the test below you will see that it takes a form in which, for the described cases, we may cancel out confounding terms.
+			\begin{align}
+				\text{Let} \ L \define &\lim_{n\to\infty} \left| \dfrac{a_{n+1}}{a_n} \right| \\
+				\text{If} \ L < 1, &\sum a_n \ \text{is absolutly convergent.} \\
+				\text{If} \ L > 1, &\sum a_m \ \text{is divergent.} \\
+				\text{If} \ L = 1, &\text{ the test is inconclusive.}
+			\end{align}
+
+	\subsection*{Root Test}
+		This test is similar to the ratio test. Almost\footnote{Most cases that do not abide by this principle should not be presented
+		in an introductory course. It may be worthwile checking both either way as either one may have been applied incorrectly} 
+		all sequences produce the same results in the ratio and root test. This test is best utilized for series similar to
+		$a_n = (b_n)^n$. The test functions thus:
+			\begin{align}
+				\text{Let} \ L \define &\lim_{n\to\infty} \left| a_n \right|^{\frac{1}{n}} \\
+				\text{If} \ L < 1, &\sum a_n \ \text{is absolutly convergent.} \\
+				\text{If} \ L > 1, &\sum a_n \ \text{is divergent.} \\
+				\text{If} \ L = 1, &\text{ the test is inconclusive.}
+			\end{align}
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
