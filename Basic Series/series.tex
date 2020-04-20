@@ -1,10 +1,12 @@
-\documentclass[11pt]{article}
+\documentclass[11pt]{scrreprt}
 \usepackage{amsmath}
 \usepackage{amsfonts} 
 \usepackage{enumitem}
 \usepackage{mathtools}
 \usepackage{refcount}
 \usepackage[bottom]{footmisc}
+
+\usepackage{times}
 
 \title{Notes on Introductory Series}
 \author{John Hunter Kohler}
@@ -19,8 +21,9 @@
 \begin{document}
 \maketitle
 
-\quad Though the formal definition of sequences and series limits will not be given. The notation used will be standard and 
-informal. No proofs will be given similar to the entirety of this document. Assume all sequences and series are real.
+\quad Though the formal definition\footnote{This definition is extremely similar to the Epsilon-Delta definition of a functional limit. The exeption 
+to this of course is that the delta is not required obviously.} of sequences and series limits will not be given. 
+The notation used will be standard and informal. No proofs will be given. Assume all sequences and series are real.
 
 \section*{Foundation of Sequences}
 	This secition focuses on the basics of sequences and methods of computation on the infinite terms of some sequence. 
@@ -89,7 +92,7 @@ informal. No proofs will be given similar to the entirety of this document. Assu
 		This test is similar to, and essentially a lemma\footnote{Due to the fact a integral would simply be the 
 		application of this theorem through its definition of a Reimann Sum.} of, the last theorem: 
 			\begin{align}
-				\text{If there is some}\ \sum a_n ,\, &\sum b_n \ \text{for} \ a_n \geq b_n \geq 0,\, a_n \leq b_n,\,n\innat, \\
+				\text{If there is some}\ \sum a_n ,\, &\sum b_n \ \text{for} \ a_n ,b_n \geq 0,\: a_n \leq b_n,\:n\innat, \\
 				\text{then} \ &\sum b_n \ \text{converges} \implies \sum a_n \ \text{converges,} \\
 				\text{and} \ &\sum a_n \ \text{diverges} \implies \sum b_n \ \text{diverges.}
 			\end{align}
@@ -205,7 +208,7 @@ informal. No proofs will be given similar to the entirety of this document. Assu
 	test is a particularly effective tool in this case. It is not always the case that $\abs{x} = R$ is not in the interval of convergence, thus
 	one must find both $R$ and check the endpoints of said interval. Note that $R$ is in $\overline{\mathbb{R}}$, though $x$ only varies 
 	along real numbers.This implies two important points. The first of which is $x$ will have an interval of all reals for $R=\infty$. Next, 
-	even in the case of $R = 0$, the interval of $x$ will always be non null due to $p(a) = 0$.
+	even in the case of $R = 0$, the interval of $x$ will never be null due to the polynomial $p(x)$ always having a root at $a$.
 
 	\subsection*{Expressing Analytic Functions}
 		We will not describe the definition of an analytic function beyond saying that they are functions that can be expressed locally as
@@ -259,6 +262,7 @@ informal. No proofs will be given similar to the entirety of this document. Assu
 				T_n = \sum_{i = 0}^{n} \dfrac{f^{(i)}}{i!} (x - a)^i 
 					 = f(a) + f^{'}(a)(x - a) + \cdots + \dfrac{f^{(n)}}{n!}(a)(x - a)^n
 			\end{equation}
+			
 \end{document}
 
 
