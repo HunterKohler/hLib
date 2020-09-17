@@ -1,18 +1,17 @@
 import java.util.*;
 
-public class DisjointSet {
+class DisjointSet {
     int n;
-    int[] p; // parents
-    int[] r; // ranks
+    int[] p, r; // parents and ranks
 
-    DisjointSet(int n) { // avg complexity O(Lg*(n)) approx. O(n)
+    public DisjointSet(int n) { // avg complexity O(Lg*(n)) approx. O(n)
         this.n = n;
         this.p = new int[n];
+        this.r = new int[n];
         for(int i = 0; i < n; i++){
             this.p[i] = i;
             this.r[i] = 1;
         }
-
     }
 
     void union(int i, int j) { // implemented at O(Log(n))
@@ -30,7 +29,6 @@ public class DisjointSet {
             p[i] = p[p[i]];
             i = p[i];
         }
-
         return i;
     }
 }

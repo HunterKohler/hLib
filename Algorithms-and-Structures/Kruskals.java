@@ -1,14 +1,15 @@
 import java.util.*;
-import java.io.*;
 
-
-public class Kruskals {
+class Kruskals {
     static int[][] span(int n, int[][] edges) {
         int[][] adj = new int[n][n];
 
         PriorityQueue<int[]> pq = new PriorityQueue<int[]>((int[] u, int[] v) -> {
             return u[2] < v[2] ? -1 : 1;
         });
+
+        for(int[] edge: edges)
+            pq.add(edge);
 
         DisjointSet dset = new DisjointSet(n);
         while(!pq.isEmpty()) {
@@ -27,8 +28,8 @@ public class Kruskals {
     }
 
     public static void main(String[] args) {
-        int n = 3;
-        int[][] edges = new int[][]{{0,1,1}, {1,2,1}, {1,2,3}};
+        int n = 4;
+        int[][] edges = new int[][]{{0, 1, 1}, {0, 2, 1}, {0,3,1}};
         int[][] spantree = span(n, edges);
 
         for(int j = 0; j < n;j++) {
