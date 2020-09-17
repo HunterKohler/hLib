@@ -8,7 +8,7 @@ class dijkstra {
     static int[][] adj;
     static ArrayList<Integer> unvisited;
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException { // implemented at O(V^3)
         Scanner sc = new Scanner(new File("./dijkstra.in"));
 
         n = sc.nextInt();
