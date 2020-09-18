@@ -15,6 +15,10 @@ class DisjointSet {
     }
 
     void union(int i, int j) { // implemented at O(Log(n))
+        i = root(i);
+        j = root(j);
+        if(i == j) { return; }
+
         if(r[i] > r[j]) {
             p[j] = i;
             r[i] += r[j];

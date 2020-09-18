@@ -38,7 +38,18 @@ class agrinet {
             }
         }
 
+        for(int[] edge: edges) {
+            System.out.println(Arrays.toString(edge));
+        }
+
         adj = kruskals(n, edges);
+
+        for(int j =0 ; j < n;j++) {
+            for(int i = 0; i < n;i++) {
+                System.out.print(adj[i][j] + " ");
+            }
+            System.out.println();
+        }
 
         int count = 0;
         for(int i = 0; i < n;i++) {
@@ -90,6 +101,10 @@ class agrinet {
         }
 
         void union(int i, int j) {
+            i = root(i);
+            j = root(j);
+            if(i == j) {return;}
+
             if(this.r[i] < this.r[j]) {
                 this.r[i] += this.r[j];
                 this.p[j] = i;
@@ -97,6 +112,8 @@ class agrinet {
                 this.r[j] += this.r[i];
                 this.p[i] = j;
             }
+
+            System.out.println("u: (" + i + "," + j + ") " + Arrays.toString(p));
         }
 
         int root(int i) {
