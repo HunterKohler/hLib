@@ -1,107 +1,90 @@
 /*
 ID: jhunter3
 LANG: JAVA
-PROB: contact
+TASK: contact
 */
 
 import java.io.*;
 import java.util.*;
-import java.util.regex.*;
 
-class contact {
-    static List<Tuple<String,Integer>> counts;
-    static String bitstr;
+public class contact {
+    public static void main(String[] args) throws Exception {
+        // set startTime to measure how long the program takes
+        long startTime = System.currentTimeMillis();
 
-    public static void main(String[] args) throws IOException {
-        // long t = System.nanoTime();
-        BufferedReader br = new BufferedReader(new FileReader("./contact.in"));
+        // create input BufferedReader from file
+        BufferedReader br = new BufferedReader(new FileReader("contact.in"));
 
-        String[] input = br.readLine().split(" ");
-        int a = Integer.parseInt(input[0]);
-        int b = Integer.parseInt(input[1]);
-        int n = Integer.parseInt(input[2]);
+        StringTokenizer l = new StringTokenizer(br.readLine());
 
+        int A = Integer.parseInt(l.nextToken()); //minimum pattern length
+        int B = Integer.parseInt(l.nextToken()); //maximum pattern length
+        int N = Integer.parseInt(l.nextToken()); //number of patterns to find
+
+        StringBuilder build = new StringBuilder();
         String line;
-        bitstr = "";
-        while((line = br.readLine()) != null)
-            bitstr += line;
 
-        counts = new ArrayList<Tuple<String,Integer>>();
-        for(int l = a; l <= b; l++) {
-            for(int i = 0; i < Math.pow(2, l); i++) {
-                String istr = Integer.toBinaryString(i);
-                while(istr.length() < l) {
-                    istr = "0" + istr;
+        while ((line = br.readLine())!=null) {
+            build.append(line);
+        }
+
+        br.close();
+
+        int len = build.length();
+        int[] totals = new int[(int)Math.pow(2, B+1)];
+
+        // System.out.println("len: "+len);
+        // System.out.println("totals.length: "+totals.length);
+        for (int i = A; i <= B; i++) { // length of i
+            for (int j = 0; j < i; j++) { // offset of j
+                for (int k = j; k <= len-i; k+=i) { // start at k
+                    int range = Integer.parseInt("1"+build.substring(k, k+i), 2);
+                    // DEBUG System.out.println(k+"\t"+i+"\t"+build.substring(k, k+i));
+                    totals[range]++;
                 }
-                count(istr);
+            }
+        }
+        int max = 0;
+        for (int i = 2; i < totals.length; i++) {
+            if (totals[i]>max) {
+                max=totals[i];
             }
         }
 
-        Collections.sort(counts, (Tuple<String, Integer> p, Tuple<String, Integer> q) -> {
-            if(p.v == q.v) {
-                if(p.k.length() == q.k.length()) {
-                    return Integer.parseInt(p.k,2) - Integer.parseInt(q.k,2);
-                }
-
-                return p.k.length() - q.k.length();
-            }
-            return q.v - p.v;
-        });
-
-        // System.out.println(Arrays.toString(counts.toArray()));
-
-        BufferedWriter bw = new BufferedWriter(new FileWriter("./contact.out"));
-
-        int i = 0;
-        while(n > 0) {
-            if(i >= counts.size())
+        List<List<Integer>> results = new ArrayList<>();
+        for (int i = 0; i <= max; i++) {
+            results.add(new ArrayList<>());
+        }
+        for (int i = (int)Math.max(2, Math.pow(2, A)); i < totals.length; i++) {
+            results.get(totals[i]).add(i);
+        }
+        PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("contact.out")));
+        int totalPrinted = 0;
+        for (int i = max; i > 0; i--) {
+            if (totalPrinted>=N) {
                 break;
-            int num = counts.get(i).v;
-            int online = 0;
-            bw.write(num + "\n");
-            line = "";
-            while(i < counts.size() && counts.get(i).v == num) {
-                if(online == 6) {
-                    online = 0;
-                    line += "\n";
-                }
-
-                line += counts.get(i).k + " ";
-                online++;
-                i++;
             }
-            bw.write(line.substring(0,line.length() - 1) + "\n");
-            n--;
+            if (results.get(i).size()==0) {
+                continue;
+            }
+
+            totalPrinted++;
+            out.println(i);
+            for (int j = 0; j < results.get(i).size(); j++) {
+                out.print(Integer.toString(results.get(i).get(j), 2).substring(1));
+                if (j%6==5 && j+1 != results.get(i).size()) {
+                    out.println();
+                    continue;
+                }
+                if (j < results.get(i).size()-1) {
+                    out.print(" ");
+                }
+            }
+            out.println();
         }
-        bw.close();
+        out.close();
 
-        // System.out.println("time: " + ((System.nanoTime() - t) / Math.pow(10, 9)));
-    }
-
-    static void count(String str) {
-        Pattern p = Pattern.compile(str);
-        Matcher m = p.matcher(bitstr);
-
-        int c = 0;
-        int start = 0;
-        while(m.find(start)) {
-            c++;
-            start = m.start() + 1;
-        }
-        if(c != 0)
-            counts.add(new Tuple<String, Integer>(str, c));
-    }
-
-    static class Tuple<K,V> {
-        K k;
-        V v;
-        Tuple(K k, V v) {
-            this.k = k;
-            this.v = v;
-        }
-
-        public String toString() {
-            return "(" + this.k.toString() + "," + this.v.toString() + ")";
-        }
+        // print final time taken
+        // System.out.println(System.currentTimeMillis() - startTime);
     }
 }
