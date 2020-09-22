@@ -1,107 +1,58 @@
-/*
-ID: jhunter3
-LANG: JAVA
-PROB: contact
-*/
-
-import java.io.*;
 import java.util.*;
-import java.util.regex.*;
+import java.io.*;
 
 class contact {
-    static List<Tuple<String,Integer>> counts;
-    static String bitstr;
-
     public static void main(String[] args) throws IOException {
-        // long t = System.nanoTime();
+        long t = System.nanoTime();
+
         BufferedReader br = new BufferedReader(new FileReader("./contact.in"));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int a = Integer.parseInt(st.nextToken());
+        int b = Integer.parseInt(st.nextToken());
+        int n = Integer.parseInt(st.nextToken());
 
-        String[] input = br.readLine().split(" ");
-        int a = Integer.parseInt(input[0]);
-        int b = Integer.parseInt(input[1]);
-        int n = Integer.parseInt(input[2]);
+        String bitstr = br.readLine();
+        Map<String,Integer> count = new HashMap<String,Integer>();
 
-        String line;
-        bitstr = "";
-        while((line = br.readLine()) != null)
-            bitstr += line;
-
-        counts = new ArrayList<Tuple<String,Integer>>();
-        for(int l = a; l <= b; l++) {
-            for(int i = 0; i < Math.pow(2, l); i++) {
-                String istr = Integer.toBinaryString(i);
-                while(istr.length() < l) {
-                    istr = "0" + istr;
-                }
-                count(istr);
+        for(int i = 0; i < bitstr.length(); i++) {
+            for(int j = a; j <= b && i + j <= bitstr.length(); j++) {
+                String substr = bitstr.substring(i, i + j);
+                count.put(substr, (count.get(substr) == null ? 0 : count.get(substr)) + 1);
             }
         }
 
-        Collections.sort(counts, (Tuple<String, Integer> p, Tuple<String, Integer> q) -> {
-            if(p.v == q.v) {
-                if(p.k.length() == q.k.length()) {
-                    return Integer.parseInt(p.k,2) - Integer.parseInt(q.k,2);
+        List<Tuple> list = new ArrayList<Tuple>();
+        for(String key: count.keySet())
+            list.add(new Tuple<String,Integer>(key, count.get(key));
+
+        Collections.sort(list, (Tuple a, Tuple b) -> {
+            if(a.v == b.v) {
+                if(a.k.size() == b.k.size()) {
+                    return Integer.parseInt(a.k, 2) - Integer.parseInt(b.k, 2);
                 }
 
-                return p.k.length() - q.k.length();
+                return a.k.size() - b.k.size();
             }
-            return q.v - p.v;
-        });
 
-        // System.out.println(Arrays.toString(counts.toArray()));
-
-        BufferedWriter bw = new BufferedWriter(new FileWriter("./contact.out"));
+            return b.v - a.v;
+        })
 
         int i = 0;
         while(n > 0) {
-            if(i >= counts.size())
-                break;
-            int num = counts.get(i).v;
-            int online = 0;
-            bw.write(num + "\n");
-            line = "";
-            while(i < counts.size() && counts.get(i).v == num) {
-                if(online == 6) {
-                    online = 0;
-                    line += "\n";
-                }
-
-                line += counts.get(i).k + " ";
-                online++;
-                i++;
-            }
-            bw.write(line.substring(0,line.length() - 1) + "\n");
-            n--;
+            int i = 0;
+            while()
         }
-        bw.close();
 
-        // System.out.println("time: " + ((System.nanoTime() - t) / Math.pow(10, 9)));
+        System.out.println(count);
+        System.out.println("time: " + ((System.nanoTime() - t) / Math.pow(10,9)));
     }
 
-    static void count(String str) {
-        Pattern p = Pattern.compile(str);
-        Matcher m = p.matcher(bitstr);
-
-        int c = 0;
-        int start = 0;
-        while(m.find(start)) {
-            c++;
-            start = m.start() + 1;
-        }
-        if(c != 0)
-            counts.add(new Tuple<String, Integer>(str, c));
-    }
-
-    static class Tuple<K,V> {
-        K k;
-        V v;
+    class Tuple<K,V> {
+        this.k;
+        this.v;
         Tuple(K k, V v) {
             this.k = k;
             this.v = v;
-        }
-
-        public String toString() {
-            return "(" + this.k.toString() + "," + this.v.toString() + ")";
         }
     }
 }
