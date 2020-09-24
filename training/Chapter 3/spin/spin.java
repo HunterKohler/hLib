@@ -6,20 +6,59 @@ PROB: spin
 
 import java.util.*;
 import java.io.*;
+import java.math.*;
 
 class spin {
-    static final int TWOPI = 360;
+    static int TWOPI = 360;
+    static int cMod(int i) { return Math.floorMod(i,TWOPI); }
 
-    static boolean nonblocking(Wheel[] wheels, int t) {
-        for(int i = 0; i < TWOPI; i++) {
-            for(int j = 0; j < TWOPI; i++) {
-                boolean open = wheels[0].getOpen(i,j,t);
-                for(Wheel w: wheels)
-                    if(open != w.getOpen(i,j,t))
-                        return false;
+    public static void main(String[] args) throws IOException {
+        long t0 = System.nanoTime();
+
+        BufferedReader br = new BufferedReader(new FileReader("./spin.in"));
+
+        Wheel[] wheels = new Wheel[5];
+        for(int i = 0; i < 5; i++)
+            wheels[i] = new Wheel(i, br.readLine());
+
+        int t = 0;
+        boolean none = false;
+        Set<Integer> visited = new HashSet<Integer>();
+        while(true) {
+            int h = hash(wheels, t);
+            if(visited.contains(h)) {
+                none = true;
+                break;
             }
+
+            boolean breaker = false;
+            for(int i: wheels[0].open) {
+                int iadj = cMod(wheels[0].pos(t) + i);
+                boolean pass = true;
+                for(Wheel v: wheels)
+                    if(!v.isOpen(iadj, t)){
+                        pass = false;
+                        break;
+                    }
+                if(pass){
+                    breaker = true;
+                    break;
+                }
+            }
+
+            if(breaker)
+                break;
+
+            visited.add(h);
+            t++;
         }
-        return true;
+
+        BufferedWriter bw = new BufferedWriter(new FileWriter("./spin.out"));
+        bw.write((none ? "none" : t) + "\n");
+        bw.close();
+
+        // System.out.println("t: " + (none ? "none " + t: t));
+        // System.out.println("time: " + ((System.nanoTime() - t0) / Math.pow(10,9)));
     }
 
     static int hash(Wheel[] wheels, int t) {
@@ -27,82 +66,45 @@ class spin {
                              wheels[1].pos(t),
                              wheels[2].pos(t),
                              wheels[3].pos(t),
-                             wheels[4].pos(t) ) ;
-    }
-
-    static boolean blocking(Wheel[] wheels, int t) {
-        return !nonblocking(wheels, t);
-    }
-
-    public static void main(String[] args) throws IOException {
-        long t0 = System.nanoTime();
-
-        BufferedReader br = new BufferedReader(new FileReader("./spin.in"));
-
-        int n = 5;
-        Wheel[] wheels = new Wheel[5];
-        for(int i = 0; i < n; i++)
-            wheels[i] = new Wheel(br.readLine());
-
-        System.out.println(hash(wheels,0));
-        System.out.println(hash(wheels,1));
-
-        int t = 0;
-        boolean none = false;
-        Set<Integer> visited = new HashSet<Integer>();
-        while(blocking(wheels, t)) {
-            if(visited.contains(hash(wheels,t))) {
-                none = true;
-                break;
-            }
-            t++;
-            visited.add(hash(wheels,t));
-        }
-
-        // System.out.println((none ? "none" : t));
-        BufferedWriter bw = new BufferedWriter(new FileWriter("./spin.out"));
-        bw.write((none ? "none" : t) + "\n");
-        bw.close();
-
-        System.out.println(visited);
-
-        System.out.println("runtime: " + ((System.nanoTime() - t0) / Math.pow(10,9)));
+                             wheels[4].pos(t) );
     }
 
     static class Wheel {
-        int s;
-        boolean[][] open = new boolean[TWOPI][TWOPI];
-        int[][] wedges; // [start, end]
-        int w;
+        int index, w, s;
+        int[][] wedges; // [start, length];
+        Set<Integer> open = new HashSet<Integer>();
 
-        Wheel(String str) {
-            StringTokenizer st = new StringTokenizer(str);
+        Wheel(int index, String args) {
+            StringTokenizer st = new StringTokenizer(args);
+            this.index = index;
             this.s = Integer.parseInt(st.nextToken());
             this.w = Integer.parseInt(st.nextToken());
-            this.wedges = new int[this.w][2];
-            for(int i = 0; i < this.w;i++) {
-                int start = Integer.parseInt(st.nextToken());
-                int end = start + Integer.parseInt(st.nextToken());
-                this.wedges[i] = new int[]{start, end};
-                for(int a = start; a <= end; a++)
-                    for(int b = start; b <= end; b++)
-                        this.setOpen(a,b,true);
+            this.wedges = new int[w][2];
+
+            for(int i = 0; i < w; i++){
+                int a = Integer.parseInt(st.nextToken());
+                int d = Integer.parseInt(st.nextToken());
+
+                this.wedges[i] = new int[]{a,d};
+                for(int j = a; j <= a + d; j++)
+                    this.open.add(cMod(j));
             }
         }
 
-        void setOpen(int i, int j, boolean val) {
-            this.open[Math.floorMod(i, TWOPI)][Math.floorMod(j, TWOPI)] = val;
-        }
-
-        boolean getOpen(int i, int j, int t) {
-            i = Math.floorMod((i - (this.s * t)), TWOPI);
-            j = Math.floorMod((j - (this.s * t)), TWOPI);
-            return this.open[i][j];
-        }
-
         int pos(int t) {
-            return this.s * t;
+            return cMod(this.s * t);
+        }
+
+        boolean isOpen(int a, int t) {
+            a = cMod(a - this.pos(t));
+            return open.contains(a);
+        }
+
+        int[] wedgeRange(int i, int t) {
+            return new int[] {
+                cMod(this.wedges[i][0] + this.pos(t)),
+                cMod(this.wedges[i][0] + this.wedges[i][1] + this.pos(t))
+            };
         }
     }
-
 }
