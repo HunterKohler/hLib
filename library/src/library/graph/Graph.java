@@ -1,12 +1,17 @@
-package graph;
+package library.graph;
+
 import java.util.*;
-import library.util.*;
+import static library.util.Util.*;
 
 class Graph {
+    //  ***Info***
+    // Assumes that all have non-zero weights
+    // For dijkstra have only positive weights
+
     int[][] adj = null;
     boolean weighted = false;
-    List<int[]>[] adjList = null; // [b,w]
-    List<int[]> edgeList = null; // [a,b,w]
+    List<int[]>[] adjList = null; // [v] = {[u,w], ...}
+    List<int[]> edgeList = null; // {[v,u,w], [u,v,w], ...}
     int V, E;
 
     Graph(int V, int E) {
@@ -58,8 +63,44 @@ class Graph {
                 adjList[v].add(zip(u,adj[v][u]));
                 adjList[u].add(zip(v,adj[v][u]));
             }
-        } else if(ad)
+        } else if(edgeList != null) {
+            for(int[] edge: edgeList) {
+                adjList[edge[0]].add(zip(edgeList[1], edgeList[2]));
+                adjList[edge[1]].add(zip(edgeList[0], edgeList[2]));
+            }
+        }
 
         return adjList;
     }
+
+    List<int[]> getEdgeList() {
+        if(edgeList != null) {
+            return edgeList;
+        } else {
+            edgeList = new ArrayList<int[]>();
+        }
+
+        if(adj != null) {
+            for(int v = 0; v < V; v++)
+            for(int u = 0; u < V; u++)
+                if(adj[v][u] != 0)
+                    edgeList.add(zip(v,u,adj[v][u]));
+                    edgeList.add(zip(u,v,adj[u][v]));
+        } else if (adjList != null) {
+            for(int v = 0; v < V; v++)
+            for(int[] edge: adjList[v])
+                edgeList.add(zip(v, edge[0], edge[1]));
+                edgeList.add(zip(edge[0], v, edge[1]));
+        }
+
+        return edgeList;
+    }
+
+    // boolean hasEulerianCircuit() {
+    //     for(int v = 0; v < )
+    // }
+
+    // boolean hasEulerianPath() {
+    //
+    // }
 }
