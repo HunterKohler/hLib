@@ -10,6 +10,6 @@ public class Util {
     // public static Double[] zip(double ...args) { return args; }
     // public static Float[] zip(float ...args) { return args; }
     @SuppressWarnings("unchecked")
-    public static <T extends Object> T[] zip(T ...args) { return args; }
+    public static <T> T[] zip(T ...args) { return args; }
     // public static <T> List<T> list(T ...args) { return Arrays.asList(args); }
 }
