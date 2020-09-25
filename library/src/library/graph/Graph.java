@@ -1,9 +1,9 @@
 package library.graph;
 
 import java.util.*;
-import static library.util.Util.*;
+import static library.util.Methods.*;
 
-class Graph {
+public class Graph {
     //  ***Info***
     // Assumes that all have non-zero weights
     // For dijkstra have only positive weights
@@ -29,7 +29,7 @@ class Graph {
         this.adj = adj;
     }
 
-    int[][] getAdj() {
+    public int[][] getAdj() {
         if(adj != null){
             return adj;
         } else {
@@ -48,7 +48,7 @@ class Graph {
         return adj;
     }
 
-    List<int[]>[] getAdjList() {
+    public List<int[]>[] getAdjList() {
         if(adjList != null){
             return adjList;
         } else {
@@ -60,20 +60,20 @@ class Graph {
         if(adj != null) {
             for(int v = 0; v < V; v++)
             for(int u = 0; u < V; u++){
-                adjList[v].add(zip(u,adj[v][u]));
-                adjList[u].add(zip(v,adj[v][u]));
+                adjList[v].add(pzip(u,adj[v][u]));
+                adjList[u].add(pzip(v,adj[v][u]));
             }
         } else if(edgeList != null) {
             for(int[] edge: edgeList) {
-                adjList[edge[0]].add(zip(edgeList[1], edgeList[2]));
-                adjList[edge[1]].add(zip(edgeList[0], edgeList[2]));
+                adjList[edge[0]].add(pzip(edge[1], edge[2]));
+                adjList[edge[1]].add(pzip(edge[0], edge[2]));
             }
         }
 
         return adjList;
     }
 
-    List<int[]> getEdgeList() {
+    public List<int[]> getEdgeList() {
         if(edgeList != null) {
             return edgeList;
         } else {
@@ -83,24 +83,18 @@ class Graph {
         if(adj != null) {
             for(int v = 0; v < V; v++)
             for(int u = 0; u < V; u++)
-                if(adj[v][u] != 0)
-                    edgeList.add(zip(v,u,adj[v][u]));
-                    edgeList.add(zip(u,v,adj[u][v]));
+                if(adj[v][u] != 0) {
+                    edgeList.add(pzip(v,u,adj[v][u]));
+                    edgeList.add(pzip(u,v,adj[u][v]));
+                }
         } else if (adjList != null) {
             for(int v = 0; v < V; v++)
-            for(int[] edge: adjList[v])
-                edgeList.add(zip(v, edge[0], edge[1]));
-                edgeList.add(zip(edge[0], v, edge[1]));
+            for(int[] edge: adjList[v]){
+                edgeList.add(pzip(v, edge[0], edge[1]));
+                edgeList.add(pzip(edge[0], v, edge[1]));
+            }
         }
 
         return edgeList;
     }
-
-    // boolean hasEulerianCircuit() {
-    //     for(int v = 0; v < )
-    // }
-
-    // boolean hasEulerianPath() {
-    //
-    // }
 }
