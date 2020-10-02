@@ -6,186 +6,171 @@ PROB: camelot
 
 import java.io.*;
 import java.util.*;
-import static java.lang.Math.*;
 import static java.lang.Integer.parseInt;
+import static java.lang.Math.*;
 
 class camelot {
-    static int R;
-    static int C;
+    static BufferedReader br;
+    static StringTokenizer st;
+    static BufferedWriter bw;
+
+    static Pair[] knightMoves = new Pair[]{ new Pair( 1, 2), new Pair(-1, 2),
+                                            new Pair( 1,-2), new Pair(-1,-2),
+                                            new Pair( 2, 1), new Pair(-2, 1),
+                                            new Pair( 2,-1), new Pair(-2,-1) };
+
+    static List<Pair> gridList = new ArrayList<Pair>();
+
 
     public static void main(String[] args) throws IOException {
-        long t = System.nanoTime();
+        long T_INIT = System.nanoTime();
 
-        BufferedReader br = new BufferedReader(new FileReader("./camelot.in"));
-        StringTokenizer st = new StringTokenizer(br.readLine());
+        br = new BufferedWriter(new FileWriter("./camelot.in"));
+        st = new StringTokenizer(br.readLine());
         R = parseInt(st.nextToken());
         C = parseInt(st.nextToken());
-        List<Peice> peices = new ArrayList<Peice>();
-        boolean first = true;
+        for(int c = 0; c < C; c++)
+        for(int r = 0; r < R; r++)
+            gridList.add(new Pair(c,r));
+
+        st = new StrignTokenizer(br.readLine());
+        king = new Pair(parseInt(st.nextToken()), parseInt(st.nextToken()));
+        knights = new ArrayList<Pair>();
         String line;
         while((line = br.readLine()) != null) {
-            st = new StringTokenizer(line);
-            if(first)
-                peices.add(new Peice(
-                    st.nextToken().charAt(0) - 'A',
-                    parseInt(st.nextToken()) - 1, 'k'));
-            while(st.hasMoreTokens()) {
-                peices.add(new Peice(
-                    st.nextToken().charAt(0) - 'A',
-                    parseInt(st.nextToken()) - 1, 'h'));
+            st = new StringTokenizer(br.readLine());
+            while(st.hasMoreTokens()){
+                int c = (int) (st.nextToken() - 'A');
+                int r = parseInt(st.nextToken());
+                knights.add(new Pair(c,r));
             }
         }
 
-        Set<State> visited = new HashSet<State>();
-        Queue<State> q = new LinkedList<State>();
-        q.add(new State(peices));
+        Map<Pair,List<Pair>> adjList = new HashMap<Pair,List<Pair>>();
+        for(Pair p: gridList)
+            adjList.put(p, new ArrayList<Pair>);
 
-        int minSoFar = Integer.MAX_VALUE;
-        while(q.size() > 0) {
-            State current = q.poll();
-            if(visited.contains(current)){
-                visited.add(current);
-            } else if(current.moves.size() < minSoFar) {
-                if(peices.size() == 1) {
-                    minSoFar = current.moves.size();
-                } else {
-                    q.addAll(current.next());
-                }
+        for(Pair p: gridList)
+        for(Pair move: knightMoves) {
+            Pair q = Pair.add(p,move);
+
+            if(inGrid(q)) {
+                adjList[p.key()][p.val()].add(q);
+                adjList[q.key()][q.val()].add(p);
             }
         }
 
-        BufferedWriter bw = new BufferedWriter(new FileWriter("./camelot.out"));
-        bw.write(minSoFar);
-        bw.close();
+        // List: {p,q} -> minimum distance
+        // FLOYD
+        Map<List<Pair>,Integer> dist = new HashMap<List<Pair>,Integer>();
+        Map<List<Pair>,Pair> first = new HashMap<List<Pair>,Pair>();
+        for(Pair p: gridList)
+        for(Pair q: gridList)
+            dist.put(toList(p,q),(p.equals(q) ? 0 : Integer.MAX_VALUE));
 
-        System.out.println("ans: " + minSoFar + " time: " + ((System.nanoTime() - t) / pow(10,9)));
-    }
-
-    static boolean onGrid(int r, int c) {
-        return r >= 0 && c >= 0 && r < R && c < C;
-    }
-
-    static boolean onGrid(Point p) {
-        return onGrid(p.r,p.c);
-    }
-
-    static class State {
-        List<Point> moves;
-        Map<Point,Peice> board;
-
-        State(List<Peice> peices) {
-            this.moves = new ArrayList<Point>();
-            this.board = new HashMap<Point, Peice>();
-            for(Peice peice: peices) {
-                this.board.put(peice.p, peice);
-            }
+        for(Pair p: adjList.keys())
+        for(Pair q: adjList.get(p)) {
+            dist.put(toList(p,q),1);
+            first.put(toList(p,q), q);
         }
 
-        State(List<Point> moves, Map<Point,Peice> board) {
-            this.moves = moves;
-            this.board = board;
+        for(Pair k: gridList)
+        for(Pair p: gridList)
+        for(Pair q: gridList) {
+            List<Pair> pq = toList(p,q);
+            List<Pair> pk = toList(p,k);
+            List<Pair> kq = toList(k,q);
+            int dPKQ = dist.get(pk) + dist.get(kq);
+            int dPQ = dist.get(pq);
+
+            if(dist.get(pk) != Integer.MAX_VALUE &&
+               dist.get(kq) != Integer.MAX_VALUE &&
+               dPKQ <= dPQ) {
+                dist.put(pq, dPKQ);
+                first.put(pq,first.get(pq));
+            }
+        }
+        // END FLOYD
+
+        // START WITHOUT KING
+        int minSum = Integer.MAX_VALUE;
+        Pair end = new Pair(0,0);
+        for(Pair p: gridList) {
+            int sum = 0;
+            for(Pair knight: knights)
+                sum += dist.get(toList(knight,p));
+            if(sum < minSum) {
+                minSum = sum;
+                end = p;
+            }
+        }
+        // END WITHOUT KING
+
+        // START KINGDIST
+        int minDist = Integer.MAX_VALUE;
+        for(Pair knight: knights) {
+            Pair p = knight.copy();
+            while(!p.equals(end)) {
+                minDist = min(minDist, min(dist.get(toList(p,king)), distToKing(p)));
+                p = first(p,end).copy()
+            }
+        }
+        // END KINGIDST
+
+        int ans = minDist + minSum;
+
+        System.out.println("ans: " + ans);
+        System.out.println("time: " + ((System.nanoTime() - T_INIT) / pow(10, 9)));
+    }
+
+    static inGrid(int r, int c) { return r >= 0 && c >= c && r < R && c < C; }
+    static inGrid(Pair p) { return inGrid(p.key(), p.val()); }
+
+    static distToKing(Pair p) {
+
+    }
+
+    static int R,C;
+    static Pair king;
+    static List<Pair> knights;
+
+    static List<Pair> toList(Pair... pairs) {
+        List<Pair> ret = new ArrayList<Pair>();
+        for(Pair p: pairs)
+            ret.add(p);
+        return ret;
+    }
+
+    static class Pair {
+        int k, v;
+
+        Pair(int k, int v) {
+            this.k = k;
+            this.v = v;
+        }
+
+        int key() { return this.k; }
+        int key(int k) { return (this.k = k); }
+
+        int val() { return this.v; }
+        int val(int v) { return (this.v = v); }
+
+        static Pair add(Pair p, Pair q) {
+            return new Pair(p.key() + q.key(), p.val() + q.val())
         }
 
         @Override
         public int hashCode() {
-            return this.moves.hashCode();
+            return Objects.hash(this.k, this.v);
         }
 
-        public boolean equals(State s) {
-            return s.hashCode() == this.hashCode();
+        @Override
+        public int equals(Pair p) {
+            return p.k == this.k && p.v == this.v
         }
 
-        List<State> next() {
-            List<State> states = new ArrayList<State>();
-            for(Map.Entry<Point,Peice> entry: this.board.entrySet()) {
-                states.addAll(this.move(entry.getValue()));
-            }
-            return states;
-        }
-
-        List<State> move(Peice peice) {
-            List<State> states = new ArrayList<State>();
-            for(Point p: peice.moveSet()) {
-                if(onGrid(p)) {
-                    State s = this.copy();
-
-                    if(s.board.keySet().contains(p) && peice.type != 'k') {
-                        s.board.remove(peice.p);
-                    } else {
-                        s.board.remove(peice.p);
-                        if(s.board.get(p).type != 'k') {
-                            s.board.put(p, peice.copy(p));
-                        };
-                        s.moves.add(peice.p);
-                        s.moves.add(p);
-                        states.add(s);
-                    }
-                }
-            }
-
-            return states;
-        }
-
-        State copy() {
-            return new State(this.moves, this.board);
-        }
-    }
-
-    static class Peice {
-        Point p;
-        char type; // 'h' or 'k'
-
-        Peice(int r, int c, char type) {
-            this.p = new Point(r,c);
-            this.type = type;
-        }
-
-        List<Point> moveSet() {
-            List<Point> ret = new ArrayList<Point>();
-            switch(this.type) {
-                case 'h':
-                    ret.add(this.p.moveCopy(1,2));
-                    ret.add(this.p.moveCopy(-1,2));
-                    ret.add(this.p.moveCopy(1,-2));
-                    ret.add(this.p.moveCopy(-1,-2));
-                    ret.add(this.p.moveCopy(2,1));
-                    ret.add(this.p.moveCopy(-2,1));
-                    ret.add(this.p.moveCopy(2,-1));
-                    ret.add(this.p.moveCopy(-2,-1));
-                    break;
-                case 'k':
-                    ret.add(this.p.moveCopy(1,0));
-                    ret.add(this.p.moveCopy(-1,0));
-                    ret.add(this.p.moveCopy(0,1));
-                    ret.add(this.p.moveCopy(0,-1));
-                    ret.add(this.p.moveCopy(1,1));
-                    ret.add(this.p.moveCopy(-1,1));
-                    ret.add(this.p.moveCopy(1,-1));
-                    ret.add(this.p.moveCopy(-1,-1));
-                    break;
-            }
-
-            return ret;
-        }
-
-        Peice copy(Point p) {
-            return new Peice(p.r, p.c, this.type);
-        }
-        Peice copy() {
-            return new Peice(this.p.r, this.p.c, this.type);
-        }
-    }
-
-    static class Point {
-        int r,c;
-
-        Point(int r, int c) {
-            this.r = r;
-            this.c = c;
-        }
-
-        Point moveCopy(int addr,int addc) {
-            return new Point(this.r + addr, this.c + addc);
+        Pair copy() {
+            return new Pair(this.k,this.v);
         }
     }
 }
