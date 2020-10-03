@@ -25,7 +25,8 @@ class camelot {
     public static void main(String[] args) throws IOException {
         long T_INIT = System.nanoTime();
 
-        br = new BufferedWriter(new FileWriter("./camelot.in"));
+        br = new BufferedReader(new FileReader("./camelot.in"));
+        bw = new BufferedWriter(new FileWriter("./camelot.out"));
         st = new StringTokenizer(br.readLine());
         R = parseInt(st.nextToken());
         C = parseInt(st.nextToken());
@@ -33,30 +34,30 @@ class camelot {
         for(int r = 0; r < R; r++)
             gridList.add(new Pair(c,r));
 
-        st = new StrignTokenizer(br.readLine());
-        king = new Pair(parseInt(st.nextToken()), parseInt(st.nextToken()));
+
+        st = new StringTokenizer(br.readLine());
+        king = new Pair(st.nextToken().charAt(0) - 'A', parseInt(st.nextToken()) - 1);
         knights = new ArrayList<Pair>();
         String line;
         while((line = br.readLine()) != null) {
-            st = new StringTokenizer(br.readLine());
+            st = new StringTokenizer(line);
             while(st.hasMoreTokens()){
-                int c = (int) (st.nextToken() - 'A');
-                int r = parseInt(st.nextToken());
+                int c = (int) (st.nextToken().charAt(0) - 'A');
+                int r = parseInt(st.nextToken()) - 1;
                 knights.add(new Pair(c,r));
             }
         }
 
         Map<Pair,List<Pair>> adjList = new HashMap<Pair,List<Pair>>();
         for(Pair p: gridList)
-            adjList.put(p, new ArrayList<Pair>);
+            adjList.put(p, new ArrayList<Pair>());
 
         for(Pair p: gridList)
         for(Pair move: knightMoves) {
             Pair q = Pair.add(p,move);
 
             if(inGrid(q)) {
-                adjList[p.key()][p.val()].add(q);
-                adjList[q.key()][q.val()].add(p);
+                adjList.get(p).add(q);
             }
         }
 
@@ -68,11 +69,12 @@ class camelot {
         for(Pair q: gridList)
             dist.put(toList(p,q),(p.equals(q) ? 0 : Integer.MAX_VALUE));
 
-        for(Pair p: adjList.keys())
+        for(Pair p: gridList)
         for(Pair q: adjList.get(p)) {
             dist.put(toList(p,q),1);
             first.put(toList(p,q), q);
         }
+
 
         for(Pair k: gridList)
         for(Pair p: gridList)
@@ -85,50 +87,67 @@ class camelot {
 
             if(dist.get(pk) != Integer.MAX_VALUE &&
                dist.get(kq) != Integer.MAX_VALUE &&
-               dPKQ <= dPQ) {
+               dPKQ < dPQ) {
                 dist.put(pq, dPKQ);
-                first.put(pq,first.get(pq));
+                first.put(pq,first.get(pk).copy());
             }
         }
         // END FLOYD
 
         // START WITHOUT KING
         int minSum = Integer.MAX_VALUE;
-        Pair end = new Pair(0,0);
-        for(Pair p: gridList) {
+        Pair fend = new Pair(0,0);
+        for(Pair end: gridList) {
             int sum = 0;
-            for(Pair knight: knights)
-                sum += dist.get(toList(knight,p));
+            int minKingDist = kingDist(end);
+
+            for(Pair knight: knights) {
+                sum += dist.get(toList(knight,end));
+
+                Pair p = knight.copy();
+
+                // List<Pair> path = new ArrayList<Pair>();
+                while(!p.equals(end)) {
+                    // path.add(p);
+                    minKingDist = min(minKingDist, kingDist(p));
+                    p = first.get(toList(p,end)).copy();
+                }
+                // path.add(end);
+                // System.out.println(Arrays.toString(path.toArray()));
+            }
+
+            sum += minKingDist;
+
             if(sum < minSum) {
                 minSum = sum;
-                end = p;
+                fend = end;
             }
         }
-        // END WITHOUT KING
+        // System.out.println(fend);
 
-        // START KINGDIST
-        int minDist = Integer.MAX_VALUE;
+
+        // ENUMERATE
         for(Pair knight: knights) {
             Pair p = knight.copy();
-            while(!p.equals(end)) {
-                minDist = min(minDist, min(dist.get(toList(p,king)), distToKing(p)));
-                p = first(p,end).copy()
+
+            List<Pair> path = new ArrayList<Pair>();
+            while(!p.equals(fend)) {
+                path.add(p);
+                p = first.get(toList(p,fend)).copy();
             }
+            path.add(fend);
+            System.out.println(Arrays.toString(path.toArray()));
         }
-        // END KINGIDST
 
-        int ans = minDist + minSum;
 
-        System.out.println("ans: " + ans);
+        System.out.println("ans: " + minSum);
         System.out.println("time: " + ((System.nanoTime() - T_INIT) / pow(10, 9)));
     }
 
-    static inGrid(int r, int c) { return r >= 0 && c >= c && r < R && c < C; }
-    static inGrid(Pair p) { return inGrid(p.key(), p.val()); }
+    static boolean inGrid(int r, int c) { return r >= 0 && c >= c && r < R && c < C; }
+    static boolean inGrid(Pair p) { return inGrid(p.key(), p.val()); }
 
-    static distToKing(Pair p) {
-
-    }
+    static int kingDist(Pair p) { return max(abs(p.k - king.k), abs(p.v - king.v)); }
 
     static int R,C;
     static Pair king;
@@ -149,6 +168,11 @@ class camelot {
             this.v = v;
         }
 
+        Pair(char k, int v) {
+            this.k = (int) (k - 'A');
+            this.v = v - 1;
+        }
+
         int key() { return this.k; }
         int key(int k) { return (this.k = k); }
 
@@ -156,7 +180,7 @@ class camelot {
         int val(int v) { return (this.v = v); }
 
         static Pair add(Pair p, Pair q) {
-            return new Pair(p.key() + q.key(), p.val() + q.val())
+            return new Pair(p.k + q.k, p.v + q.v);
         }
 
         @Override
@@ -165,8 +189,21 @@ class camelot {
         }
 
         @Override
-        public int equals(Pair p) {
-            return p.k == this.k && p.v == this.v
+        public boolean equals(Object o) {
+            if(this == o)
+                return true;
+            else if(o == null)
+                return false;
+            else if(this.getClass() != o.getClass())
+                return false;
+
+            Pair p = (Pair) o;
+            return p.k == this.k && p.v == this.v;
+        }
+
+        @Override
+        public String toString() {
+            return String.format("(%c,%d)",this.k + 'A',this.v + 1);
         }
 
         Pair copy() {
