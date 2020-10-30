@@ -23,4 +23,9 @@ class NAME {
 
         System.out.println("time: " + ((System.nanoTime() - T_INIT) / pow(10, 9)));
     }
+
+    StringTokenizer nextLine(){
+        st = StringTokenizer(br.readLine());
+        return st;
+    }
 }
