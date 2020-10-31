@@ -15,12 +15,12 @@ with open('measurement.in','r') as inp, open('measurement.out','w') as out:
             return str({"day": self.day, "id": self.id, "delta": self.delta})
 
     days = []
-    cows = {}
+    output = {}
     for l in inp:
         day = Day(*l.split())
         max_sets[0].add(day.id)
         days.append(day)
-        cows[day.id] = 0
+        output[day.id] = 0
     days.sort(key=lambda d: d.day)
     # print('N=%d, G=%d, days=%s' % (N,G,days))
 
@@ -32,9 +32,9 @@ with open('measurement.in','r') as inp, open('measurement.out','w') as out:
 
         pre_set = max_sets[max_list[0]]
 
-        pre_val = cows[day.id]
+        pre_val = output[day.id]
         post_val = pre_val + day.delta
-        cows[day.id] += day.delta
+        output[day.id] += day.delta
 
         if len(max_sets[pre_val]) == 1:
             del max_sets[pre_val]
