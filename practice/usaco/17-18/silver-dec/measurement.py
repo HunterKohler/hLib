@@ -4,7 +4,7 @@ with open('measurement.in','r') as inp, open('measurement.out','w') as out:
     N,G = map(int,inp.readline().split())
 
     max_list = [0]
-    max_sets = {0:set()}
+    max_sets = {0:{-1}}
 
     class Day:
         def __init__(self,day,id,delta):
@@ -15,7 +15,7 @@ with open('measurement.in','r') as inp, open('measurement.out','w') as out:
             return str({"day": self.day, "id": self.id, "delta": self.delta})
 
     days = []
-    output = {}
+    output = dict()
     for l in inp:
         day = Day(*l.split())
         max_sets[0].add(day.id)
@@ -27,8 +27,7 @@ with open('measurement.in','r') as inp, open('measurement.out','w') as out:
     changes = 0
     for day in days: # O(nlog(n))
         # print(max_list)
-        # print(max_list[0], max_sets[max_list[0]])
-        print(max_sets)
+        # print(max_sets)
 
         pre_set = max_sets[max_list[0]]
 
@@ -53,7 +52,8 @@ with open('measurement.in','r') as inp, open('measurement.out','w') as out:
         if pre_set != max_sets[max_list[0]]:
             changes += 1
 
-    # print(max_list[0], max_sets[max_list[0]])
+    # print(max_list)
+    # print(max_sets)
 
     print(changes,file=out)
-    # print(changes)
+    print(changes)

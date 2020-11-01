@@ -65,9 +65,6 @@ class camelot {
             }
         }
 
-
-
-
         Map<List<Pair>, Integer> dist = new HashMap<List<Pair>, Integer>();
         Map<Pair, Pair> next = new HashMap<Pair, Pair>();
         for(Pair p: BOARD_LIST)
