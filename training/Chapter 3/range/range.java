@@ -11,47 +11,61 @@ import static java.lang.Math.*;
 
 class range {
     public static void main(String[] args) throws IOException {
-        long t = System.nanoTime();
+        BufferedReader br = new BufferedReader(new FileReader("range.in"));
+        PrintWriter pw = new PrintWriter(new FileWriter("range.out"));
 
-        BufferedReader br = new BufferedReader(new FileReader("./range.in"));
         n = parseInt(br.readLine());
-        grid = new boolean[n][n];
+        field = new boolean[n][n];
         for(int i = 0; i < n; i++) {
             String line = br.readLine();
-            for(int j = 0; j < n; j++) {
-                grid[i][j] = line.charAt(j) == '1';
-            }
+            for(int j = 0; j < n; j++)
+                field[i][j] = line.charAt(j) == '1';
         }
 
-        mem = new boolean[n][n][n];
-        count = new int[n + 1];
+        mem = new int[n][n];
+        for(int i = 0; i < n; i++)
+        for(int j = 0; j < n; j++)
+            mem[i][j] = -1;
 
-        for(int i = 2; i <= n; i++)
-            if(count[i] != 0)
-                System.out.println(count[i]);
+        // for(int i = 0; i < n; i++)
+        // for(int j = 0; j < n; j++) {
+        //     System.out.println(i + " " + j + " " + biggest(i,j));
+        // }
+        //
+        // for(int i = 0; i < n; i++) {
+        //     System.out.println(Arrays.toString(mem[i]));
+        // }
 
-        System.out.println("time: " + ((System.nanoTime() - t) / pow(10,9)));
+        int[] counts = new int[n + 1];
+        for(int i = 0; i < n; i++)
+        for(int j = 0; j < n; j++)
+        for(int k = 0; k <= biggest(i,j); k++)
+            counts[k]++;
+
+        for(int s = 2; s <= n; s++) {
+            if(counts[s] > 0)
+                pw.println(s + " " + counts[s]);
+        }
+
+        pw.close();
     }
 
     static int n;
-    static boolean[][] grid;
-    static boolean[][][] mem;
-    static boolean[][][] visited;
-    static int[] count;
+    static boolean[][] field;
+    static int[][] mem;
 
-    static boolean count(int x, int y, int s) {
-        if(!visited[x][y][s]) {
-            visited[x][y][s] = true;
-
-            if(s == 1) {
-                mem[x][y][s];
-            } else {
-
+    static int biggest(int i, int j) {
+        if(i <= 0 || j <= 0) {
+            mem[i][j] = (field[i][j]) ? 1 : 0;
+        } else if(mem[i][j] == -1) {
+            int k = 0;
+            while(k <= min(i,j) && field[i-k][j] && field[i][j-k]) {
+                k++;
             }
+            mem[i][j] = min(k, biggest(i-1,j-1) + 1);
         }
 
-        return mem[x][y][s];
+        return mem[i][j];
     }
 
-    static iZip(int ...args) { return args };
 }

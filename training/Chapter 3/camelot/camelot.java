@@ -6,169 +6,135 @@ PROB: camelot
 
 import java.io.*;
 import java.util.*;
-import static java.lang.Integer.parseInt;
 import static java.lang.Math.*;
+import static java.lang.Integer.parseInt;
 
 class camelot {
-    static int INF = Integer.MAX_VALUE;
+    static int inf = Integer.MAX_VALUE / 1000;
 
-    static BufferedReader br;
-    static StringTokenizer st;
-    static BufferedWriter bw;
+    static int[] di = new int[] {1,1,-1,-1,2,2,-2,-2};
+    static int[] dj = new int[] {2,-2,2,-2,1,-1,1,-1};
 
-    static int R, C;
-    static Pair king;
-    static List<Pair> knights;
-
-    static List<Pair> BOARD_LIST;
-    static int[][] MOVES = new int[][]{ { 2, 3 },   { 3, 2 },
-                                        { -2, 3 },  { -3, 2 },
-                                        { 2, -3 },  { 3, -2 },
-                                        { -2, -3 }, { -3, -2 } };
+    static int[] king;
+    static int I,J;
 
     public static void main(String[] args) throws IOException {
-        long T_INIT = System.nanoTime();
+        long t0 = System.nanoTime();
 
-        br = new BufferedReader(new FileReader("camelot.in"));
+        BufferedReader br = new BufferedReader(new FileReader("camelot.in"));
+        BufferedWriter bw = new BufferedWriter(new FileWriter("camelot.out"));
 
-        R = parseInt(st.nextToken());
-        C = parseInt(st.nextToken());
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        J = parseInt(st.nextToken()); // R
+        I = parseInt(st.nextToken()); // C
 
-        st = nextLine(br);
+        st = new StringTokenizer(br.readLine());
+        king = parsePiece(st.nextToken(), st.nextToken());
 
-        int kingc = st.nextToken().charAt(0) - 'A';
-        int kingr = parseInt(st.nextToken());
-        king = pair(kingr, kingc);
+        int[][] dsum = new int[I][J];
+        int[][] mindelta = new int[I][J];
+        int[][] minind = new int[I][J];
 
-        knights  = new ArrayList<int[]>();
+        for(int i = 0; i < I; i++)
+        for(int j = 0; j < J; j++) {
+            dsum[i][j] = inf;
+            for(int k = 0; k < I*J;k++)
+                mindelta[i][j] = inf;
+        }
+
+        int z = 0;
+        int ind = 0;
         String line;
         while((line = br.readLine()) != null) {
-            st = nextLine(line);
-            c = st.nextToken().charAt(0) - 'A';
-            r = parseInt(st.nextToken());
-            while(st.hasMoreTokens())
-                knights.add(pair(r,c));
-        }
-
-        BOARD_LIST = new AdjList<Pair>();
-        for(int r = 0; r < R; r++)
-        for(int c = 0; c < C; c++)
-            BOARD_LIST.add(pair(r,c));
-
-        Map<List<Pair>, Boolean> adj = new HashMap<List<Pair>, Boolean>();
-        for(Pair p: BOARD_LIST) {
-            adj.put(list(p,p), 0);
-            for(int[] move: MOVES) {
-                Pair np = p.add(move);
-                if(np.inGrid())
-                    adj.put(list(p, np), 1);
-            }
-        }
-
-        Map<List<Pair>, Integer> dist = new HashMap<List<Pair>, Integer>();
-        Map<Pair, Pair> next = new HashMap<Pair, Pair>();
-        for(Pair p: BOARD_LIST)
-        for(Pair q: BOARD_LIST) {
-            List<Pair> pq = list(p,q);
-            int val;
-            if((val = adj(pq)) != null) {
-                dist.put(pq, val);
-                next.put(p, q);
-            }
-        }
-
-        for(Pair k : BOARD_LIST)
-        for(Pair i : BOARD_LIST)
-        for(Pair j : BOARD_LIST) {
-            ik = dist.get(i,k);
-            kj = dist.get(k,j);
-            ij = dist.get(i,j);
-            ikj = ik + kj;
-            if(ik != null && kj != null) {
-                if(ikj < ij) {
-                    next.put(i, k);
-                    dist.put(list(i,j), ikj);
+            st = new StringTokenizer(line);
+            while(st.hasMoreTokens()) {
+                int[] k = parsePiece(st.nextToken(), st.nextToken());
+                int[][][] dist = new int[I][J][2];
+                for(int i = 0; i < I; i++)
+                for(int j = 0; j < J; j++) {
+                    dist[i][j] = new int[]{inf,inf};
                 }
+
+                // bfs
+                Queue<int[]> q = new LinkedList<int[]>();
+                q.add(new int[]{k[0], k[1], 0, 0});
+                // {i,j, haspickedup, dist}
+
+                boolean[][][] visited = new boolean[I][J][2];
+                while(!q.isEmpty()) {
+                    int i = q.peek()[0];
+                    int j = q.peek()[1];
+                    int p = q.peek()[2];
+                    int d = q.poll()[3];
+
+                    // System.out.println(i + " " + j + " " + p);
+                    if(d < dist[i][j][p]) {
+                        dist[i][j][p] = d;
+
+                        if(p == 0) {
+                            dist[i][j][p] = d;
+                            if(dsum[i][j] == inf) {
+                                dsum[i][j] = d;
+                            } else {
+                                dsum[i][j] += d;
+                            }
+                        } else {
+                            int delta = d - dist[i][j][p];
+
+                            if(delta < mindelta[i][j]) {
+                                mindelta[i][j] = delta;
+                                minind[i][j] = ind;
+                            }
+                        }
+
+                        for(int n = 0; n < 8 ;n++) {
+                            if(p == 0) {
+                                q.add(new int[]{i,j,1,d+kdist(i,j)});
+                            }
+
+                            if(inGrid(i+di[n],j+dj[n])) {
+                                q.add(new int[]{i+di[n],j+dj[n],p,d+1});
+                            }
+                        }
+                    }
+                }
+                ind++;
             }
         }
 
-        bw = new BufferedWriter(new FileWriter("camelot.out"));
-
-        end = pair('B', 5);
-        for(Pair k: knights) {
-            n = k.copy();
-            while(n != end) {
-                bw.write(k + " ");
-                n = next.get(n);
+        int tmin = inf;
+        int[] end = new int[2];
+        for(int i = 0; i < I; i++)
+        for(int j = 0; j < J; j++) {
+            mindelta[i][j] = min(mindelta[i][j], kdist(i,j));
+            if(dsum[i][j] + mindelta[i][j] < tmin) {
+                end = new int[]{i,j};
             }
-            bw.write(end + "\n");
+
+            tmin = min(tmin, dsum[i][j] + mindelta[i][j]);
         }
 
+        // System.out.println(Arrays.toString(end));
+        // System.out.println(tmin);
+        bw.write(tmin + "\n");
         bw.close();
 
-        System.out.println("time: " + ((System.nanoTime() - T_INIT) / pow(10, 9)));
+        // System.out.println("time: " + (System.nanoTime() - t0) / 10e9);
     }
 
-    static StringTokenizer nextLine(BufferedReader br){
-        return new StringTokenizer(br.readLine());
+    static boolean inGrid(int i, int j) {
+        return 0 <= i && i < I && 0 <= j && j < J;
     }
 
-    static StringTokenzer nextLine(String s) {
-        return new StringTokenizer(s);
+    static int[] parsePiece(String i, String j) {
+        return new int[]{i.charAt(0) - 'A', parseInt(j) - 1};
     }
 
-    static Pair pair(int r, int c) {
-        return new Pair(r,c);
+    static String toPiece(int i, int j) {
+        return ((char) i) + " " + (j + 1);
     }
 
-    static <T> List<T> list(T p, T q) {
-        List<T> ret = new ArrayList<T>();
-        ret.add(p);
-        ret.add(q);
-        return ret;
-    }
-
-    static boolean inGrid(int r, int c) {
-        return r >= 0 && c >= 0 && r < R && c < C;
-    }
-
-    class Pair {
-        int r, c;
-
-        Pair(int r, int c) {
-            this.r = r;
-            this.c = c;
-        }
-
-        boolean inGrid() {
-            return inGrid(this.r,this.c);
-        }
-
-        Pair add(int dr, int dc) {
-            return pair(this.r + dr, this.c + dc);
-        }
-
-        Pair add(int[] d) {
-            return pair(this.r + d[0], this.c + d[1]);
-        }
-
-        @override
-        public int hashCode(){
-            return Object.hash(this.r, this.c);
-        }
-
-        @override
-        public boolean equals(Object o) {
-            return (o instanceof Pair) && this.r == r && this.c == c;
-        }
-
-        @override
-        public String toString() {
-            return ((char) ('A' + this.r)) + " " + this.c;
-        }
-
-        Pair copy() {
-            return pair(this.r, this.c);
-        }
+    static int kdist(int i, int j) {
+        return max(abs(i - king[0]), abs(j - king[1]));
     }
 }
