@@ -1,6 +1,9 @@
 import java.io.*;
 import java.util.*;
 import static java.lang.Integer.parseInt;
+import static java.lang.Math.min;
+import static java.lang.Math.max;
+import static java.lang.Math.abs;
 
 class meetings {
     public static void main(String[] args) throws IOException {
@@ -33,9 +36,16 @@ class meetings {
         System.out.println(Arrays.toString(order.toArray()));
 
         int wstopped = 0;
+        int count = 0;
         while(wstopped * 2 < wsum) {
-            for(int i = 0; i < n; i++) {
-                
+            int t = Integer.MAX_VALUE;
+            for(int i = 0; i < n - 1; i) {
+                int ii = order.get(i);
+                int jj = order.get(i + 1);
+                if(d[ii] != d[ij]) {
+                    int diff = abs(x[ii] - x[jj]);
+                    t = diff == 1 ? 1 : diff / 2
+                }
             }
         }
     }
