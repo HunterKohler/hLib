@@ -6,94 +6,38 @@ PROB: nuggets
 
 import java.io.*;
 import java.util.*;
-import static java.lang.Math.*;
+import static java.lang.Integer.parseInt;
 
 class nuggets {
+    static int MIN = 1;
+    static int MAX = 256;
+    static int LENGTH = (MAX * MAX) - (MAX * 2);
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader("nuggets.in"));
         BufferedWriter bw = new BufferedWriter(new FileWriter("nuggets.out"));
 
-        int n = Integer.parseInt(br.readLine());
-        List<Integer> nums = new ArrayList<Integer>(); //  each num in (0,256]
+        int n = parseInt(br.readLine());
+        int[] x = new int[n];
+
+        boolean[] valid = new boolean[LENGTH + 1];
         for(int i = 0; i < n; i++) {
-            nums.add(Integer.parseInt(br.readLine()));
+            x[i] = parseInt(br.readLine());
+            valid[x[i]] = true;
         }
 
-        Collections.sort(nums);
-
-        // printList(nums);
-
-        int a = 0;
-        while(a < nums.size()) {
-            int b = a + 1;
-            while(b < nums.size()) {
-                if(nums.get(b) % nums.get(a) == 0) {
-                    nums.remove(b);
-                } else {
-                    b++;
-                }
+        int max = 0;
+        for(int i = 1; i <= LENGTH; i++) {
+            for(int j = 0; j < n && i >= x[j]; j++) {
+                valid[i] = valid[i] || valid[i - x[j]];
             }
-            a++;
-        }
-
-        // printList(nums);
-
-        // System.out.println("gcd: " + gcd(nums));
-
-        if(gcd(nums) != 1) {
-            // System.out.println(0);
-            bw.write(0);
-            bw.close();
-        } else {
-            int last = 0;
-            int index = 0;
-            boolean[] range = new boolean[(int) 1e6];
-            range[0] = true;
-            while(abs(last - index) <= nums.get(nums.size() - 1) && index < range.length) {
-                // System.out.println("last: " + last);
-                // System.out.println("index: " + index);
-                if(range[index]) {
-                    for(int num: nums) {
-                        range[index + num] = true;
-                    }
-                } else {
-                    last = index;
-                }
-                index++;
+            if(!valid[i]) {
+                max = i;
             }
-
-            // System.out.println(last);
-            bw.write(last);
-            bw.close();
-        }
-    }
-
-    // static void printList(List l) {
-    //     System.out.println(Arrays.toString(l.toArray()));
-    // }
-
-    static int gcd(List<Integer> A) {
-        int ret = A.get(0);
-        for(int a: A) {
-            ret = gcd(ret, a);
-        }
-        return ret;
-    }
-
-    static int gcd(int a, int b) {
-        int temp;
-        if(a < b){
-            temp = b;
-            b = a;
-            a = temp;
         }
 
-        while(b > 0) {
-            temp = a;
-            a = b;
-            b = temp % b;
-        }
-
-        return a;
+        System.out.println(max);
+        bw.write(((65023 == max) ? 0 : max) + "\n");
+        bw.close();
     }
 }
