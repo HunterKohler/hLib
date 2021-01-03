@@ -1,6 +1,6 @@
 /*
 ID: jhunter3
-LANG: java
+LANG: JAVA
 TASK: ditch
 */
 
@@ -11,65 +11,64 @@ class ditch {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader("ditch.in"));
         BufferedWriter bw = new BufferedWriter(new FileWriter("ditch.out"));
-
         StringTokenizer st = new StringTokenizer(br.readLine());
-        E = nextInt(st);
-        N = nextInt(st);
-        sink = N - 1;
 
-        adj = new int[N][N];
+        E = Integer.parseInt(st.nextToken());
+        N = Integer.parseInt(st.nextToken());
+        t = N - 1;
+
+        capacity = new int[N][N];
+        for(int i = 0; i < N; i++)
+            adj.add(new ArrayList<Integer>());
+
         for(int i = 0; i < E; i++) {
             st = new StringTokenizer(br.readLine());
-            adj[nextInt(st) - 1][nextInt(st) - 1] = nextInt(st);
+            int u = Integer.parseInt(st.nextToken()) - 1;
+            int v = Integer.parseInt(st.nextToken()) - 1;
+            capacity[u][v] += Integer.parseInt(st.nextToken());
+            adj.get(u).add(v);
+            adj.get(v).add(u);
         }
 
-        while(true) {
-            int[] parent = new int[N];
-            for(int i = 0; i < N; i++)
-                parent[i] = -1;
-
-            Queue<Integer> q = new LinkedList<Integer>();
-            q.add(source);
-
-            while(!q.isEmpty()) {
-                int u = q.poll();
-                for(int v = 0; v < N; v++) {
-                    if(parent[v] == -1 && v != source && adj[u][v] != 0) {
-                        parent[v] = u;
-                        q.add(v);
-                    }
-                }
+        int totalFlow = 0, flow;
+        int[] parent = new int[N];
+        while((flow = bfs(parent)) != 0) {
+            for(int u = t; u != s; u = parent[u]) {
+                capacity[parent[u]][u] -= flow;
+                capacity[u][parent[u]] += flow;
             }
-
-            if(parent[sink] == -1)
-                break;
-            else {
-                int flow = INF;
-
-                for(int v = sink, u = parent[sink]; u != -1; u = parent[v]) {
-                    flow = Math.min(flow, adj[u][v]);
-                    v = u;
-                }
-
-                for(int v = sink, u = parent[sink]; u != -1; u = parent[v]) {
-                    adj[u][v] -= flow;
-                    adj[v][u] += flow;
-                    v = u;
-                }
-
-                total_flow += flow;
-            }
+            totalFlow += flow;
         }
 
-        bw.write(total_flow + "\n");
+        System.out.println(totalFlow);
+        bw.write(totalFlow + "\n");
         bw.close();
     }
 
-    static int nextInt(StringTokenizer st) { return Integer.parseInt(st.nextToken()); }
+    static int E, N, INF = Integer.MAX_VALUE / 100, s = 0, t;
+    static int[][] capacity;
+    static List<List<Integer>> adj = new ArrayList<List<Integer>>();
 
-    static int E,N,sink,
-        INF = Integer.MAX_VALUE / 10,
-        total_flow = 0,
-        source = 0;
-    static int[][] adj;
+    static int bfs(int[] parent) {
+        Arrays.fill(parent,-1);
+        Queue<int[]> q = new LinkedList<int[]>();
+        q.add(new int[]{0,INF});
+
+        while(!q.isEmpty()) {
+            int u = q.peek()[0];
+            int flow = q.poll()[1];
+
+            for(int v: adj.get(u)) {
+                if(parent[v] == -1 && v != s && capacity[u][v] > 0) {
+                    int newFlow = Math.min(flow,capacity[u][v]);
+                    parent[v] = u;
+                    if(v == t) {
+                        return newFlow;
+                    }
+                    q.add(new int[]{v, newFlow});
+                }
+            }
+        }
+        return 0;
+    }
 }

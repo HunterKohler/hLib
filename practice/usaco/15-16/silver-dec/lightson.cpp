@@ -1,97 +1,93 @@
 #include <iostream>
 #include <cstdio>
-#include <unordered_set>
-#include <unordered_map>
-#include <queue>
 #include <vector>
+#include <queue>
+#include <unordered_map>
 
 using namespace std;
 
-#define for_n(i,n) for(int (i) = 0; (i) < (n); (i)++)
-#define has_switch(p) (switches.count(p))
-#define is_lit(p) (lit[(p).x][(p).y])
-#define in_grid(p) (0 <= (p).x && (p).x < N && 0 <= (p).y && (p).y < N)
-#define light(p) (lit[(p).x][(p).y] = true)
-#define is_recent(p) ((bool) rset.count(p))
 #define MAXN 100
+#define for_n(i,n) for(int (i) = 0; (i) < (n); (i)++)
 
 struct point {
     int x,y;
-    point(int x0, int y0):
-        x { x0 },
-        y { y0 } {}
+    point(int a, int b): x{a},y{b} {}
     point(): point(0,0) {}
 };
 
-bool operator==(point& p, point& q) {
-    return p.x == q.x && p.y == q.y;
+int n,m;
+vector<point> S[MAXN][MAXN];
+vector<point> delta {{0,1},{0,-1},{1,0},{-1,0}};
+
+bool in_grid(point& p) {
+    return 0 <= p.x && p.x < n && 0 <= p.y && p.y < n;
 }
 
-template <>
-struct std::hash<point> {
-    size_t operator()(const point& p) const {
-        return (p.x + p.y + 1) * (p.x + p.y) / 2 + p.y;
-    }
-};
-
-inline vector<point> adj_list(point& p) {
-
+ostream& operator<<(ostream& os, const point& p) {
+    os << p.x << " " << p.y;
+    return os;
 }
-
-// ostream& operator<<(ostream& os, const point& p) {
-//     os << "(" << p.x << "," << p.y << ")";
-//     return os;
-// }
 
 int main() {
-    freopen("lightson.in", "r", stdin);
-    freopen("lightson.out", "w", stdout);
-    // ios_base::sync_with_stdio(false);
-    // cin.tie(NULL);
+    freopen("lightson.in","r",stdin);
+    freopen("lightson.out","w",stdout);
 
-    int N, M;
-    unordered_map<point, vector<point>> switches;
-
-    scanf("%d %d", &N, &M);
-    for_n(i,M) {
-        point p,q;
-        scanf("%d %d %d %d",&p.x,&p.y,&q.x,&q.y);
-        p.x--;p.y--;q.x--;q.y--;
-        if(!has_switch(p))
-            switches[p].insert({p,{q}});
-        switches[p].push_back(q);
+    cin >> n >> m;
+    for_n(i,m) {
+        int x,y,a,b;
+        cin >> x >> y >> a >> b;
+        S[x - 1][y - 1].emplace_back(a - 1,b - 1);
     }
 
-    for_n(i,N) {
-        fill_n(lit[0], N, false);
-        fill_n(visited[0], N, false);
+    bool vis[MAXN][MAXN], lit[MAXN][MAXN];
+    for_n(i,n) {
+        fill_n(lit[i],n,false);
+        fill_n(vis[i],n,false);
     } lit[0][0] = true;
 
+    vector<point> next;
+    next.emplace_back();
 
-    bool lit[MAXN][MAXN], visited[MAXN][MAXN];
-    unordered_set<point> rset;
-    queue<point> recent;
+    bool first = true;
+    while(!next.empty()) {
+        queue<point> q;
+        if(first) {
+            first = false;
+            q.emplace();
+        };
 
-    while(!recent.empty()) {
-        queue<point> next;
-
-        while(!recent.empty()) {
-            point& p = recent.front();
-            for(point& q: adj_list(p)) {
-                if((p.x == 0 && p.y == 0) || (in_range(q) && !is_recent(q) && is_lit(q))) {
-                    next.push(p);
+        for(point& p: next) {
+            lit[p.x][p.y] = true;
+            for(point& dp: delta) {
+                point adj {p.x + dp.x, p.y + dp.y};
+                if(in_grid(adj) && vis[adj.x][adj.y]) {
+                    q.push(p);
                     break;
                 }
             }
-            recent.pop();
-        }
+        } next.clear();
 
-        while(!next.empty()) {
-            point& p = next.front();
+        while(!q.empty()) {
+            point p = q.front();
+            q.pop();
 
-            if(!iss)
+            if(!vis[p.x][p.y]) {
+                vis[p.x][p.y] = true;
 
-            next.pop();
+                for(point& s: S[p.x][p.y])
+                    next.push_back(s);
+
+                for(point& dp: delta) {
+                    point adj {p.x + dp.x, p.y + dp.y};
+                    if(in_grid(adj) && lit[adj.x][adj.y] && !vis[adj.x][adj.y]) {
+                        q.push(adj);
+                    }
+                }
+            }
         }
     }
+
+    int total { 0 };
+    for_n(i,n) for_n(j,n) if(lit[i][j]) total   ++;
+    cout << total;
 }

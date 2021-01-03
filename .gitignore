@@ -3,4 +3,5 @@
 *.class
 *.jar
 *.log
+*.dSYM
 temp
