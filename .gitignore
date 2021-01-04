@@ -5,3 +5,4 @@
 *.log
 *.dSYM
 temp
+.DS_Store
