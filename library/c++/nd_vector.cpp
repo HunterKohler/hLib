@@ -1,8 +1,6 @@
 #include <vector>
-#include <iostream>
 
-using namespace std;
-
+// needs testing
 template <class T, size_t D>
 struct nd_vector : public std::vector<nd_vector<T, D - 1> > {
     const size_t dimension = D;
@@ -19,9 +17,4 @@ struct nd_vector<T, 1> : public std::vector<T> {
     nd_vector(int n = 0, const T& v = T()) : std::vector<T>(n, v){ }
 };
 
-int main(){
-    nd_vector<int,5> v;
-
-    cout << v[0][1][2][3][4] << endl;
-    z
-}
+int main(){ }

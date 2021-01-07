@@ -1,38 +1,36 @@
 #include <iostream>
-#include <algorithm>
-#include <vector>
-#include <iterator>
-#include <string>
 
-template <class T, size_t D>
-struct nd_vector : public vector<nd_vector<T, D - 1> > {
-    const dimension = D;
-    static_assert(D >= 1, "Dimension must be 1 or greater.")
-    template <class ... U>
-    nd_vector(int n = 0, U ... args)
-        : vector<nd_vector<T, D - 1> >(n, nd_vector<T, D - 1>(... args)){ }
-};
+#define MAXN 500
+#define MAXM 50
 
-template <class T>
-struct nd_vector<T, 1> : public vector<T> {
-    const dimension = 1;
-    Vec(int n = 0, const T& val = T()) : vector<T>(n, val){ }
-};
-
-template <class T> using nd_vector = nd_vector<T, 1>;
-
-int n, m;
-vector<string> spot_genome(n);
-vector<string> reg_genome(n);
-int(){
+int n,m;
+char spot[MAXN][MAXM], reg[MAXN][MAXM];
+int main() {
     freopen("cownomics.in", "r", stdin);
     freopen("cownomics.out", "w", stdout);
 
-    cin >> n >> m;
-    for (string& s: spot_genome)
-        getline(cin, s);
-    for (string& s: spot_genome)
-        getline(cin, s);
+    std::cin >> n >> m;
+    for(auto& arr: {spot,reg})
+    for(int i = 0; i < n; i++)
+    for(int j = 0; j < m; j++) {
+        std::cin >> arr[i][j];
+        arr[i][j] -= 'A';
+    }
 
-
+    int counter = 0;
+    for(int a = 0; a < m; a++)
+    for(int b = a + 1; b < m; b++)
+    for(int c = b + 1; c < m; c++) {
+        bool vis[26][26][26] {};
+        for(int i = 0; i < n; i++)
+            vis [reg[i][a]]
+                [reg[i][b]]
+                [reg[i][c]] = true;
+        for(int i = 0; i < n; i++) {
+            if(vis [spot[i][a]]
+                   [spot[i][b]]
+                   [spot[i][c]]) break;
+            if(i == n - 1) counter++;
+        }
+    } std::cout << counter;
 }
