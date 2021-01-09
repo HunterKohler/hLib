@@ -1,6 +1,4 @@
-package library.structs;
-
-import java.util.*;
+package library.graph;
 
 public class DisjointSet {
     int n;
