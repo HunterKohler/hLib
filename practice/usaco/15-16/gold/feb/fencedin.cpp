@@ -1,37 +1,75 @@
 #include <iostream>
 #include <algorithm>
+#include <queue>
 
 using namespace std;
-typedef long long ll;
+typedef tuple<int,int,int> edge;
 
-#define MAXN 2010
+#define lin(i,j) (((j) * (n + 1)) + (i))
 
-int n,m;
-ll a[MAXN+2],b[MAXN+2];
+vector<int> p;
+
+int root(int u) {
+    int v = u;
+    while(p[v] != v)
+        v = p[v];
+    p[u] = v;
+    return v;
+}
+
+bool join(int u, int v) {
+    if(root(u) == root(v)) {
+        return false;
+    } else {
+        p[root(u)] = root(v);
+        return true;
+    }
+}
 
 int main() {
     freopen("fencedin.in", "r", stdin);
     freopen("fencedin.out", "w", stdout);
 
-    // a[0] = b[0] = 0;
-    cin >> a[1] >> b[1] >> n >> m;
-    for(int i = 0; i < n; i++)
-        cin >> a[2+i];
-    for(int i = 0; i < m; i++)
-        cin >> b[2+i];
+    int A,B,n,m;
+    cin >> A >> B >> n >> m;
 
-    sort(a, a+n+2);
-    sort(b, b+n+2);
+    vector<int> a(n), b(m);
+    for(int& i: a) cin >> i;
+    for(int& i: b) cin >> i;
+    a.push_back(0);
+    a.push_back(A);
+    b.push_back(0);
+    b.push_back(B);
 
-    ll _min = (1ll << 60);
-    for(int i = 0; i < n+1; i++) {
-        _min = min(_min, abs(a[i+1] - a[i]));
-        cout << abs(a[i+1] - a[i]) << endl;
+    sort(a.begin(), a.end());
+    sort(b.begin(), b.end());
+
+    vector<edge> edge_list;
+
+    for(int i = 0; i < n + 1; i++)
+    for(int j = 0; j < m + 1; j++) {
+        edge_list.emplace_back(lin(i,j), lin(i+1,j), b[j+1]-b[j]);
+        edge_list.emplace_back(lin(i,j), lin(i,j+1), a[i+1]-a[i]);
     }
-    for(int i = 0; i < m+1; i++) {
-        _min = min(_min, abs(b[i+1] - b[i]));
-        cout << abs(b[i+1] - b[i]) << endl;
+
+    sort(edge_list.begin(), edge_list.end(),
+        [](const edge& a, const edge& b){
+            return get<2>(a) < get<2>(b);
+        });
+
+    for(int i = 0; i < (n+1)*(m+1); i++)
+        p.emplace_back(i);
+
+    int u,v,w,sum = 0;
+    for(edge& e: edge_list) {
+        tie(u,v,w) = e;
+        sum += join(u,v) * w;
+        // if(join(u,v)) {
+        //     c--;
+        //     sum += w;
+        //     cout << u << " " << v << " " << w << endl;
+        // }
     }
 
-    cout << _min;
+    cout << sum;
 }
