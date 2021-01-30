@@ -1,74 +1,77 @@
 #include <iostream>
 #include <algorithm>
-#include <queue>
+#include <vector>
+#include <tuple>
 
 using namespace std;
 typedef tuple<int,int,int> edge;
 
-#define lin(i,j) (((j) * (n + 1)) + (i))
+#define for_n(i,n) for(int (i) = 0; (i) < (n); (i)++)
 
-vector<int> p;
+int A,B,n,m;
+vector<int> a,b;
+vector<edge> e;
 
-int root(int u) {
-    int v = u;
-    while(p[v] != v)
-        v = p[v];
-    p[u] = v;
-    return v;
+int lin(int i, int j) {
+    return i + j * (n + 1);
 }
 
-bool join(int u, int v) {
-    if(root(u) == root(v)) {
-        return false;
-    } else {
-        p[root(u)] = root(v);
-        return true;
+struct disjoint_set {
+    vector<int> p;
+    disjoint_set(int s) {
+        for(int i = 0; i < s; i++)
+            p.push_back(i);
     }
-}
+    int root(int u) {
+        return u == p[u] ? u : p[u] = root(p[u]);
+    }
+    bool join(int u, int v) {
+        if(root(u) == root(v))
+            return false;
+        else {
+            p[root(u)] = root(v);
+            return true;
+        }
+    }
+};
 
 int main() {
-    freopen("fencedin.in", "r", stdin);
-    freopen("fencedin.out", "w", stdout);
+    !freopen("fencedin.in", "r", stdin);
+    !freopen("fencedin.out", "w", stdout);
 
-    int A,B,n,m;
     cin >> A >> B >> n >> m;
 
-    vector<int> a(n), b(m);
-    for(int& i: a) cin >> i;
-    for(int& i: b) cin >> i;
-    a.push_back(0);
-    a.push_back(A);
-    b.push_back(0);
-    b.push_back(B);
+    a = {0,A};
+    b = {0,B};
 
-    sort(a.begin(), a.end());
-    sort(b.begin(), b.end());
-
-    vector<edge> edge_list;
-
-    for(int i = 0; i < n + 1; i++)
-    for(int j = 0; j < m + 1; j++) {
-        edge_list.emplace_back(lin(i,j), lin(i+1,j), b[j+1]-b[j]);
-        edge_list.emplace_back(lin(i,j), lin(i,j+1), a[i+1]-a[i]);
+    int a_i,b_j;
+    for_n(i,n) {
+        cin >> a_i;
+        a.push_back(a_i);
+    }
+    for_n(j,m) {
+        cin >> b_j;
+        b.push_back(b_j);
     }
 
-    sort(edge_list.begin(), edge_list.end(),
-        [](const edge& a, const edge& b){
-            return get<2>(a) < get<2>(b);
+    sort(a.begin(),a.end());
+    sort(b.begin(),b.end());
+
+    for_n(i,n) for_n(j,m + 1)
+        e.emplace_back(lin(i,j),lin(i + 1,j),b[j + 1] - b[j]);
+    for_n(i,n + 1) for_n(j,m)
+        e.emplace_back(lin(i,j),lin(i,j + 1),a[i + 1] - a[i]);
+
+    sort(e.begin(),e.end(),
+        [](const edge& e1, const edge& e2) {
+            return get<2>(e1) < get<2>(e2);
         });
 
-    for(int i = 0; i < (n+1)*(m+1); i++)
-        p.emplace_back(i);
-
+    disjoint_set d((n + 1) * (m + 1));
     int u,v,w,sum = 0;
-    for(edge& e: edge_list) {
-        tie(u,v,w) = e;
-        sum += join(u,v) * w;
-        // if(join(u,v)) {
-        //     c--;
-        //     sum += w;
-        //     cout << u << " " << v << " " << w << endl;
-        // }
+    for(edge& e_i: e) {
+        tie(u,v,w) = e_i;
+        sum += w * d.join(u,v);
     }
 
     cout << sum;
