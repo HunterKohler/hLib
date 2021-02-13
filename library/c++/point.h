@@ -1,7 +1,9 @@
-#ifndef POINT_H_
-#define POINT_H_
+#ifndef POINT_H
+#define POINT_H
 
-using namespace std;
+#include <iostream>
+#include <cstddef>
+#include <functional>
 
 class point {
 public:
