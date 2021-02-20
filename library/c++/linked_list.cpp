@@ -1,16 +1,16 @@
 struct node {
     int data;
     node *next;
-    node(int _d, node *_n): next{n},data{_d} {}
-    node(int _d): node(_d,NULL) {}
+    node(int _d, node *_n): data{_d}, next{_n} {}
+    node(int _d): node(_d,nullptr) {}
 };
 
 struct linked_list {
     node *head, *tail;
-    linked_list(): head{NULL}, tail{NULL} {}
+    linked_list(): head{nullptr}, tail{nullptr} {}
     void add(int i) {
         node *tmp = new node(i);
-        if(head == NULL) {
+        if(head == nullptr) {
             head = tail = tmp;
         } else {
             tail->next = tmp;

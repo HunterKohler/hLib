@@ -14,6 +14,8 @@ public:
 
     int& operator[](int i);
 
+    static int hash_sign(int x);
+
     size_t cantor() const;
     static size_t cantor(const point& p);
     static size_t cantor(int x, int y);
@@ -23,8 +25,8 @@ public:
     static size_t szudzik(int x, int y);
 
     template <class T1, class T2>
-    pair<T1,T2> to_pair();
-    pair<int,int> to_pair();
+    std::pair<T1,T2> to_pair();
+    std::pair<int,int> to_pair();
 
     double length();
     static double length(point& p);
@@ -57,8 +59,8 @@ bool operator>(const point& p, const point& q);
 bool operator<=(const point& p, const point& q);
 bool operator>=(const point& p, const point& q);
 
-ostream& operator<<(ostream& os, const point& p);
-istream& operator>>(istream& is, point& p);
+std::ostream& operator<<(std::ostream& os, const point& p);
+std::istream& operator>>(std::istream& is, point& p);
 
 
 const point
@@ -66,11 +68,9 @@ const point
     j_hat {0,1},
     zero {0,0};
 
-namespace std {
-    template <>
-    struct hash<point> {
-        size_t operator()(const point& p) const;
-    };
-}
+template <>
+struct std::hash<point> {
+    size_t operator()(const point& p) const;
+};
 
 #endif

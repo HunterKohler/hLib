@@ -6,8 +6,8 @@ struct nd_vector : public std::vector<nd_vector<T, D - 1> > {
     const size_t dimension = D;
     static_assert(D >= 1, "Dimension must be 1 or greater.");
 
-    template <class ... >
-    nd_vector(int n = 0, U ... args)
+    template <class ...U>
+    nd_vector(int n = 0, U ...args)
         : std::vector<nd_vector<T, D - 1>>(n, nd_vector<T, D - 1>(args...)){ }
 };
 
