@@ -1,4 +1,4 @@
-#include "n_vector.hpp"
+#include "../include/n_vector.hpp"
 
 template <class T, size_t N>
 using nv = n_vector<T,N>;

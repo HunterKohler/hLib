@@ -1,5 +1,6 @@
 #include <queue>
-#include "bipartite.hpp"
+
+#include "../include/bipartite.hpp"
 
 int main() {}
 bool is_bipartide(const std::vector<std::vector<int>>& adj) {

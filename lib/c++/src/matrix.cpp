@@ -1,4 +1,4 @@
-#include "matrix.hpp"
+#include "../include/matrix.hpp"
 
 template<class T>
 std::ostream& operator<<(std::ostream& os, const matrix<T>& m) {
