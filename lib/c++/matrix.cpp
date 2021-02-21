@@ -1,8 +1,4 @@
-#include <ostream>
-#include <vector>
-
-template<class T>
-using matrix = std::vector<std::vector<T>>;
+#include "matrix.hpp"
 
 template<class T>
 std::ostream& operator<<(std::ostream& os, const matrix<T>& m) {
@@ -14,6 +10,5 @@ std::ostream& operator<<(std::ostream& os, const matrix<T>& m) {
             os << i << (++i_v == v.size() ? "" : ", ");
         os << (++l == m.size() ? "}" : "}\n");
     }
-    os << "}\n";
-    return os;
+    return os << "}\n";
 }

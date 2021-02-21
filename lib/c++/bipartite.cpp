@@ -1,20 +1,18 @@
-#include <vector>
 #include <queue>
+#include "bipartite.hpp"
 
-#include "bipartite.h"
-
-// untested
-bool is_bipartide(const vector<int>& adj) {
+int main() {}
+bool is_bipartide(const std::vector<std::vector<int>>& adj) {
     int n = adj.size();
-    vector<bool> vis(n);
-    vector<bool> color(n);
-    queue<int> q;
-    q.push(adj[0]);
+    std::vector<bool> vis(n);
+    std::vector<bool> color(n);
+    std::queue<int> q({0});
     while(!q.empty()) {
-        int i = q.pop();
+        int i = q.front();
+        q.pop();
         if(!vis[i]) {
             vis[i] = true;
-            for(int j: adj[i]) {
+            for(const int j: adj[i]) {
                 if(vis[j] && color[i] == color[j]) {
                     return false;
                 } else if(!vis[j]) {
@@ -26,5 +24,3 @@ bool is_bipartide(const vector<int>& adj) {
     }
     return true;
 }
-
-int main() {}

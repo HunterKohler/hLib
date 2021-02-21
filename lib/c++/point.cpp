@@ -1,8 +1,4 @@
-#include <iostream>
-#include <cstdlib>
-#include <cmath>
-
-#include "point.h"
+#include "point.hpp"
 
 point::point(): point(0,0) { }
 point::point(int _x, int _y): x { _x }, y { _y } { }
