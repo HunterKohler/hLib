@@ -4,6 +4,7 @@
 
 using std::min;
 
+// memoize in real implementation
 inline int ilog2(int x) {
     return (int) ( std::log2(x) + 1);
 }
@@ -41,39 +42,6 @@ class sparse_table {
 
     int query(int i, int j) {
         int k = ilog2(i-j+1);
-        return min(spt[i][j],spt[i]);
+        return min(spt[i][k],spt[j-(1 << k)+1][k]);
     }
 };
-
-template <class T> using cmp = bool(*)(const T&,const T&);
-
-template <class T>
-struct funct_cmp {
-  protected:
-    cmp<T> _f;
-
-  public:
-    funct_cmp(cmp<T> f): _f{f} {};
-    const T& operator()(const T& a, const T& b) {
-        return  _f(a,b) ? a : b;
-    }
-};
-
-template<class T>
-bool less(const T& a, const T& b) {
-    return a < b;
-}
-
-template<class T>
-bool greater(const T& a, const T& b) {
-    return a > b;
-}
-
-using std::cout;
-using std::cin;
-using std::endl;
-using std::boolalpha;
-
-int main() {
-
-}
