@@ -1,48 +1,68 @@
 /*
 ID: jhunter3
-TASK: job
-LANG: C++
+LANG: C++11
+PROB: job
 */
 
-#include <cstdio>
+// something to do "load balancing" idek
 #include <iostream>
-#include <algorithm>
-#include <queue>
-
-#define FOR(i,a,b) for(int (i) = (a); (i) < (b); (i)++)
-#define FORN(i,n) FOR(i,0,n)
-#define NMAX 1000
-#define MMAX 30
+#include <tuple>
 
 using namespace std;
 
-int N,M1,M2;
-int A[MMAX], B[MMAX];
+#define MAXN 1000
+#define MAXM 30
+#define INF (1 << 30)
 
-struct A_item {
-    int i, m;
-    int val() { return A[i] * m; }
-};
+int n,m1,m2;
+int a[MAXM],b[MAXM];
+int a_f[MAXM] {};
+int b_f[MAXM] {};
+int tasks_a[MAXN] {};
+int tasks_b[MAXN] {};
 
 int main() {
-    freopen("job.in","r",stdin);
-    freopen("job.out","w",stdout);
+    freopen("job.in", "r", stdin);
+    freopen("job.out", "w", stdout);
     ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
 
-    scanf("%d %d %d",&N,&M1,&M2);
-    FORN(i,M1) scanf("%d",&A[i]);
-    FORN(i,M2) scanf("%d",&B[i]);
+    cin >> n >> m1 >> m2;
+    for(int i = 0; i < m1; i++)
+        cin >> a[i];
+    for(int i = 0; i < m2; i++)
+        cin >> b[i];
 
-    sort(begin(A), begin(A) + M1);
-    sort(begin(B), begin(B) + M2);
+    for(int i = 0; i < n; i++) {
+        int min_t = INF;
+        int k;
+        for(int j = 0; j < m1; j++) {
+            if(a_f[j] + a[j] < min_t) {
+                min_t = a_f[j] + a[j];
+                k = j;
+            }
+        }
+        a_f[k] += a[k];
+        tasks_a[i] = min_t;
+    }
 
-    auto comp = [](A_item &a, A_item &b) { return a.val() < b.val(); };
-    vector<A_item> A_items;
-    FORN(i,M1) FOR(m,1,N) A_items.push_back({i,m});
-    sort(A_items.begin(), A_items.end(), comp);
+    for(int i = n-1; i >= 0; i--) {
+        int min_t = INF;
+        int k;
+        // solving worst case?? for any indiv task??
+        for(int j = 0; j < m2; j++) {
+            if(b_f[j] + b[j] < min_t) {
+                min_t = b_f[j] + b[j];
+                k = j;
+            }
+        }
+        b_f[k] += b[k];
+        tasks_b[i] = min_t;
+    }
 
-    vector<int> A_times;
-    FORN(i,N) A_times.push_back(A_items[i].val());
-    int min_A = A_times[N - 1];
+    int max_ab = 0;
+    for(int i = 0; i < n; i++)
+        max_ab = max(max_ab, tasks_a[i] + tasks_b[i]);
 
+    cout << tasks_a[n-1] << " " << max_ab << "\n";
 }
