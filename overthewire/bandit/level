@@ -1,7 +1,0 @@
-#!/bin/bash
-if [[ $1 =~ bandit[0-9]+ ]] ; then
-    ssh bandit.labs.overthewire.org -l $1 -p 2220
-else
-    echo "bad username" 1>&2
-    exit 1
-fi
