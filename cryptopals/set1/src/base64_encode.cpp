@@ -9,7 +9,11 @@ int main(int argc, char *argv[]) {
     if(argc < 2) {
         std::cin >> inp;
     } else {
-        inp = argv[1];
+        for(int i = 1; i < argc; i++) {
+            inp += argv[i];
+            inp += " ";
+        }
+        inp.pop_back();
     }
 
     int padding = 0;

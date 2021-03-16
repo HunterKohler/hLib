@@ -23,8 +23,13 @@ constexpr int base64[] = {
 int main(int argc, char *argv[]) {
     std::string inp;
 
-    if(argc < 2) std::cin >> inp;
-    else  inp = argv[1];
+    if(argc < 2) {
+        std::cin >> inp;
+    } else {
+        for(int i = 1; i < argc; i++) {
+            inp += argv[i];
+        }
+    }
 
     std::string out;
     for(int i = 0; i < inp.length(); i += 4) {

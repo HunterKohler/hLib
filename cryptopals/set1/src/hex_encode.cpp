@@ -9,7 +9,9 @@ int main(int argc, char *argv[]) {
     if(argc == 1) {
         std::cin >> inp;
     } else {
-        inp = argv[1];
+        for(int i = 1; i < argc; i++) {
+            inp += argv[i];
+        }
     }
 
     std::string out;
