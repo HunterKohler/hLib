@@ -1,45 +1,107 @@
 #include <string>
+#include <tuple>
 #include <iostream>
+#include <utility>
+#include <vector>
+#include <algorithm>
 
 #include "xor.hpp"
 #include "frequency.hpp"
-#include "encoding.hpp"
+#include "utils.hpp"
 
-std::string operator^(std::string a, char b) {
-    for(int i = 0; i < a.length(); i++)
-        a[i] = a[i] ^ b;
-    return a;
-}
-
-std::string operator^(char a, std::string b) {
-    return b ^ a;
-}
-
-char single_character_xor_key(const std::string& str) {
-    float min_error = (1 << 30);
-    int min_error_index;
-    for(int i = 0; i < 256; i++) {
-        float error = letter_frequency_error(str ^ ((char) i));
-        if(error < min_error) {
-            min_error = error;
-            min_error_index = i;
-        }
+namespace single_character_xor {
+    std::string apply(std::string str, char key) {
+        for(int i = 0; i < str.length(); i++)
+            str[i] ^= key;
+        return str;
     }
 
-    return min_error_index;
+    std::tuple<char,std::string,float> decode(const std::string& str) {
+        float min_error = 1e10;
+        char min_char;
+        for(int i = 0; i < 256; i++) {
+            float error = english::frequency_error(apply(str,i));
+            if(error < min_error) {
+                min_error = error;
+                min_char = i;
+            }
+        }
+
+        return {min_char, apply(str,min_char) , min_error};
+    }
 }
 
-std::string single_character_xor(const std::string& str) {
-    return single_character_xor_key(str) ^ str;
-}
+namespace string_xor {
+    std::string apply(std::string str, const std::string& key) {
+        for(int i = 0; i < str.length(); i++)
+            str[i] ^= key[i % key.length()];
+        return str;
+    }
 
-int main() {
-    std::string str = "1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736";
+    class Keysize {
+      private:
+        int _size;
+        float _norm_distance;
 
-    std::cout
-        << single_character_xor(hex::decode(str)) << std::endl
-        << single_character_xor_key(hex::decode(str)) << std::endl;
+      public:
+        static const int MIN = 2;
+        static const int MAX = 50;
+        static const int CHECK = 5;
+        static const int RANGE = Keysize::MAX - Keysize::MIN;
 
-    std::cout << letter_frequency_error("Yuuqst}:WY=i:vsq:{:juot~:u|:x{yut");
+        Keysize(int _s, const std::string& str) : _size{_s} {
+            _norm_distance = ((float) hamming_distance(
+                str.substr(0,_size),
+                str.substr(_size,_size)
+            )) / ((float) _size);
+        }
 
+        int size() const { return _size; }
+        float norm_distance() const { return _norm_distance; }
+
+        bool operator<(const Keysize& k) const {
+            return norm_distance() < k.norm_distance();
+        }
+    };
+
+    std::tuple<std::string,std::string,float> decode(const std::string& str) {
+        std::vector<Keysize> keysizes;
+        for(int i = Keysize::MIN; i < Keysize::MAX; i++)
+            keysizes.emplace_back(i,str);
+        std::sort(keysizes.begin(),keysizes.end());
+
+        int min_error_index;
+        float min_error = 1e10;
+        std::string min_key;
+        std::string min_message;
+        for(int i = 0; i < Keysize::CHECK; i++) {
+            std::cout << "Checking keysize "
+                << keysizes[i].size()
+                << " of normalized distance "
+                << keysizes[i].norm_distance()
+                << std::endl;
+
+            std::string key;
+            key.resize(keysizes[i].size());
+            for(int j = 0; j < keysizes[i].size(); j++) {
+                std::string block;
+                for(int k = j; k < str.length(); k += key.size())
+                    block += str[k];
+
+                std::tie(key[j], std::ignore, std::ignore) = single_character_xor::decode(block);
+            }
+
+            std::string message = apply(str,key);
+            float error = english::frequency_error(message);
+
+            std::cout << message << std::endl << std::string(100,'=') << std::endl << std::string(100,'=') << std::endl;
+            if(error < min_error) {
+                min_error = error;
+                min_key = std::move(key);
+                min_message = std::move(message);
+            }
+        }
+
+        return {min_key,min_message,min_error};
+    }
 }
