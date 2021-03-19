@@ -5,6 +5,8 @@ Challenge 2:
 Challenge 3:
     Key: X
 Challenge 4:
-    string: 7b5a4215415d544115415d5015455447414c155c46155f4058455c5b523f
     key: 5
     encoded: Now that the party is jumping
+Challenge 5:
+    key: Terminator X: Bring the noise
+Challenge 6:

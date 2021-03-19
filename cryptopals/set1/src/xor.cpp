@@ -4,6 +4,7 @@
 #include <utility>
 #include <vector>
 #include <algorithm>
+#include <random>
 
 #include "xor.hpp"
 #include "frequency.hpp"
@@ -38,32 +39,6 @@ namespace string_xor {
         return str;
     }
 
-    class Keysize {
-      private:
-        int _size;
-        float _norm_distance;
-
-      public:
-        static const int MIN = 2;
-        static const int MAX = 50;
-        static const int CHECK = 5;
-        static const int RANGE = Keysize::MAX - Keysize::MIN;
-
-        Keysize(int _s, const std::string& str) : _size{_s} {
-            _norm_distance = ((float) hamming_distance(
-                str.substr(0,_size),
-                str.substr(_size,_size)
-            )) / ((float) _size);
-        }
-
-        int size() const { return _size; }
-        float norm_distance() const { return _norm_distance; }
-
-        bool operator<(const Keysize& k) const {
-            return norm_distance() < k.norm_distance();
-        }
-    };
-
     std::tuple<std::string,std::string,float> decode(const std::string& str) {
         std::vector<Keysize> keysizes;
         for(int i = Keysize::MIN; i < Keysize::MAX; i++)
@@ -75,14 +50,9 @@ namespace string_xor {
         std::string min_key;
         std::string min_message;
         for(int i = 0; i < Keysize::CHECK; i++) {
-            std::cout << "Checking keysize "
-                << keysizes[i].size()
-                << " of normalized distance "
-                << keysizes[i].norm_distance()
-                << std::endl;
-
             std::string key;
             key.resize(keysizes[i].size());
+
             for(int j = 0; j < keysizes[i].size(); j++) {
                 std::string block;
                 for(int k = j; k < str.length(); k += key.size())
@@ -94,14 +64,41 @@ namespace string_xor {
             std::string message = apply(str,key);
             float error = english::frequency_error(message);
 
-            std::cout << message << std::endl << std::string(100,'=') << std::endl << std::string(100,'=') << std::endl;
             if(error < min_error) {
                 min_error = error;
-                min_key = std::move(key);
-                min_message = std::move(message);
+                min_key = key;
+                min_message = apply(str,key);
             }
         }
 
         return {min_key,min_message,min_error};
     }
+
+
+// =====================KEYSIZE CLASS ===========================
+    Keysize::Keysize(int _s, const std::string& str) : _size{_s} {
+        _norm_distance = 0;
+        for(int i = 0, b1 = 0, b2 = 0; i < BLOCKS; i++) {
+            bool first = true;
+            while(first || b1 == b2) {
+                first = false;
+                b1 = random_int(str.length() / _size);
+                b2 = random_int(str.length() / _size);
+            }
+
+            _norm_distance += hamming_distance(
+                std::string_view(&str[_size*b1],_size),
+                std::string_view(&str[_size*b2],_size)
+            );
+        }
+
+        _norm_distance /= _size;
+    }
+
+    int Keysize::size() const { return _size; }
+    float Keysize::norm_distance() const { return _norm_distance; }
+    bool Keysize::operator<(const Keysize& k) const {
+        return norm_distance() < k.norm_distance();
+    }
+    // ============================================================
 }

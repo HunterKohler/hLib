@@ -1,8 +1,13 @@
 #include <string>
 #include <fstream>
+#include <random>
 #include "utils.hpp"
 
 int hamming_distance(const std::string& a, const std::string& b) {
+    return hamming_distance(std::string_view(a),std::string_view(b));
+}
+
+int hamming_distance( const std::string_view& a, const std::string_view& b) {
     if(a.length() > b.length())
         return hamming_distance(b,a);
     int sum = 0;
@@ -33,3 +38,8 @@ std::string get_file_contents(const char *filename) {
 
     return contents;
 }
+
+std::mt19937 _random_int_mt((std::random_device()()));
+int random_int() { return _random_int_mt(); }
+int random_int(int a) { return random_int(0,a); }
+int random_int(int a, int b) { return (_random_int_mt() % (b-a + 1)) + a; }
