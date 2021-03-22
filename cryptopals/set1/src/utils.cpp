@@ -42,4 +42,4 @@ std::string get_file_contents(const char *filename) {
 std::mt19937 _random_int_mt((std::random_device()()));
 int random_int() { return _random_int_mt(); }
 int random_int(int a) { return random_int(0,a); }
-int random_int(int a, int b) { return (_random_int_mt() % (b-a + 1)) + a; }
+int random_int(int a, int b) { return ( random_int() % (b-a + 1)) + a; }
