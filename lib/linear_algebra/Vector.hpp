@@ -66,23 +66,18 @@ namespace Euclidean {
       public:
         typedef T value_type;
         typedef std::size_t size_type;
-        typedef long long length_type; // maybe use int_fast_64_t
         typedef RandomAccessIterator<T> iterator;
         typedef RandomAccessIterator<T,true> const_iterator;
 
-        inline Vector(): Vector(0) {}
-        inline Vector(size_type _n): n{_n}, memory{new T[n]} {}
-        inline Vector(size_type _n, const T& _t): Vector(_n) {for(T& t: *this) {t = _t;}}
-        inline Vector(const Vector<T>& v): Vector(v.n) {for(int i = 0; i < n; i++) memory[i] = v[i];}
-        inline Vector(Vector<T>&& v) noexcept
-            : n{v.n}, memory{v.memory}  {
-                v.memory = nullptr;
-                v.n = 0;
-            }
+        Vector();
+        Vector(size_type _n);
+        Vector(size_type _n, const T& _t);
+        Vector(const Vector<T>& v);
+        Vector(Vector<T>&& v);
+        ~Vector();
 
-        inline ~Vector() {delete[] memory;}
-
-        // Vector<T> operator-();
+        // operators
+        Vector<T> operator-();
         // auto operator+(const Vector<T>&) -> Vector<>; // addition
         // auto operator-(const Vector<T>&) -> Vector<>; // subtraction
         // auto operator*(const Vector<T>&) -> Vector<>; // dot product
@@ -94,34 +89,32 @@ namespace Euclidean {
         // bool operator!(); // isnull
         // bool operator==(const Vector<T>&); // equal
         // bool operator!=(const Vector<T>&); // not equal
-        // constexpr T& operator[](length_type i) {return memory[i];}
+        // constexpr T& operator[](length_type i) {return mem[i];}
 
         // assignment
-        // Vector<T>& operator=(const Vector<T>&); // copy assignment
-        // Vector<T>& operator=(Vector<T>&&); // move assignment
-        // Vector<T>& operator+=(const Vector<T>&); // addition
-        // Vector<T>& operator-=(const Vector<T>&); // subtraction
-        // Vector<T>& operator*=(const Vector<T>&); // dot product
-        // Vector<T>& operator*=(length_type); // multiplication
-        // Vector<T>& operator^=(const Vector<T>&); // cross product
+        Vector<T>& operator=(const Vector<T>&); // copy assignment
+        Vector<T>& operator=(Vector<T>&&); // move assignment
+        Vector<T>& operator+=(const Vector<T>&); // addition
+        Vector<T>& operator-=(const Vector<T>&); // subtraction
+        Vector<T>& operator*=(length_type); // multiplication
         // Vector<T>& operator%=(const Vector<T>&); // resize to Vector length
         // Vector<T>& operator%=(length_type); // resize to length
 
         inline size_type dim() const {return n;}
         inline size_type dimension() const {return n;}
 
-        inline iterator begin() {return iterator(memory);}
-        inline iterator end() {return iterator(memory+n);}
-        inline iterator rbegin() {return iterator(memory+n,-1,true);}
-        inline iterator rend() {return iterator(memory,-1,true);}
-        inline const_iterator cbegin() {return const_iterator(memory);}
-        inline const_iterator cend() {return const_iterator(memory+n);}
-        inline const_iterator crbegin() {return const_iterator(memory+n,-1,true);}
-        inline const_iterator crend() {return const_iterator(memory,-1,true);}
+        inline iterator begin() {return iterator(mem);}
+        inline iterator end() {return iterator(mem+n);}
+        inline iterator rbegin() {return iterator(mem+n,-1,true);}
+        inline iterator rend() {return iterator(mem,-1,true);}
+        inline const_iterator cbegin() {return const_iterator(mem);}
+        inline const_iterator cend() {return const_iterator(mem+n);}
+        inline const_iterator crbegin() {return const_iterator(mem+n,-1,true);}
+        inline const_iterator crend() {return const_iterator(mem,-1,true);}
 
       private:
         size_type n;
-        T* memory;
+        T* mem;
     };
 }
 
