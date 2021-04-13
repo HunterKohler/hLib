@@ -1,0 +1,3 @@
+/Users/jkohler/Documents/wargames/lib/build/CMakeFiles/rebuild_cache.dir
+/Users/jkohler/Documents/wargames/lib/build/CMakeFiles/edit_cache.dir
+/Users/jkohler/Documents/wargames/lib/build/CMakeFiles/test.dir

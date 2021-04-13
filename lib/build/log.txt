@@ -1,0 +1,784 @@
+Scanning dependencies of target test
+[ 50%] Building CXX object CMakeFiles/test.dir/src/des/test.cpp.o
+In file included from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:12:
+/Users/jkohler/Documents/wargames/lib/src/des/des.hpp:54:64: error: wrong number of template arguments (1, should be at least 2)
+   54 |     std::ostream& operator<<(std::ostream& os, const Table<auto>& table) {
+      |                                                                ^
+/Users/jkohler/Documents/wargames/lib/src/des/des.hpp:19:11: note: provided for 'template<long unsigned int N, class R, class ... Args> class DES::Table'
+   19 |     class Table {
+      |           ^~~~~
+/Users/jkohler/Documents/wargames/lib/src/des/des.hpp: In function 'std::ostream& DES::operator<<(std::ostream&, const int&)':
+/Users/jkohler/Documents/wargames/lib/src/des/des.hpp:56:34: error: request for member 'size' in 'table', which is of non-class type 'const int'
+   56 |         for(int i = 0; i < table.size(); i++)
+      |                                  ^~~~
+/Users/jkohler/Documents/wargames/lib/src/des/des.hpp:57:24: error: invalid types 'const int[int]' for array subscript
+   57 |             os << table[i] << ",";
+      |                        ^
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp: In function 'void ____C_A_T_C_H____T_E_S_T____0()':
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:15: error: no match for 'operator<<' (operand types are 'std::ostream' {aka 'std::basic_ostream<char>'} and 'const DES::Table<3, int, int>')
+   37 |     std::cout << t;
+      |     ~~~~~~~~~ ^~ ~
+      |          |       |
+      |          |       const DES::Table<3, int, int>
+      |          std::ostream {aka std::basic_ostream<char>}
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/iostream:39,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:1:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:108:7: note: candidate: 'std::basic_ostream<_CharT, _Traits>::__ostream_type& std::basic_ostream<_CharT, _Traits>::operator<<(std::basic_ostream<_CharT, _Traits>::__ostream_type& (*)(std::basic_ostream<_CharT, _Traits>::__ostream_type&)) [with _CharT = char; _Traits = std::char_traits<char>; std::basic_ostream<_CharT, _Traits>::__ostream_type = std::basic_ostream<char>]'
+  108 |       operator<<(__ostream_type& (*__pf)(__ostream_type&))
+      |       ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:108:36: note:   no known conversion for argument 1 from 'const DES::Table<3, int, int>' to 'std::basic_ostream<char>::__ostream_type& (*)(std::basic_ostream<char>::__ostream_type&)' {aka 'std::basic_ostream<char>& (*)(std::basic_ostream<char>&)'}
+  108 |       operator<<(__ostream_type& (*__pf)(__ostream_type&))
+      |                  ~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:117:7: note: candidate: 'std::basic_ostream<_CharT, _Traits>::__ostream_type& std::basic_ostream<_CharT, _Traits>::operator<<(std::basic_ostream<_CharT, _Traits>::__ios_type& (*)(std::basic_ostream<_CharT, _Traits>::__ios_type&)) [with _CharT = char; _Traits = std::char_traits<char>; std::basic_ostream<_CharT, _Traits>::__ostream_type = std::basic_ostream<char>; std::basic_ostream<_CharT, _Traits>::__ios_type = std::basic_ios<char>]'
+  117 |       operator<<(__ios_type& (*__pf)(__ios_type&))
+      |       ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:117:32: note:   no known conversion for argument 1 from 'const DES::Table<3, int, int>' to 'std::basic_ostream<char>::__ios_type& (*)(std::basic_ostream<char>::__ios_type&)' {aka 'std::basic_ios<char>& (*)(std::basic_ios<char>&)'}
+  117 |       operator<<(__ios_type& (*__pf)(__ios_type&))
+      |                  ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:127:7: note: candidate: 'std::basic_ostream<_CharT, _Traits>::__ostream_type& std::basic_ostream<_CharT, _Traits>::operator<<(std::ios_base& (*)(std::ios_base&)) [with _CharT = char; _Traits = std::char_traits<char>; std::basic_ostream<_CharT, _Traits>::__ostream_type = std::basic_ostream<char>]'
+  127 |       operator<<(ios_base& (*__pf) (ios_base&))
+      |       ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:127:30: note:   no known conversion for argument 1 from 'const DES::Table<3, int, int>' to 'std::ios_base& (*)(std::ios_base&)'
+  127 |       operator<<(ios_base& (*__pf) (ios_base&))
+      |                  ~~~~~~~~~~~~^~~~~~~~~~~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:166:7: note: candidate: 'std::basic_ostream<_CharT, _Traits>::__ostream_type& std::basic_ostream<_CharT, _Traits>::operator<<(long int) [with _CharT = char; _Traits = std::char_traits<char>; std::basic_ostream<_CharT, _Traits>::__ostream_type = std::basic_ostream<char>]'
+  166 |       operator<<(long __n)
+      |       ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:166:23: note:   no known conversion for argument 1 from 'const DES::Table<3, int, int>' to 'long int'
+  166 |       operator<<(long __n)
+      |                  ~~~~~^~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:170:7: note: candidate: 'std::basic_ostream<_CharT, _Traits>::__ostream_type& std::basic_ostream<_CharT, _Traits>::operator<<(long unsigned int) [with _CharT = char; _Traits = std::char_traits<char>; std::basic_ostream<_CharT, _Traits>::__ostream_type = std::basic_ostream<char>]'
+  170 |       operator<<(unsigned long __n)
+      |       ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:170:32: note:   no known conversion for argument 1 from 'const DES::Table<3, int, int>' to 'long unsigned int'
+  170 |       operator<<(unsigned long __n)
+      |                  ~~~~~~~~~~~~~~^~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:174:7: note: candidate: 'std::basic_ostream<_CharT, _Traits>::__ostream_type& std::basic_ostream<_CharT, _Traits>::operator<<(bool) [with _CharT = char; _Traits = std::char_traits<char>; std::basic_ostream<_CharT, _Traits>::__ostream_type = std::basic_ostream<char>]'
+  174 |       operator<<(bool __n)
+      |       ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:174:23: note:   no known conversion for argument 1 from 'const DES::Table<3, int, int>' to 'bool'
+  174 |       operator<<(bool __n)
+      |                  ~~~~~^~~
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:784,
+                 from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/iostream:39,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:1:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/ostream.tcc:91:5: note: candidate: 'std::basic_ostream<_CharT, _Traits>& std::basic_ostream<_CharT, _Traits>::operator<<(short int) [with _CharT = char; _Traits = std::char_traits<char>]'
+   91 |     basic_ostream<_CharT, _Traits>::
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/ostream.tcc:92:22: note:   no known conversion for argument 1 from 'const DES::Table<3, int, int>' to 'short int'
+   92 |     operator<<(short __n)
+      |                ~~~~~~^~~
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/iostream:39,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:1:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:181:7: note: candidate: 'std::basic_ostream<_CharT, _Traits>::__ostream_type& std::basic_ostream<_CharT, _Traits>::operator<<(short unsigned int) [with _CharT = char; _Traits = std::char_traits<char>; std::basic_ostream<_CharT, _Traits>::__ostream_type = std::basic_ostream<char>]'
+  181 |       operator<<(unsigned short __n)
+      |       ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:181:33: note:   no known conversion for argument 1 from 'const DES::Table<3, int, int>' to 'short unsigned int'
+  181 |       operator<<(unsigned short __n)
+      |                  ~~~~~~~~~~~~~~~^~~
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:784,
+                 from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/iostream:39,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:1:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/ostream.tcc:105:5: note: candidate: 'std::basic_ostream<_CharT, _Traits>& std::basic_ostream<_CharT, _Traits>::operator<<(int) [with _CharT = char; _Traits = std::char_traits<char>]'
+  105 |     basic_ostream<_CharT, _Traits>::
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/ostream.tcc:106:20: note:   no known conversion for argument 1 from 'const DES::Table<3, int, int>' to 'int'
+  106 |     operator<<(int __n)
+      |                ~~~~^~~
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/iostream:39,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:1:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:192:7: note: candidate: 'std::basic_ostream<_CharT, _Traits>::__ostream_type& std::basic_ostream<_CharT, _Traits>::operator<<(unsigned int) [with _CharT = char; _Traits = std::char_traits<char>; std::basic_ostream<_CharT, _Traits>::__ostream_type = std::basic_ostream<char>]'
+  192 |       operator<<(unsigned int __n)
+      |       ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:192:31: note:   no known conversion for argument 1 from 'const DES::Table<3, int, int>' to 'unsigned int'
+  192 |       operator<<(unsigned int __n)
+      |                  ~~~~~~~~~~~~~^~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:201:7: note: candidate: 'std::basic_ostream<_CharT, _Traits>::__ostream_type& std::basic_ostream<_CharT, _Traits>::operator<<(long long int) [with _CharT = char; _Traits = std::char_traits<char>; std::basic_ostream<_CharT, _Traits>::__ostream_type = std::basic_ostream<char>]'
+  201 |       operator<<(long long __n)
+      |       ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:201:28: note:   no known conversion for argument 1 from 'const DES::Table<3, int, int>' to 'long long int'
+  201 |       operator<<(long long __n)
+      |                  ~~~~~~~~~~^~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:205:7: note: candidate: 'std::basic_ostream<_CharT, _Traits>::__ostream_type& std::basic_ostream<_CharT, _Traits>::operator<<(long long unsigned int) [with _CharT = char; _Traits = std::char_traits<char>; std::basic_ostream<_CharT, _Traits>::__ostream_type = std::basic_ostream<char>]'
+  205 |       operator<<(unsigned long long __n)
+      |       ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:205:37: note:   no known conversion for argument 1 from 'const DES::Table<3, int, int>' to 'long long unsigned int'
+  205 |       operator<<(unsigned long long __n)
+      |                  ~~~~~~~~~~~~~~~~~~~^~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:220:7: note: candidate: 'std::basic_ostream<_CharT, _Traits>::__ostream_type& std::basic_ostream<_CharT, _Traits>::operator<<(double) [with _CharT = char; _Traits = std::char_traits<char>; std::basic_ostream<_CharT, _Traits>::__ostream_type = std::basic_ostream<char>]'
+  220 |       operator<<(double __f)
+      |       ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:220:25: note:   no known conversion for argument 1 from 'const DES::Table<3, int, int>' to 'double'
+  220 |       operator<<(double __f)
+      |                  ~~~~~~~^~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:224:7: note: candidate: 'std::basic_ostream<_CharT, _Traits>::__ostream_type& std::basic_ostream<_CharT, _Traits>::operator<<(float) [with _CharT = char; _Traits = std::char_traits<char>; std::basic_ostream<_CharT, _Traits>::__ostream_type = std::basic_ostream<char>]'
+  224 |       operator<<(float __f)
+      |       ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:224:24: note:   no known conversion for argument 1 from 'const DES::Table<3, int, int>' to 'float'
+  224 |       operator<<(float __f)
+      |                  ~~~~~~^~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:232:7: note: candidate: 'std::basic_ostream<_CharT, _Traits>::__ostream_type& std::basic_ostream<_CharT, _Traits>::operator<<(long double) [with _CharT = char; _Traits = std::char_traits<char>; std::basic_ostream<_CharT, _Traits>::__ostream_type = std::basic_ostream<char>]'
+  232 |       operator<<(long double __f)
+      |       ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:232:30: note:   no known conversion for argument 1 from 'const DES::Table<3, int, int>' to 'long double'
+  232 |       operator<<(long double __f)
+      |                  ~~~~~~~~~~~~^~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:245:7: note: candidate: 'std::basic_ostream<_CharT, _Traits>::__ostream_type& std::basic_ostream<_CharT, _Traits>::operator<<(const void*) [with _CharT = char; _Traits = std::char_traits<char>; std::basic_ostream<_CharT, _Traits>::__ostream_type = std::basic_ostream<char>]'
+  245 |       operator<<(const void* __p)
+      |       ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:245:30: note:   no known conversion for argument 1 from 'const DES::Table<3, int, int>' to 'const void*'
+  245 |       operator<<(const void* __p)
+      |                  ~~~~~~~~~~~~^~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:250:7: note: candidate: 'std::basic_ostream<_CharT, _Traits>::__ostream_type& std::basic_ostream<_CharT, _Traits>::operator<<(std::nullptr_t) [with _CharT = char; _Traits = std::char_traits<char>; std::basic_ostream<_CharT, _Traits>::__ostream_type = std::basic_ostream<char>; std::nullptr_t = std::nullptr_t]'
+  250 |       operator<<(nullptr_t)
+      |       ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:250:18: note:   no known conversion for argument 1 from 'const DES::Table<3, int, int>' to 'std::nullptr_t'
+  250 |       operator<<(nullptr_t)
+      |                  ^~~~~~~~~
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:784,
+                 from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/iostream:39,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:1:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/ostream.tcc:119:5: note: candidate: 'std::basic_ostream<_CharT, _Traits>& std::basic_ostream<_CharT, _Traits>::operator<<(std::basic_ostream<_CharT, _Traits>::__streambuf_type*) [with _CharT = char; _Traits = std::char_traits<char>; std::basic_ostream<_CharT, _Traits>::__streambuf_type = std::basic_streambuf<char>]'
+  119 |     basic_ostream<_CharT, _Traits>::
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/ostream.tcc:120:34: note:   no known conversion for argument 1 from 'const DES::Table<3, int, int>' to 'std::basic_ostream<char>::__streambuf_type*' {aka 'std::basic_streambuf<char>*'}
+  120 |     operator<<(__streambuf_type* __sbin)
+      |                ~~~~~~~~~~~~~~~~~~^~~~~~
+In file included from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:10:
+/usr/local/include/catch2/catch.hpp:477:15: note: candidate: 'std::ostream& operator<<(std::ostream&, Catch_global_namespace_dummy)'
+  477 | std::ostream& operator<<(std::ostream&, Catch_global_namespace_dummy);
+      |               ^~~~~~~~
+/usr/local/include/catch2/catch.hpp:477:41: note:   no known conversion for argument 2 from 'const DES::Table<3, int, int>' to 'Catch_global_namespace_dummy'
+  477 | std::ostream& operator<<(std::ostream&, Catch_global_namespace_dummy);
+      |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:12:
+/Users/jkohler/Documents/wargames/lib/src/des/des.hpp:54:19: note: candidate: 'template<class auto:19> std::ostream& DES::operator<<(std::ostream&, const int&)'
+   54 |     std::ostream& operator<<(std::ostream& os, const Table<auto>& table) {
+      |                   ^~~~~~~~
+/Users/jkohler/Documents/wargames/lib/src/des/des.hpp:54:19: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   couldn't deduce template parameter 'auto:19'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/regex:62,
+                 from /usr/local/include/catch2/catch.hpp:11638,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:10:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/regex.h:1647:5: note: candidate: 'template<class _Ch_type, class _Ch_traits, class _Bi_iter> std::basic_ostream<_CharT, _Traits>& std::__cxx11::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::__cxx11::sub_match<_Bi_iter>&)'
+ 1647 |     operator<<(basic_ostream<_Ch_type, _Ch_traits>& __os,
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/regex.h:1647:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   'const DES::Table<3, int, int>' is not derived from 'const std::__cxx11::sub_match<_Bi_iter>'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/basic_string.h:48,
+                 from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/string:55,
+                 from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/locale_classes.h:40,
+                 from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/ios_base.h:41,
+                 from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ios:42,
+                 from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:38,
+                 from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/iostream:39,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:1:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/string_view:622:5: note: candidate: 'template<class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, std::basic_string_view<_CharT, _Traits>)'
+  622 |     operator<<(basic_ostream<_CharT, _Traits>& __os,
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/string_view:622:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   'DES::Table<3, int, int>' is not derived from 'std::basic_string_view<_CharT, _Traits>'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/string:55,
+                 from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/locale_classes.h:40,
+                 from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/ios_base.h:41,
+                 from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ios:42,
+                 from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:38,
+                 from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/iostream:39,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:1:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/basic_string.h:6458:5: note: candidate: 'template<class _CharT, class _Traits, class _Alloc> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::__cxx11::basic_string<_CharT, _Traits, _Allocator>&)'
+ 6458 |     operator<<(basic_ostream<_CharT, _Traits>& __os,
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/basic_string.h:6458:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   'const DES::Table<3, int, int>' is not derived from 'const std::__cxx11::basic_string<_CharT, _Traits, _Allocator>'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/ios_base.h:46,
+                 from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ios:42,
+                 from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:38,
+                 from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/iostream:39,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:1:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/system_error:262:5: note: candidate: 'template<class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::error_code&)'
+  262 |     operator<<(basic_ostream<_CharT, _Traits>& __os, const error_code& __e)
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/system_error:262:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   cannot convert 't' (type 'const DES::Table<3, int, int>') to type 'const std::error_code&'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/iostream:39,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:1:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:506:5: note: candidate: 'template<class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, _CharT)'
+  506 |     operator<<(basic_ostream<_CharT, _Traits>& __out, _CharT __c)
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:506:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   deduced conflicting types for parameter '_CharT' ('char' and 'DES::Table<3, int, int>')
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/iostream:39,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:1:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:511:5: note: candidate: 'template<class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, char)'
+  511 |     operator<<(basic_ostream<_CharT, _Traits>& __out, char __c)
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:511:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   cannot convert 't' (type 'const DES::Table<3, int, int>') to type 'char'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/iostream:39,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:1:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:517:5: note: candidate: 'template<class _Traits> std::basic_ostream<char, _Traits>& std::operator<<(std::basic_ostream<char, _Traits>&, char)'
+  517 |     operator<<(basic_ostream<char, _Traits>& __out, char __c)
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:517:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   cannot convert 't' (type 'const DES::Table<3, int, int>') to type 'char'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/iostream:39,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:1:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:523:5: note: candidate: 'template<class _Traits> std::basic_ostream<char, _Traits>& std::operator<<(std::basic_ostream<char, _Traits>&, signed char)'
+  523 |     operator<<(basic_ostream<char, _Traits>& __out, signed char __c)
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:523:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   cannot convert 't' (type 'const DES::Table<3, int, int>') to type 'signed char'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/iostream:39,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:1:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:528:5: note: candidate: 'template<class _Traits> std::basic_ostream<char, _Traits>& std::operator<<(std::basic_ostream<char, _Traits>&, unsigned char)'
+  528 |     operator<<(basic_ostream<char, _Traits>& __out, unsigned char __c)
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:528:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   cannot convert 't' (type 'const DES::Table<3, int, int>') to type 'unsigned char'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/iostream:39,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:1:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:538:5: note: candidate: 'template<class _Traits> std::basic_ostream<char, _Traits>& std::operator<<(std::basic_ostream<char, _Traits>&, wchar_t)' (deleted)
+  538 |     operator<<(basic_ostream<char, _Traits>&, wchar_t) = delete;
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:538:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   cannot convert 't' (type 'const DES::Table<3, int, int>') to type 'wchar_t'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/iostream:39,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:1:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:544:5: note: candidate: 'template<class _Traits> std::basic_ostream<char, _Traits>& std::operator<<(std::basic_ostream<char, _Traits>&, char8_t)' (deleted)
+  544 |     operator<<(basic_ostream<char, _Traits>&, char8_t) = delete;
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:544:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   cannot convert 't' (type 'const DES::Table<3, int, int>') to type 'char8_t'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/iostream:39,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:1:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:549:5: note: candidate: 'template<class _Traits> std::basic_ostream<char, _Traits>& std::operator<<(std::basic_ostream<char, _Traits>&, char16_t)' (deleted)
+  549 |     operator<<(basic_ostream<char, _Traits>&, char16_t) = delete;
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:549:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   cannot convert 't' (type 'const DES::Table<3, int, int>') to type 'char16_t'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/iostream:39,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:1:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:553:5: note: candidate: 'template<class _Traits> std::basic_ostream<char, _Traits>& std::operator<<(std::basic_ostream<char, _Traits>&, char32_t)' (deleted)
+  553 |     operator<<(basic_ostream<char, _Traits>&, char32_t) = delete;
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:553:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   cannot convert 't' (type 'const DES::Table<3, int, int>') to type 'char32_t'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/iostream:39,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:1:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:559:5: note: candidate: 'template<class _Traits> std::basic_ostream<wchar_t, _Traits>& std::operator<<(std::basic_ostream<wchar_t, _Traits>&, char8_t)' (deleted)
+  559 |     operator<<(basic_ostream<wchar_t, _Traits>&, char8_t) = delete;
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:559:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   mismatched types 'wchar_t' and 'char'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/iostream:39,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:1:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:564:5: note: candidate: 'template<class _Traits> std::basic_ostream<wchar_t, _Traits>& std::operator<<(std::basic_ostream<wchar_t, _Traits>&, char16_t)' (deleted)
+  564 |     operator<<(basic_ostream<wchar_t, _Traits>&, char16_t) = delete;
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:564:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   mismatched types 'wchar_t' and 'char'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/iostream:39,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:1:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:568:5: note: candidate: 'template<class _Traits> std::basic_ostream<wchar_t, _Traits>& std::operator<<(std::basic_ostream<wchar_t, _Traits>&, char32_t)' (deleted)
+  568 |     operator<<(basic_ostream<wchar_t, _Traits>&, char32_t) = delete;
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:568:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   mismatched types 'wchar_t' and 'char'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/iostream:39,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:1:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:589:5: note: candidate: 'template<class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const _CharT*)'
+  589 |     operator<<(basic_ostream<_CharT, _Traits>& __out, const _CharT* __s)
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:589:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   mismatched types 'const _CharT*' and 'DES::Table<3, int, int>'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:784,
+                 from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/iostream:39,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:1:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/ostream.tcc:321:5: note: candidate: 'template<class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const char*)'
+  321 |     operator<<(basic_ostream<_CharT, _Traits>& __out, const char* __s)
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/ostream.tcc:321:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   cannot convert 't' (type 'const DES::Table<3, int, int>') to type 'const char*'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/iostream:39,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:1:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:606:5: note: candidate: 'template<class _Traits> std::basic_ostream<char, _Traits>& std::operator<<(std::basic_ostream<char, _Traits>&, const char*)'
+  606 |     operator<<(basic_ostream<char, _Traits>& __out, const char* __s)
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:606:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   cannot convert 't' (type 'const DES::Table<3, int, int>') to type 'const char*'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/iostream:39,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:1:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:619:5: note: candidate: 'template<class _Traits> std::basic_ostream<char, _Traits>& std::operator<<(std::basic_ostream<char, _Traits>&, const signed char*)'
+  619 |     operator<<(basic_ostream<char, _Traits>& __out, const signed char* __s)
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:619:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   cannot convert 't' (type 'const DES::Table<3, int, int>') to type 'const signed char*'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/iostream:39,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:1:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:624:5: note: candidate: 'template<class _Traits> std::basic_ostream<char, _Traits>& std::operator<<(std::basic_ostream<char, _Traits>&, const unsigned char*)'
+  624 |     operator<<(basic_ostream<char, _Traits>& __out, const unsigned char* __s)
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:624:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   cannot convert 't' (type 'const DES::Table<3, int, int>') to type 'const unsigned char*'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/iostream:39,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:1:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:634:5: note: candidate: 'template<class _Traits> std::basic_ostream<char, _Traits>& std::operator<<(std::basic_ostream<char, _Traits>&, const wchar_t*)' (deleted)
+  634 |     operator<<(basic_ostream<char, _Traits>&, const wchar_t*) = delete;
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:634:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   cannot convert 't' (type 'const DES::Table<3, int, int>') to type 'const wchar_t*'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/iostream:39,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:1:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:640:5: note: candidate: 'template<class _Traits> std::basic_ostream<char, _Traits>& std::operator<<(std::basic_ostream<char, _Traits>&, const char8_t*)' (deleted)
+  640 |     operator<<(basic_ostream<char, _Traits>&, const char8_t*) = delete;
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:640:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   cannot convert 't' (type 'const DES::Table<3, int, int>') to type 'const char8_t*'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/iostream:39,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:1:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:645:5: note: candidate: 'template<class _Traits> std::basic_ostream<char, _Traits>& std::operator<<(std::basic_ostream<char, _Traits>&, const char16_t*)' (deleted)
+  645 |     operator<<(basic_ostream<char, _Traits>&, const char16_t*) = delete;
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:645:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   cannot convert 't' (type 'const DES::Table<3, int, int>') to type 'const char16_t*'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/iostream:39,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:1:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:649:5: note: candidate: 'template<class _Traits> std::basic_ostream<char, _Traits>& std::operator<<(std::basic_ostream<char, _Traits>&, const char32_t*)' (deleted)
+  649 |     operator<<(basic_ostream<char, _Traits>&, const char32_t*) = delete;
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:649:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   cannot convert 't' (type 'const DES::Table<3, int, int>') to type 'const char32_t*'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/iostream:39,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:1:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:655:5: note: candidate: 'template<class _Traits> std::basic_ostream<wchar_t, _Traits>& std::operator<<(std::basic_ostream<wchar_t, _Traits>&, const char8_t*)' (deleted)
+  655 |     operator<<(basic_ostream<wchar_t, _Traits>&, const char8_t*) = delete;
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:655:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   mismatched types 'wchar_t' and 'char'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/iostream:39,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:1:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:660:5: note: candidate: 'template<class _Traits> std::basic_ostream<wchar_t, _Traits>& std::operator<<(std::basic_ostream<wchar_t, _Traits>&, const char16_t*)' (deleted)
+  660 |     operator<<(basic_ostream<wchar_t, _Traits>&, const char16_t*) = delete;
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:660:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   mismatched types 'wchar_t' and 'char'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/iostream:39,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:1:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:664:5: note: candidate: 'template<class _Traits> std::basic_ostream<wchar_t, _Traits>& std::operator<<(std::basic_ostream<wchar_t, _Traits>&, const char32_t*)' (deleted)
+  664 |     operator<<(basic_ostream<wchar_t, _Traits>&, const char32_t*) = delete;
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:664:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   mismatched types 'wchar_t' and 'char'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/iostream:39,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:1:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:773:5: note: candidate: 'template<class _Ostream, class _Tp> typename std::enable_if<std::__and_<std::__not_<std::is_lvalue_reference<_Tp> >, std::__is_convertible_to_basic_ostream<_Ostream>, std::__is_insertable<typename std::__is_convertible_to_basic_ostream<_Tp>::__ostream_type, const _Tp&, void> >::value, typename std::__is_convertible_to_basic_ostream<_Tp>::__ostream_type>::type std::operator<<(_Ostream&&, const _Tp&)'
+  773 |     operator<<(_Ostream&& __os, const _Tp& __x)
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:773:5: note:   template argument deduction/substitution failed:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream: In substitution of 'template<class _Ostream, class _Tp> typename std::enable_if<std::__and_<std::__not_<std::is_lvalue_reference<_Tp> >, std::__is_convertible_to_basic_ostream<_Ostream>, std::__is_insertable<typename std::__is_convertible_to_basic_ostream<_Tp>::__ostream_type, const _Tp&, void> >::value, typename std::__is_convertible_to_basic_ostream<_Tp>::__ostream_type>::type std::operator<<(_Ostream&&, const _Tp&) [with _Ostream = std::basic_ostream<char>&; _Tp = DES::Table<3, int, int>]':
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18:   required from here
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/ostream:773:5: error: no type named 'type' in 'struct std::enable_if<false, std::basic_ostream<char>&>'
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/random:49,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:2:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/random.h:1300:5: note: candidate: 'template<class _RandomNumberEngine, long unsigned int __w, class _UIntType, class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::independent_bits_engine<_RandomNumberEngine, __w, _UIntType>&)'
+ 1300 |     operator<<(std::basic_ostream<_CharT, _Traits>& __os,
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/random.h:1300:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   'const DES::Table<3, int, int>' is not derived from 'const std::independent_bits_engine<_RandomNumberEngine, __w, _UIntType>'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/random:51,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:2:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/random.tcc:867:5: note: candidate: 'template<class _IntType, class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::uniform_int_distribution<_IntType>&)'
+  867 |     operator<<(std::basic_ostream<_CharT, _Traits>& __os,
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/random.tcc:867:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   'const DES::Table<3, int, int>' is not derived from 'const std::uniform_int_distribution<_IntType>'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/random:51,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:2:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/random.tcc:925:5: note: candidate: 'template<class _RealType, class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::uniform_real_distribution<_IntType>&)'
+  925 |     operator<<(std::basic_ostream<_CharT, _Traits>& __os,
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/random.tcc:925:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   'const DES::Table<3, int, int>' is not derived from 'const std::uniform_real_distribution<_IntType>'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/random:51,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:2:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/random.tcc:2110:5: note: candidate: 'template<class _RealType, class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::cauchy_distribution<_RealType>&)'
+ 2110 |     operator<<(std::basic_ostream<_CharT, _Traits>& __os,
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/random.tcc:2110:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   'const DES::Table<3, int, int>' is not derived from 'const std::cauchy_distribution<_RealType>'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/random:51,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:2:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/random.tcc:986:5: note: candidate: 'template<class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::bernoulli_distribution&)'
+  986 |     operator<<(std::basic_ostream<_CharT, _Traits>& __os,
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/random.tcc:986:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   cannot convert 't' (type 'const DES::Table<3, int, int>') to type 'const std::bernoulli_distribution&'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/random:51,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:2:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/random.tcc:1067:5: note: candidate: 'template<class _IntType, class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::geometric_distribution<_IntType>&)'
+ 1067 |     operator<<(std::basic_ostream<_CharT, _Traits>& __os,
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/random.tcc:1067:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   'const DES::Table<3, int, int>' is not derived from 'const std::geometric_distribution<_IntType>'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/random:51,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:2:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/random.tcc:1719:5: note: candidate: 'template<class _RealType, class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::exponential_distribution<_RealType>&)'
+ 1719 |     operator<<(std::basic_ostream<_CharT, _Traits>& __os,
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/random.tcc:1719:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   'const DES::Table<3, int, int>' is not derived from 'const std::exponential_distribution<_RealType>'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/random:51,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:2:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/random.tcc:2504:5: note: candidate: 'template<class _RealType, class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::weibull_distribution<_RealType>&)'
+ 2504 |     operator<<(std::basic_ostream<_CharT, _Traits>& __os,
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/random.tcc:2504:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   'const DES::Table<3, int, int>' is not derived from 'const std::weibull_distribution<_RealType>'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/random:51,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:2:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/random.tcc:2578:5: note: candidate: 'template<class _RealType, class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::extreme_value_distribution<_RealType>&)'
+ 2578 |     operator<<(std::basic_ostream<_CharT, _Traits>& __os,
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/random.tcc:2578:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   'const DES::Table<3, int, int>' is not derived from 'const std::extreme_value_distribution<_RealType>'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/random:51,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:2:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/random.tcc:154:5: note: candidate: 'template<class _UIntType, _UIntType __a, _UIntType __c, _UIntType __m, class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::linear_congruential_engine<_UIntType, __a, __c, __m>&)'
+  154 |     operator<<(std::basic_ostream<_CharT, _Traits>& __os,
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/random.tcc:154:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   'const DES::Table<3, int, int>' is not derived from 'const std::linear_congruential_engine<_UIntType, __a, __c, __m>'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/random:51,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:2:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/random.tcc:474:5: note: candidate: 'template<class _UIntType1, long unsigned int __w1, long unsigned int __n1, long unsigned int __m1, long unsigned int __r1, _UIntType1 __a1, long unsigned int __u1, _UIntType1 __d1, long unsigned int __s1, _UIntType1 __b1, long unsigned int __t1, _UIntType1 __c1, long unsigned int __l1, _UIntType1 __f1, class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::mersenne_twister_engine<_UIntType, __w, __n, __m, __r, __a, __u, __d, __s, __b, __t, __c, __l, __f>&)'
+  474 |     operator<<(std::basic_ostream<_CharT, _Traits>& __os,
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/random.tcc:474:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   'const DES::Table<3, int, int>' is not derived from 'const std::mersenne_twister_engine<_UIntType, __w, __n, __m, __r, __a, __u, __d, __s, __b, __t, __c, __l, __f>'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/random:51,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:2:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/random.tcc:628:5: note: candidate: 'template<class _UIntType, long unsigned int __w, long unsigned int __s, long unsigned int __r, class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::subtract_with_carry_engine<_UIntType, __w, __s, __r>&)'
+  628 |     operator<<(std::basic_ostream<_CharT, _Traits>& __os,
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/random.tcc:628:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   'const DES::Table<3, int, int>' is not derived from 'const std::subtract_with_carry_engine<_UIntType, __w, __s, __r>'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/random:51,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:2:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/random.tcc:696:5: note: candidate: 'template<class _RandomNumberEngine, long unsigned int __p, long unsigned int __r, class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::discard_block_engine<_RandomNumberEngine, __p, __r>&)'
+  696 |     operator<<(std::basic_ostream<_CharT, _Traits>& __os,
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/random.tcc:696:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   'const DES::Table<3, int, int>' is not derived from 'const std::discard_block_engine<_RandomNumberEngine, __p, __r>'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/random:51,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:2:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/random.tcc:823:5: note: candidate: 'template<class _RandomNumberEngine, long unsigned int __k, class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::shuffle_order_engine<_RandomNumberEngine, __k>&)'
+  823 |     operator<<(std::basic_ostream<_CharT, _Traits>& __os,
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/random.tcc:823:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   'const DES::Table<3, int, int>' is not derived from 'const std::shuffle_order_engine<_RandomNumberEngine, __k>'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/random:51,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:2:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/random.tcc:1181:5: note: candidate: 'template<class _IntType, class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::negative_binomial_distribution<_IntType>&)'
+ 1181 |     operator<<(std::basic_ostream<_CharT, _Traits>& __os,
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/random.tcc:1181:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   'const DES::Table<3, int, int>' is not derived from 'const std::negative_binomial_distribution<_IntType>'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/random:51,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:2:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/random.tcc:1391:5: note: candidate: 'template<class _IntType, class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::poisson_distribution<_IntType>&)'
+ 1391 |     operator<<(std::basic_ostream<_CharT, _Traits>& __os,
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/random.tcc:1391:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   'const DES::Table<3, int, int>' is not derived from 'const std::poisson_distribution<_IntType>'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/random:51,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:2:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/random.tcc:1657:5: note: candidate: 'template<class _IntType, class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::binomial_distribution<_IntType>&)'
+ 1657 |     operator<<(std::basic_ostream<_CharT, _Traits>& __os,
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/random.tcc:1657:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   'const DES::Table<3, int, int>' is not derived from 'const std::binomial_distribution<_IntType>'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/random:51,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:2:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/random.tcc:1885:5: note: candidate: 'template<class _RealType1, class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::normal_distribution<_RealType>&)'
+ 1885 |     operator<<(std::basic_ostream<_CharT, _Traits>& __os,
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/random.tcc:1885:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   'const DES::Table<3, int, int>' is not derived from 'const std::normal_distribution<_RealType>'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/random:51,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:2:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/random.tcc:1952:5: note: candidate: 'template<class _RealType, class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::lognormal_distribution<_RealType>&)'
+ 1952 |     operator<<(std::basic_ostream<_CharT, _Traits>& __os,
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/random.tcc:1952:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   'const DES::Table<3, int, int>' is not derived from 'const std::lognormal_distribution<_RealType>'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/random:51,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:2:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/random.tcc:2024:5: note: candidate: 'template<class _RealType, class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::chi_squared_distribution<_RealType>&)'
+ 2024 |     operator<<(std::basic_ostream<_CharT, _Traits>& __os,
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/random.tcc:2024:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   'const DES::Table<3, int, int>' is not derived from 'const std::chi_squared_distribution<_RealType>'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/random:51,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:2:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/random.tcc:2185:5: note: candidate: 'template<class _RealType, class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::fisher_f_distribution<_RealType>&)'
+ 2185 |     operator<<(std::basic_ostream<_CharT, _Traits>& __os,
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/random.tcc:2185:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   'const DES::Table<3, int, int>' is not derived from 'const std::fisher_f_distribution<_RealType>'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/random:51,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:2:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/random.tcc:2259:5: note: candidate: 'template<class _RealType, class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::student_t_distribution<_RealType>&)'
+ 2259 |     operator<<(std::basic_ostream<_CharT, _Traits>& __os,
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/random.tcc:2259:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   'const DES::Table<3, int, int>' is not derived from 'const std::student_t_distribution<_RealType>'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/random:51,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:2:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/random.tcc:2428:5: note: candidate: 'template<class _RealType1, class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::gamma_distribution<_RealType>&)'
+ 2428 |     operator<<(std::basic_ostream<_CharT, _Traits>& __os,
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/random.tcc:2428:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   'const DES::Table<3, int, int>' is not derived from 'const std::gamma_distribution<_RealType>'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/random:51,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:2:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/random.tcc:2713:5: note: candidate: 'template<class _IntType, class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::discrete_distribution<_IntType>&)'
+ 2713 |     operator<<(std::basic_ostream<_CharT, _Traits>& __os,
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/random.tcc:2713:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   'const DES::Table<3, int, int>' is not derived from 'const std::discrete_distribution<_IntType>'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/random:51,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:2:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/random.tcc:2934:5: note: candidate: 'template<class _RealType, class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::piecewise_constant_distribution<_RealType>&)'
+ 2934 |     operator<<(std::basic_ostream<_CharT, _Traits>& __os,
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/random.tcc:2934:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   'const DES::Table<3, int, int>' is not derived from 'const std::piecewise_constant_distribution<_RealType>'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/random:51,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:2:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/random.tcc:3139:5: note: candidate: 'template<class _RealType, class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::piecewise_linear_distribution<_RealType>&)'
+ 3139 |     operator<<(std::basic_ostream<_CharT, _Traits>& __os,
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/random.tcc:3139:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   'const DES::Table<3, int, int>' is not derived from 'const std::piecewise_linear_distribution<_RealType>'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:3:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bitset:1540:5: note: candidate: 'template<class _CharT, class _Traits, long unsigned int _Nb> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::bitset<_Nb>&)'
+ 1540 |     operator<<(std::basic_ostream<_CharT, _Traits>& __os,
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bitset:1540:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   'const DES::Table<3, int, int>' is not derived from 'const std::bitset<_Nb>'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/include/catch2/catch.hpp:325,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:10:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/cstddef:125:5: note: candidate: 'template<class _IntegerType> constexpr std::__byte_op_t<_IntegerType> std::operator<<(std::byte, _IntegerType)'
+  125 |     operator<<(byte __b, _IntegerType __shift) noexcept
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/cstddef:125:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:10: note:   cannot convert 'std::cout' (type 'std::ostream' {aka 'std::basic_ostream<char>'}) to type 'std::byte'
+   37 |     std::cout << t;
+      |     ~~~~~^~~~
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/memory:83,
+                 from /usr/local/include/catch2/catch.hpp:2943,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:10:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/unique_ptr.h:983:5: note: candidate: 'template<class _CharT, class _Traits, class _Tp, class _Dp> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::unique_ptr<_Up, _Ep>&) requires requires{std::operator<<::__os << std::operator<<::__p->get();}'
+  983 |     operator<<(basic_ostream<_CharT, _Traits>& __os,
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/unique_ptr.h:983:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   'const DES::Table<3, int, int>' is not derived from 'const std::unique_ptr<_Up, _Ep>'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/memory:84,
+                 from /usr/local/include/catch2/catch.hpp:2943,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:10:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/shared_ptr.h:69:5: note: candidate: 'template<class _Ch, class _Tr, class _Tp, __gnu_cxx::_Lock_policy _Lp> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, const std::__shared_ptr<_Tp, _Lp>&)'
+   69 |     operator<<(std::basic_ostream<_Ch, _Tr>& __os,
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/bits/shared_ptr.h:69:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   'const DES::Table<3, int, int>' is not derived from 'const std::__shared_ptr<_Tp, _Lp>'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/include/catch2/catch.hpp:11185,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:10:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/iomanip:79:5: note: candidate: 'template<class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, std::_Resetiosflags)'
+   79 |     operator<<(basic_ostream<_CharT, _Traits>& __os, _Resetiosflags __f)
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/iomanip:79:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   cannot convert 't' (type 'const DES::Table<3, int, int>') to type 'std::_Resetiosflags'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/include/catch2/catch.hpp:11185,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:10:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/iomanip:109:5: note: candidate: 'template<class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, std::_Setiosflags)'
+  109 |     operator<<(basic_ostream<_CharT, _Traits>& __os, _Setiosflags __f)
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/iomanip:109:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   cannot convert 't' (type 'const DES::Table<3, int, int>') to type 'std::_Setiosflags'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/include/catch2/catch.hpp:11185,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:10:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/iomanip:143:5: note: candidate: 'template<class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, std::_Setbase)'
+  143 |     operator<<(basic_ostream<_CharT, _Traits>& __os, _Setbase __f)
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/iomanip:143:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   cannot convert 't' (type 'const DES::Table<3, int, int>') to type 'std::_Setbase'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/include/catch2/catch.hpp:11185,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:10:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/iomanip:178:5: note: candidate: 'template<class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, std::_Setfill<_CharT>)'
+  178 |     operator<<(basic_ostream<_CharT, _Traits>& __os, _Setfill<_CharT> __f)
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/iomanip:178:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   'DES::Table<3, int, int>' is not derived from 'std::_Setfill<_CharT>'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/include/catch2/catch.hpp:11185,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:10:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/iomanip:208:5: note: candidate: 'template<class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, std::_Setprecision)'
+  208 |     operator<<(basic_ostream<_CharT, _Traits>& __os, _Setprecision __f)
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/iomanip:208:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   cannot convert 't' (type 'const DES::Table<3, int, int>') to type 'std::_Setprecision'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/include/catch2/catch.hpp:11185,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:10:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/iomanip:238:5: note: candidate: 'template<class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, std::_Setw)'
+  238 |     operator<<(basic_ostream<_CharT, _Traits>& __os, _Setw __f)
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/iomanip:238:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   cannot convert 't' (type 'const DES::Table<3, int, int>') to type 'std::_Setw'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/include/catch2/catch.hpp:11185,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:10:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/iomanip:311:5: note: candidate: 'template<class _CharT, class _Traits, class _MoneyT> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, std::_Put_money<_MoneyT>)'
+  311 |     operator<<(basic_ostream<_CharT, _Traits>& __os, _Put_money<_MoneyT> __f)
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/iomanip:311:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   'DES::Table<3, int, int>' is not derived from 'std::_Put_money<_MoneyT>'
+   37 |     std::cout << t;
+      |                  ^
+In file included from /usr/local/include/catch2/catch.hpp:11185,
+                 from /Users/jkohler/Documents/wargames/lib/src/des/test.cpp:10:
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/iomanip:363:5: note: candidate: 'template<class _CharT, class _Traits> std::basic_ostream<_CharT, _Traits>& std::operator<<(std::basic_ostream<_CharT, _Traits>&, std::_Put_time<_CharT>)'
+  363 |     operator<<(basic_ostream<_CharT, _Traits>& __os, _Put_time<_CharT> __f)
+      |     ^~~~~~~~
+/usr/local/Cellar/gcc/10.2.0_4/include/c++/10.2.0/iomanip:363:5: note:   template argument deduction/substitution failed:
+/Users/jkohler/Documents/wargames/lib/src/des/test.cpp:37:18: note:   'DES::Table<3, int, int>' is not derived from 'std::_Put_time<_CharT>'
+   37 |     std::cout << t;
+      |                  ^
+gmake[2]: *** [CMakeFiles/test.dir/build.make:82: CMakeFiles/test.dir/src/des/test.cpp.o] Error 1
+gmake[1]: *** [CMakeFiles/Makefile2:95: CMakeFiles/test.dir/all] Error 2
+gmake: *** [Makefile:103: all] Error 2
