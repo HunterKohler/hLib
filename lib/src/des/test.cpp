@@ -50,15 +50,24 @@ TEST_CASE("PC-1") {
 //
 // }
 
-TEST_CASE("encrypt") {
+TEST_CASE("String Encrypt") {
+    std::string str = "this is a string";
+    uint64 k_0 = 0xcf2d25119b41ae06;
+
+    CAPTURE(str,k_0,DES::encrypt(str,k_0));
+
+    REQUIRE(false);
+}
+
+TEST_CASE("Bit Encrypt") {
     uint64 x = bit_distr_64();
     uint64 k_0 = bit_distr_64();
 
-    CAPTURE(x,k_0);
+    CAPTURE(x,k_0,bit_string(x),bit_string(k_0));
 
     uint64 y = DES::encrypt(x,k_0);
 
-    CAPTURE(y);
+    CAPTURE(y,bit_string(y));
 
     REQUIRE(false);
 }

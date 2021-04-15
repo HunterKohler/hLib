@@ -1,47 +1,38 @@
 #ifndef LIBRARY_DES_H_
 #define LIBRARY_DES_H_
 
-#include <cstdio>
+#include <mutex>
+#include <thread>
 #include <iostream>
-#include <cassert>
 #include <cstdint>
-#include <array>
-#include <string>
 #include <bitset>
 #include <functional>
 #include <utility>
 #include <algorithm>
 #include <cassert>
+#include <string>
+#include <concepts>
+#include <exception>
+
 
 #define bit_string_32(x) std::bitset<32>(x).to_string()
 #define bit_string_64(x) std::bitset<64>(x).to_string()
-
-template <size_t A, size_t B>
-struct eq {
-    static_assert(A == B);
-};
 
 // Bits are taken as concatenations B1,B2,B3,...,Bn
 // most signifigant bit (MSB) 1, indexing
 namespace DES {
     // TODO determine best uint64
-    typedef std::uint_fast64_t uint64;
+    typedef unsigned long long uint64;
     typedef std::size_t size_t;
 
-
     template <size_t N>
-        requires (N >= 0)
+        requires (N > 0)
     class Table {
       protected:
-        int table[N];
+        uint64 table[N];
 
-        consteval Table(const std::initializer_list<int>& il) {
-            eq<il.size(),N> e;
-
-            if(N == il.size()) {
-                throw "Initializer size not equal to template parameter N";
-            }
-
+        constexpr Table(const std::initializer_list<int>& il) {
+            if(il.size() != N) table[-1] = -1; // TODO TEST MAKESHIFT COMPILE TIME ASSERT
             int i = 0;
             for(int j: il) {
                 table[i++] = j;
@@ -62,19 +53,18 @@ namespace DES {
     template <size_t N>
     class LeftShift : public Table<N> {
       public:
-        consteval LeftShift(const std::initializer_list<int>& il): Table<N>(il) {}
+        constexpr LeftShift(const std::initializer_list<int>& il): Table<N>(il) {}
         uint64 operator()(size_t i, uint64 x) const { // 1-indexed for round i
-            assert(1 <= i && i <= 16);
             if(this->table[i-1] == 1) { // TODO compact expression
-                return ((x & 0xc000000000000000) >> 30) |
-                       ((x & 0x3fffffff00000000) <<  2) |
-                       ((x & 0xc0000000) >> 30) |
-                       ((x & 0x3fffffff) << 2);
+                return ((x & 0xc000000000000000ull) >> 30) |
+                       ((x & 0x3fffffff00000000ull) <<  2) |
+                       ((x & 0x00000000c0000000ull) >> 30) |
+                       ((x & 0x000000003fffffffull) << 2);
             } else {
-                return ((x & 0x8000000000000000) >> 31) |
-                       ((x & 0x7fffffff00000000) <<  1) |
-                       ((x & 0x80000000) >> 31) |
-                       ((x & 0x7fffffff) << 1);
+                return ((x & 0x8000000000000000ull) >> 31) |
+                       ((x & 0x7fffffff00000000ull) <<  1) |
+                       ((x & 0x0000000080000000ull) >> 31) |
+                       ((x & 0x000000007fffffffull) << 1);
             }
         }
     };
@@ -82,7 +72,7 @@ namespace DES {
     template <size_t N>
     class Permutation : public Table<N> {
       public:
-        consteval Permutation(const std::initializer_list<int>& il): Table<N>(il) {}
+        constexpr Permutation(const std::initializer_list<int>& il): Table<N>(il) {}
         uint64 operator()(uint64 x) const {
             uint64 y = 0;
             for(int i = 1; i <= N; i++) {
@@ -95,9 +85,17 @@ namespace DES {
     template <size_t N>
     class SBox : public Table<N> {
       public:
-        consteval SBox(const std::initializer_list<int>& il): Table<N>(il) {}
-        uint64 operator()(uint64 x) const {
-            return this->table[16 * (((x >> 5) | x) & 3) + ((x >> 1) & 15)];
+        constexpr SBox(const std::initializer_list<int>& il): Table<N>(il) {
+            if(il.size() != N) this->table[-1] = -1; // TODO TEST MAKESHIFT COMPILE TIME ASSERT
+
+            int i = 0;
+            for(int j: il) {
+                this->table[((i << 1) & 30) | (i & 32) | ((i >> 4) & 1)] = j;
+            }
+        }
+
+        uint64 operator()(uint64 i) const {
+            return this->table[i];
         }
     };
 
@@ -229,12 +227,28 @@ namespace DES {
     };
 
     uint64 f(uint64 L, uint64 k) {
-        return 0;
+        std::cout << "f_E   = " << bit_string_64(E(L)) << std::endl;
+        L = E(L) ^ k; // TO MAKE LEFT JUSTIFIED INPUTS FOR SI()
+        std::cout << "f_E^k = " << bit_string_64(L) << std::endl;
+
+
+        L = (S1((L >> 58) & 63) << 60) |
+            (S2((L >> 52) & 63) << 56) |
+            (S3((L >> 46) & 63) << 52) |
+            (S4((L >> 40) & 63) << 48) |
+            (S5((L >> 34) & 63) << 44) |
+            (S6((L >> 28) & 63) << 40) |
+            (S7((L >> 22) & 63) << 36) |
+            (S8((L >> 16) & 63) << 32);
+
+        std::cout << "f_O   = " << bit_string_64(L)  << std::endl;
+        std::cout << "f_P   = " << bit_string_64(P(L)) << std::endl;
+        return P(L);
     }
 
     // 1-indexed for rounds
     uint64 encrypt(uint64 x, uint64 k_0) {
-        printf("encrypt(x,k_0)\n\tx = %d\n\tk_0 = %d\n",x,k_0);
+        printf("encrypt(x,k_0)\n\tx = %llu\n\tk_0 = %llu\n",x,k_0);
 
         uint64 k[17] {k_0};
 
@@ -244,26 +258,82 @@ namespace DES {
         }
 
         for(int i = 1; i <= 16; i++) {
-            printf("\tkey %d = %s\n", i < 10 ? "" : " ", bit_string_64(k[i]));
+            printf("\tkey %s%d = %s\n", i < 10 ? " " : "", i,bit_string_64(k[i]));
         }
 
         x = IP(x);
 
-        printf("\tL_0 = %s, R_0 = %s \n",bit_string_32(x >> 32),bit_string_32(x));
-
+        std::cout << "\tL0  = " << bit_string_32(x >> 32) << ", R0  = " <<  bit_string_32(x) << std::endl;
         for(int i = 1; i <= 16; i++) {
-            // TODO check if no bitmasks are really safe for cut offs
-            x = (x << 32) | (f((x >> 32),k[i]) ^  (x >> 32));
+            x = (x << 32) | ((f((x << 32),k[i]) ^ (x & 0xFFFFFFFF00000000ull)) >> 32);
 
-            printf("\tL_%d = %s, R_%d = %s \n",i,bit_string_32(x >> 32),i,bit_string_32(x));
+            std::cout << "\tL" << i << (i < 10 ? " " : "") << " = " << bit_string_32(x >> 32)
+                      << ", R" << i << (i < 10 ? " " : "") << " = " << bit_string_32(x) << std::endl;
         }
 
         return IP_INV(x);
     }
 
-    // std::string encrypt(std::string str) {
-    //
-    // }
+    void thread_handler(
+        std::string& str,
+        // std::mutex str_m&,
+        int& index,
+        std::mutex& index_m,
+        uint64 k_0
+    ) {
+        while(true) {
+            int i;
+            index_m.lock();
+            if(index < str.length()) {
+                i = index;
+                index += 8;
+            } else {
+                index_m.unlock();
+                return;
+            }
+            index_m.unlock();
+
+            uint64 x = 0;
+            int max_j = std::min<std::size_t>(str.length() - i, 8);
+            for(int j = 1; j <= max_j; j++) {
+                x |= (str[i + j] << (64 - (8 * j)));
+            }
+
+            x = encrypt(x,k_0);
+            for(int j = 1; j <= max_j; j++) {
+                str[i + j] = (x >> (64 - (8 * j))) & 0xFF;
+            }
+        }
+    }
+
+    std::string encrypt(std::string str, uint64 k_0) {
+        int max_threads = std::thread::hardware_concurrency();
+        if(max_threads <= 0) {
+            throw std::runtime_error("Could not determine available concurrency resources.");
+        }
+
+        int index = 0;
+        std::mutex str_m,index_m;
+
+        std::thread *threads = new std::thread[max_threads];
+        for(int i = 0; i < max_threads; i++) {
+            threads[i] = std::thread(
+                thread_handler,
+                std::ref(str),
+                // std::ref(str_m),
+                std::ref(index),
+                std::ref(index_m),
+                k_0
+            );
+        }
+
+        for(int i = 0; i < max_threads; i++) {
+            threads[i].join();
+        }
+
+        delete[] threads;
+        return str;
+    }
 }
 
 #endif
