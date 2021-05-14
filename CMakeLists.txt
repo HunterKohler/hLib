@@ -4,15 +4,15 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-project(MyRegex VERSION 0.1.0)
+project(hlib VERSION 0.0.1)
 
-add_executable(myregex
-               src/main.cpp
-               src/usage.cpp)
+add_executable(src
+               src/main.cpp)
     
-# target_compile_options(myregex)
+add_compile_options(-Wall)
 
-add_executable(test test/main.cpp)
+# add_executable(test test/main.cpp)
 
-find_package(Catch2 REQUIRED)
-target_link_libraries(test PRIVATE Catch2::Catch2)
+# find_package(Catch2 REQUIRED)
+# target_link_libraries(test PRIVATE Catch2::Catch2)
+
