@@ -1,0 +1,16 @@
+{
+    // Documentation: https://go.microsoft.com/fwlink/?LinkId=733558
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build & Run",
+            "type": "shell",
+            "command": "cmake --build /Users/jkohler/Work/hlib/build --config Debug --target src -j 10 -- && ./build/src",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": []
+        }
+    ]
+}
