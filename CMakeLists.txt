@@ -7,7 +7,8 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 project(hlib VERSION 0.0.1)
 
 add_executable(src src/main.cpp)
-add_compile_options(-Wall -Wextra)
+
+target_compile_options(src PRIVATE -Wno-subobject-linkage -Wall -Wextra -pedantic)
 
 # add_executable(test test/main.cpp)
 

@@ -5,12 +5,11 @@
         {
             "label": "Build & Run",
             "type": "shell",
-            "command": "cmake --build /Users/jkohler/Work/hlib/build --config Debug --target src -j 10 -- && ./build/src",
+            "command": "/usr/local/bin/cmake --build /Users/jkohler/Work/hlib/build --config Debug --target src -j 10 --",
             "group": {
                 "kind": "build",
                 "isDefault": true
-            },
-            "problemMatcher": []
+            }
         }
     ]
 }
