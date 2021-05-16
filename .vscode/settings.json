@@ -77,6 +77,9 @@
         "memory_resource": "cpp",
         "stop_token": "cpp",
         "__functional_03": "cpp",
-        "cinttypes": "cpp"
-    }
+        "cinttypes": "cpp",
+        "valarray": "cpp",
+        "__functional_base_03": "cpp"
+    },
+    "C_Cpp.errorSquiggles": "Disabled"
 }

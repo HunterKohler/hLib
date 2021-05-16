@@ -3,10 +3,8 @@
 
 #include <tuple>
 #include <concepts>
-#include "../concepts/utils.h"
 
 namespace hlib {
-
     //--------------------------------------------------------------------------
     // integral_sequence<class T, T...Seq>
     //--------------------------------------------------------------------------
