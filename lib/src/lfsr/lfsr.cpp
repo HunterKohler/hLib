@@ -6,6 +6,7 @@
 #include <ctime>
 #include <cctype>
 #include <fstream>
+#include <bitset>
 
 using std::cout;
 using std::endl;
