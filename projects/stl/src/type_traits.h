@@ -46,27 +46,27 @@ namespace hlib {
         template <class...> using _void_t = void;
     }
 
-    // _is_referenceable 
+    // _is_referenceable
     //--------------------------------------------------------------------------
     // [defns.referenceable]
-    
+
     namespace {
         namespace {
             template <class T, class = void> struct _is_referenceable_helper
                 : std::false_type {};
-            
+
             template <class T> struct _is_referenceable_helper<T,_void_t<T&>>
                 : std::true_type {};
         }
-        
-        template <class T> struct _is_referenceable 
+
+        template <class T> struct _is_referenceable
             : _is_referenceable_helper<T> {};
     }
 
 
     // Named Requirements
     //--------------------------------------------------------------------------
-    // Named requirements for <type_traits> header. 
+    // Named requirements for <type_traits> header.
     // SEE [meta.rqmts]
 
     // - Cpp17UnaryTypeTrait
@@ -77,19 +77,19 @@ namespace hlib {
     // 20.15.3 Helper Class
     //--------------------------------------------------------------------------
 
-    template <class T, T v> 
+    template <class T, T v>
     struct integral_constant {
         static constexpr T value = v;
 
         using value_type = T;
         using type = integral_constant<T, v>;
-        
+
         constexpr operator value_type() const noexcept { return value; }
         constexpr value_type operator()() const noexcept { return value; }
     };
 
-    template <bool B> 
-    using bool_constant = integral_constant<bool, B>;             
+    template <bool B>
+    using bool_constant = integral_constant<bool, B>;
     using true_type = bool_constant<true>;
     using false_type = bool_constant<false>;
 
@@ -103,10 +103,10 @@ namespace hlib {
 
     namespace {
         template <class> struct _is_void_helper : false_type {};
-        template <> struct _is_void_helper<void> : true_type {}; 
+        template <> struct _is_void_helper<void> : true_type {};
     }
 
-    template <class T> struct is_void 
+    template <class T> struct is_void
         : _is_void_helper<remove_cv_t<T>> {};
 
     // is_null_pointer
@@ -166,7 +166,7 @@ namespace hlib {
     template <class> struct is_array : false_type {};
     template <class T> struct is_array<T[]> : true_type {};
     template <class T, size_t N> struct is_array<T[N]> : true_type {};
-    
+
     // is_pointer
     //--------------------------------------------------------------------------
 
@@ -174,7 +174,7 @@ namespace hlib {
         template <class> struct _is_pointer_helper : false_type {};
         template <class T> struct _is_pointer_helper<T*> : true_type {};
     }
-    
+
     template <class T> struct is_pointer
         : _is_pointer_helper<remove_cv_t<T>> {};
 
@@ -199,7 +199,7 @@ namespace hlib {
 
     template <class T> struct is_rvalue_reference
         : _is_rvalue_reference_helper<remove_cv_t<T>> {};
-    
+
     template <class T> struct is_member_object_pointer; /* UNIMPLEMENTED */
     template <class T> struct is_member_function_pointer; /* UNIMPLEMENTED */
     template <class T> struct is_enum; /* UNIMPLEMENTED */
@@ -218,14 +218,14 @@ namespace hlib {
         template <class T> struct _is_reference_helper<T&&> : true_type {};
     }
 
-    template <class T> struct is_reference 
+    template <class T> struct is_reference
         : _is_reference_helper<remove_cv_t<T>>{};
 
     // is_arithmetic
     //--------------------------------------------------------------------------
 
     template<class T> struct is_arithmetic
-        : bool_constant<is_integral<T>::value 
+        : bool_constant<is_integral<T>::value
                      || is_floating_point<T>::value> {};
 
     // is_fundamental
@@ -235,7 +235,7 @@ namespace hlib {
         : bool_constant<is_arithmetic<T>::value
                      || is_void<T>::value
                      || is_null_pointer<T>::value> {};
-    
+
     // is_object
     //--------------------------------------------------------------------------
 
@@ -243,8 +243,8 @@ namespace hlib {
 
     // is_scalar
     //--------------------------------------------------------------------------
-    // Arithmetic types (6.8.1), enumeration types, pointer types, 
-    // pointer-to-member types (6.8.2), std::nullptr_t, and cv-qualified (6.8.3) 
+    // Arithmetic types (6.8.1), enumeration types, pointer types,
+    // pointer-to-member types (6.8.2), std::nullptr_t, and cv-qualified (6.8.3)
     // versions of these types are collectively called scalar types.
 
     template<class T> struct is_scalar; /* UNIMPLEMENTED */
@@ -262,12 +262,12 @@ namespace hlib {
     //--------------------------------------------------------------------------
     // 20.15.4.3 Type Properties
     //--------------------------------------------------------------------------
-    
+
     // is_const
     //--------------------------------------------------------------------------
 
     template <class> struct is_const : false_type {};
-    template <class T> struct is_const<const T> : true_type {}; 
+    template <class T> struct is_const<const T> : true_type {};
 
     // is_volatile
     //--------------------------------------------------------------------------
@@ -316,36 +316,36 @@ namespace hlib {
     //--------------------------------------------------------------------------
     // 20.15.5 Type Property Queries
     //--------------------------------------------------------------------------
-    
+
     // alignment_of
     //--------------------------------------------------------------------------
 
-    template <class T> struct alignment_of 
+    template <class T> struct alignment_of
         : integral_constant<size_t, alignof(T)> {};
 
     // rank
     //--------------------------------------------------------------------------
 
-    template <class> struct rank 
+    template <class> struct rank
         : integral_constant<size_t, 0> {};
 
-    template <class T> struct rank<T[]> 
+    template <class T> struct rank<T[]>
         : integral_constant<size_t, rank<T>::value + 1> {};
 
-    template <class T, size_t N> struct rank<T[N]> 
+    template <class T, size_t N> struct rank<T[N]>
         : integral_constant<size_t, rank<T>::value + 1> {};
 
     // extent
     //--------------------------------------------------------------------------
 
-    template <class T, unsigned I = 0> struct extent 
-        : integral_constant<size_t, 0> {}; 
-    
+    template <class T, unsigned I = 0> struct extent
+        : integral_constant<size_t, 0> {};
+
     template <class T> struct extent<T[], 0>
         : integral_constant<size_t, 0> {};
-    
+
     template <class T, size_t N> struct extent<T[N], 0>
-        : integral_constant<size_t, N> {}; 
+        : integral_constant<size_t, N> {};
 
     template <class T, unsigned I> struct extent<T[],I>
         : integral_constant<size_t, extent<T,I - 1>::value> {};
@@ -380,10 +380,10 @@ namespace hlib {
     // remove_const
     //--------------------------------------------------------------------------
 
-    template <class T> struct remove_const 
+    template <class T> struct remove_const
         { using type = T; };
 
-    template <class T> struct remove_const<const T> 
+    template <class T> struct remove_const<const T>
         { using type = T; };
 
     // remove_volatile
@@ -391,9 +391,9 @@ namespace hlib {
 
     template <class T> struct remove_volatile
         { using type = T; };
-    
+
     template <class T> struct remove_volatile<volatile T>
-        { using type = T; }; 
+        { using type = T; };
 
     // remove_cv
     //--------------------------------------------------------------------------
@@ -401,13 +401,13 @@ namespace hlib {
     //
     // template <class T> struct remove_cv
     //     { using type = remove_volatile<remove_const<T>>; };
-    
+
     // add_const
     //--------------------------------------------------------------------------
 
     template <class T> struct add_const
         { using type = T const; };
-        
+
     // add_volatile
     //--------------------------------------------------------------------------
 
@@ -423,7 +423,7 @@ namespace hlib {
     //--------------------------------------------------------------------------
     // 20.15.7.2 Reference Modifications
     //--------------------------------------------------------------------------
-    
+
     // remove_reference
     //--------------------------------------------------------------------------
 
@@ -442,7 +442,7 @@ namespace hlib {
     namespace {
         template <class T, class = void> struct _add_lvalue_reference_helper
             { using type = T; };
-        
+
         template <class T> struct _add_lvalue_reference_helper<T,_void_t<T&>>
             { using type = T&; };
     }
@@ -474,16 +474,16 @@ namespace hlib {
     //--------------------------------------------------------------------------
     // 20.15.7.4 Array modifications [meta.trans.arr]
     //--------------------------------------------------------------------------
-    
+
     // remove_extent
     //--------------------------------------------------------------------------
-    
-    template <class T> struct remove_extent 
+
+    template <class T> struct remove_extent
         { using type = T; };
 
     template <class T> struct remove_extent<T[]>
         { using type = T; };
-    
+
     template <class T, size_t N> struct remove_extent<T[N]>
         { using type = T; };
 
@@ -495,14 +495,14 @@ namespace hlib {
 
     template <class T> struct remove_all_extents<T[]>
         { using type = remove_all_extents<T>::type; };
-    
+
     template <class T, size_t N> struct remove_all_extents<T[N]>
         { using type = remove_all_extents<T>::type; };
 
     //--------------------------------------------------------------------------
     // 20.15.7.5 Array modifications [meta.trans.ptr]
     //--------------------------------------------------------------------------
-    
+
     // remove_pointer
     //--------------------------------------------------------------------------
 
@@ -513,22 +513,22 @@ namespace hlib {
     //--------------------------------------------------------------------------
 
     namespace {
-        template <class T, bool = _is_referenceable<T>::value || is_void<T>::value> 
-        struct _add_pointer_helper 
+        template <class T, bool = _is_referenceable<T>::value || is_void<T>::value>
+        struct _add_pointer_helper
             { using type = T; };
-        
+
         template <class T>
         struct _add_pointer_helper<T,true>
-            { using type = remove_reference<T>::type*; };        
+            { using type = remove_reference<T>::type*; };
     }
 
     template <class T> struct add_pointer
         : _add_pointer_helper<T> {};
-    
+
     //--------------------------------------------------------------------------
     // 20.15.7.6 Other transformations [meta.trans.other]
     //--------------------------------------------------------------------------
-    
+
     // type_identity
     //--------------------------------------------------------------------------
 
@@ -556,29 +556,29 @@ namespace hlib {
     // TODO Research and understand functionality and usecases.
     // NOTE Seems to be heavily used.
     namespace {
-        template <class U, 
-                  bool = is_array<U>::value, 
+        template <class U,
+                  bool = is_array<U>::value,
                   bool = is_function<U>::value> struct _decay_helper;
-    
+
         template <class U, bool B>
         struct _decay_helper<U,true,B>
             { using type = remove_extent<U>::type*; };
-        
+
         template <class U> struct _decay_helper<U,false,true>
             { using type = add_pointer<U>::type; };
-        
+
         template <class U> struct _decay_helper<U,false,false>
             { using type = remove_cv<U>::type; };
     }
 
-    template <class T> struct decay 
+    template <class T> struct decay
         : _decay_helper<typename remove_reference<T>::type> {};
 
     // enable_if
     //--------------------------------------------------------------------------
 
     template <bool B, class T = void> struct enable_if {};
-    template <class T> struct enable_if<false,T> 
+    template <class T> struct enable_if<false,T>
         { using type = T; };
 
     // conditional
@@ -586,7 +586,7 @@ namespace hlib {
 
     template <bool, class, class F> struct conditional
         { using type = F; };
-    
+
     template <class T, class F> struct conditional<true,T,F>
         { using type = T; };
 
@@ -599,11 +599,11 @@ namespace hlib {
     // basic_common_reference
     //--------------------------------------------------------------------------
     // Intentionally blank as a specializable (only following limitations of
-    // [meta.trans.other] Note D) type for the implementation of 
+    // [meta.trans.other] Note D) type for the implementation of
     // common_reference and similar use.
-    template <class, class, 
-              template <class> class, 
-              template <class> class> struct basic_common_reference { }; 
+    template <class, class,
+              template <class> class,
+              template <class> class> struct basic_common_reference { };
 
     // common_reference
     //--------------------------------------------------------------------------
@@ -633,11 +633,11 @@ namespace hlib {
 
     template <class T> struct unwrap_ref_decay
         : unwrap_reference<typename decay<T>::type> {};
-    
+
     //--------------------------------------------------------------------------
     // 20.15.8 Logical operator traits [meta.logical]
     //--------------------------------------------------------------------------
-    
+
     // conjunction
     //--------------------------------------------------------------------------
 
@@ -653,7 +653,7 @@ namespace hlib {
 
     template <class...B> struct conjunction
         : _conjunction_helper<true_type, B...> {};
-    
+
     // disjunction
     //--------------------------------------------------------------------------
 
