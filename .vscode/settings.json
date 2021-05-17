@@ -83,5 +83,6 @@
     "C_Cpp.errorSquiggles": "Disabled",
     "java.project.sourcePaths": [
         "./"
-    ]
+    ],
+    "python.pythonPath": "/usr/local/bin/python3"
 }

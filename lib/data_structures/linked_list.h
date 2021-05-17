@@ -1,5 +1,5 @@
-#ifndef LINKED_LIST_H
-#define LINKED_LIST_H
+#ifndef LIB_DATA_STRUCTURES_LINKED_LIST_H
+#define LIB_DATA_STRUCTURES_LINKED_LIST_H
 
 template <class T>
 class linked_list {

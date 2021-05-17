@@ -10,7 +10,7 @@ class least_common_ancestor {
     int n;
     std::vector<int> euler, first, depth;
     // i'm not going to deal with array deconstruction and indexing in comp
-    // so vectors idiot fuck
+    // so vectors idiot
     std::vector<std::vector<int>> adj, spt;
 
     // total construction time is O(n+nlog(n)) = O(nlog(n))

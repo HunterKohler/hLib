@@ -1,12 +1,11 @@
-#ifndef POINT_H
-#define POINT_H
+#ifndef LIB_STRUCTS_POINT_H_
+#define LIB_STRUCTS_POINT_H_
 
 #include <iostream>
 #include <cstddef>
 #include <functional>
 
 // previously a member of competition-library
-
 
 class point {
 public:

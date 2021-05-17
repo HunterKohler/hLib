@@ -1,6 +1,4 @@
-#include "../include/linked_list.hpp"
-
-int main() {}
+#include "linked_list.h"
 
 template<class T> linked_list<T>::node::node(T _d, node *_n): data{_d}, next{_n} {}
 template<class T> linked_list<T>::node::node(T _d): node(_d,nullptr) {}

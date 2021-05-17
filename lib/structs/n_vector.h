@@ -1,5 +1,5 @@
-#ifndef ND_VECTOR_H
-#define ND_VECTOR_H
+#ifndef LIB_STRUCTS_N_VECTOR_H_
+#define LIB_STRUCTS_N_VECTOR_H_
 
 #include <vector>
 

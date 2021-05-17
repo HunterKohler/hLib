@@ -1,7 +1,6 @@
-#include "../include/point.hpp"
+#include "../include/point.h"
 
 // previously a member of competition-library
-
 
 point::point(): point(0,0) { }
 point::point(int _x, int _y): x { _x }, y { _y } { }

@@ -1,8 +1,7 @@
-#ifndef RSQ_SEGMENT_TREE_H
-#define RSQ_SEGMENT_TREE_H
+#ifndef LIB_DATA_STRUCTURES_RSQ_SEGMENT_TREE_H_
+#define LIB_DATA_STRUCTURES_RSQ_SEGMENT_TREE_H_
 
 // previously a member of competition-library
-
 
 class rsq_segment_tree {
   private:

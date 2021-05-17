@@ -1,10 +1,8 @@
-#include "../include/n_vector.hpp"
+#include "../include/n_vector.h"
 
 // previously a member of competition-library
 
-
-template <class T, size_t N>
-using nv = n_vector<T,N>;
+template <class T, size_t N> using nv = n_vector<T,N>;
 
 template <class T, size_t N> nv<T,N>::n_vector(): _N{N}, std::vector<nv<T,N - 1>>() {}
 template <class T, size_t N> size_t nv<T,N>::dimension() const { return _N; }

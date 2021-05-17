@@ -1,10 +1,11 @@
+#ifndef LIB_DATA_STRUCTURES_SPARSE_TABLE_H_
+#define LIB_DATA_STRUCTURES_SPARSE_TABLE_H_
+
 #include <cmath>
-#include <algorithm>
 #include <iostream>
+#include <algorithm>
 
 // previously a member of competition-library
-
-using std::min;
 
 // memoize in real implementation
 inline int ilog2(int x) {
@@ -44,6 +45,8 @@ class sparse_table {
 
     int query(int i, int j) {
         int k = ilog2(i-j+1);
-        return min(spt[i][k],spt[j-(1 << k)+1][k]);
+        return std::min(spt[i][k],spt[j-(1 << k)+1][k]);
     }
 };
+
+#endif
