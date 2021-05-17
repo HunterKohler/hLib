@@ -1,0 +1,12 @@
+Challenge 1:
+    SSdtIGtpbGxpbmcgeW91ciBicmFpbiBsaWtlIGEgcG9pc29ub3VzIG11c2hyb29t
+Challenge 2:
+    746865206b696420646f6e277420706c6179
+Challenge 3:
+    Key: X
+Challenge 4:
+    key: 5
+    encoded: Now that the party is jumping
+Challenge 5:
+    key: Terminator X: Bring the noise
+Challenge 6:
