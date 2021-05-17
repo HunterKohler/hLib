@@ -1,1 +1,0 @@
-max line width: 80
