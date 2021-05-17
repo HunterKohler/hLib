@@ -1,6 +1,6 @@
 # h-Library (hLib)
 
-A [monorepository](https://en.wikipedia.org/wiki/Monorepo) for the
+A [mono-repository](https://en.wikipedia.org/wiki/Monorepo) for the
 public work of J. Hunter Kohler.
 
 ## Table of Contents
@@ -10,7 +10,7 @@ public work of J. Hunter Kohler.
 # Projects
 
 All ongoing project are described here. See the associated subfolders in
-[projects](projects) for more information.
+[projects](./projects) for more information.
 
 ## STL
 
@@ -37,6 +37,14 @@ Research in descrete mathematics related to cryptography. Furthermore, the
 project includes implementations of some important cryptographic algorithms
 and data structures. These are intended to be fully functional implementations
 based on thorough work and collegiate study.
+
+# Papers
+
+The [papers](./papers) directory includes a number of formalized assignments
+and stand alone papers. Most focused on particular interests in math or
+computer science. Find the finalized papers here:
+
+- [Notes on Introductory Series](./papers/Basic%20Series/series.pdf)
 
 # Todo
 

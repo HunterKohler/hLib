@@ -9,9 +9,3 @@ project(hlib VERSION 0.0.1)
 add_executable(src src/main.cpp)
 
 target_compile_options(src PRIVATE -Wno-subobject-linkage -Wall -Wextra -pedantic)
-
-# add_executable(test test/main.cpp)
-
-# find_package(Catch2 REQUIRED)
-# target_link_libraries(test PRIVATE Catch2::Catch2)
-
