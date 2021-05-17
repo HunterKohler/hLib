@@ -4,6 +4,8 @@ LANG: JAVA
 PROB: range
 */
 
+package competition.training.chapter3.range;
+
 import java.io.*;
 import java.util.*;
 import static java.lang.Integer.parseInt;

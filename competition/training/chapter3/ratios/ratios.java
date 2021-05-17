@@ -4,6 +4,8 @@ LANG: JAVA
 PROB: ratios
 */
 
+package competition.training.chapter3.ratios;
+
 import java.io.*;
 import java.util.*;
 import java.math.*;

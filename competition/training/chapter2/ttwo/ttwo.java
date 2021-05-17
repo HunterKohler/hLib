@@ -4,9 +4,9 @@ LANG: JAVA
 PROB: ttwo
 */
 
-import java.util.*;
+package competition.training.chapter2.ttwo;
+
 import java.io.*;
-import java.math.*;
 
 class ttwo {
     static int n;

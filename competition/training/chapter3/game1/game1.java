@@ -4,6 +4,8 @@ LANG: JAVA
 PROB: game1
 */
 
+package competition.training.chapter3.game1;
+
 import java.io.*;
 import java.util.*;
 import static java.lang.Math.*;

@@ -4,6 +4,8 @@ LANG: JAVA
 PROB: msquare
 */
 
+package competition.training.chapter3.msquare;
+
 import java.io.*;
 import java.util.*;
 

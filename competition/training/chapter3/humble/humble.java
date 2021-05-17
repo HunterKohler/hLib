@@ -4,6 +4,8 @@ LANG: JAVA
 PROB: humble
 */
 
+package competition.training.chapter3.humble;
+
 import java.io.*;
 import java.util.*;
 

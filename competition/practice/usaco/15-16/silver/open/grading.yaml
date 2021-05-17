@@ -3,18 +3,18 @@ passing: 600
 score: 666
 passed: true
 problems:
-    - reduce:
-        submitted: false
-        score: 0
-    - diamond:
-        submitted: true
-        incorrect: 0
-        correct: 10
-        total: 10
-        score: 333
-    - closing:
-        submitted: true
-        incorrect: 0
-        correct: 10
-        total: 10
-        score: 333
+  - reduce:
+      submitted: false
+      score: 0
+  - diamond:
+      submitted: true
+      incorrect: 0
+      correct: 10
+      total: 10
+      score: 333
+  - closing:
+      submitted: true
+      incorrect: 0
+      correct: 10
+      total: 10
+      score: 333

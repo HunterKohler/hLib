@@ -4,6 +4,8 @@ LANG: JAVA
 PROB: fence9
 */
 
+package competition.training.chapter3.fence9;
+
 import java.io.*;
 import java.util.*;
 import static java.lang.Math.*;

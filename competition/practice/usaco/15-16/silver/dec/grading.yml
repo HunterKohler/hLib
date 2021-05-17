@@ -3,21 +3,21 @@ passing: 750
 score: 1000
 passed: true
 problems:
-    - lightson:
-        submitted: true
-        incorrect: 0
-        correct: 15
-        total: 15
-        score: 333
-    - highcard:
-        submitted: true
-        incorrect: 0
-        correct: 15
-        total: 15
-        score: 333
-    - bcount:
-        submitted: true
-        incorrect: 0
-        correct: 15
-        total: 15
-        score: 333
+  - lightson:
+      submitted: true
+      incorrect: 0
+      correct: 15
+      total: 15
+      score: 333
+  - highcard:
+      submitted: true
+      incorrect: 0
+      correct: 15
+      total: 15
+      score: 333
+  - bcount:
+      submitted: true
+      incorrect: 0
+      correct: 15
+      total: 15
+      score: 333

@@ -3,6 +3,9 @@ ID: jhunter3
 LANG: JAVA
 PROB: shopping
 */
+
+package competition.training.chapter3.shopping;
+
 import java.io.*;
 import java.util.*;
 import static java.lang.Math.*;

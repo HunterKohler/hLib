@@ -12,7 +12,7 @@ my resume, etc..
   - [Cryptography](#cryptography)
   - [Wargames](#wargames)
 - [Papers](#papers)
-- [Todo](#todo)
+- [Ideas](#ideas)
 
 # Projects
 
@@ -52,11 +52,12 @@ computer science. Find the finalized papers here:
 
 - [Notes on Introductory Series](./papers/Basic%20Series/series.pdf)
 
-# Todo
+# Ideas
 
 - [ ] Styleguides
 - [ ] Restructure Files
-- [ ] Create Site
+- [ ] Create Site for Portfolio
+- [ ]
 
 --------------------------------------------------------------------------------
 Copyright 2020-2021 John Hunter Kohler. All rights reserved.

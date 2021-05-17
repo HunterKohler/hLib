@@ -1,7 +1,9 @@
-package library.graph;
+// Formerly part of competition-library
+
+package lib.algorithms;
 
 import java.util.*;
-import library.structs.DisjointSet;
+import lib.data_structures.DisjointSet;
 
 public class Kruskals {
     static int[][] span(int n, int[][] edges) {

@@ -4,6 +4,8 @@ LANG: JAVA
 PROB: heritage
 */
 
+package competition.training.chapter3.heritage;
+
 import java.io.*;
 import java.util.*;
 

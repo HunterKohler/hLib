@@ -4,6 +4,8 @@ LANG: JAVA
 PROB: kimbits
 */
 
+package competition.training.chapter3.kimbits;
+
 import java.util.*;
 import java.io.*;
 

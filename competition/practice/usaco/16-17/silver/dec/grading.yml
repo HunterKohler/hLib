@@ -3,21 +3,21 @@ passing: 750
 score: 1000
 passed: true
 problems:
-    - citystate:
-        submitted: true
-        incorrect: 0
-        correct: 10
-        total: 10
-        score: 333
-    - highcard:
-        submitted: true
-        incorrect: 0
-        correct: 10
-        total: 10
-        score: 333
-    - bcount:
-        submitted: true
-        incorrect: 0
-        correct: 10
-        total: 10
-        score: 333
+  - citystate:
+      submitted: true
+      incorrect: 0
+      correct: 10
+      total: 10
+      score: 333
+  - highcard:
+      submitted: true
+      incorrect: 0
+      correct: 10
+      total: 10
+      score: 333
+  - bcount:
+      submitted: true
+      incorrect: 0
+      correct: 10
+      total: 10
+      score: 333

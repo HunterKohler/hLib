@@ -4,9 +4,10 @@ LANG: JAVA
 PROB: cowtour
 */
 
+package competition.training.chapter2.cowtour;
+
 import java.io.*;
 import java.util.*;
-import java.math.*;
 
 public class cowtour {
     private static int[][] adjacent;

@@ -4,6 +4,8 @@ LANG: JAVA
 PROB: maze1
 */
 
+package competition.training.chapter2.maze1;
+
 import java.util.*;
 import java.io.*;
 

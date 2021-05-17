@@ -3,6 +3,9 @@ ID: jhunter3
 LANG: JAVA
 PROB: agrinet
 */
+
+package competition.training.chapter3.agrinet;
+
 import java.io.*;
 import java.util.*;
 

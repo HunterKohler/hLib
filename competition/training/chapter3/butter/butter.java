@@ -4,6 +4,8 @@ LANG: JAVA
 PROB: butter
 */
 
+package competition.training.chapter3.butter;
+
 import java.io.*;
 import java.util.*;
 

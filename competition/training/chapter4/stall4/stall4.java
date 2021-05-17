@@ -4,6 +4,8 @@ LANG: JAVA
 TASK: stall4
 */
 
+package competition.training.chapter4.stall4;
+
 import java.io.*;
 import java.util.*;
 

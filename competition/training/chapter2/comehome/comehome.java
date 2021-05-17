@@ -4,6 +4,8 @@ LANG: JAVA
 PROB: comehome
 */
 
+package competition.training.chapter2.comehome;
+
 import java.io.*;
 import java.math.*;
 import java.util.*;

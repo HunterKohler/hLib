@@ -4,6 +4,8 @@ LANG: JAVA
 PROB: fence
 */
 
+package competition.training.chapter3.fence;
+
 import java.io.*;
 import java.util.*;
 

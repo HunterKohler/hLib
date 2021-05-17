@@ -4,9 +4,12 @@ LANG: JAVA
 PROB: rockers
 */
 
+package competition.training.chapter3.rockers;
+
 import java.io.*;
 import java.util.*;
 import static java.lang.Math.*;
+
 
 class rockers {
     static int inf = Integer.MAX_VALUE / 100;

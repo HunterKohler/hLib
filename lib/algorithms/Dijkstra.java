@@ -1,8 +1,8 @@
-package library.graph;
+// Formerly part of competition-library
+
+package lib.algorithms;
 
 import java.util.*;
-import java.io.*;
-import java.math.*;
 
 class Dijkstra {
     int[] dijkstraSquare(int n, int e, int[][] adj, int src) { // n^2 implementation

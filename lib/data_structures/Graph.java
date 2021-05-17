@@ -1,10 +1,12 @@
-package library.graph;
+// Formerly part of competition-library
+
+package lib.data_structures;
 
 import java.util.*;
-import static library.util.Methods.*;
+import static lib.utils.java.Methods.*;
 
 public class Graph {
-    //  ***Info***
+    //  --- Info ---
     // Assumes that all have non-zero weights
     // For dijkstra have only positive weights
 

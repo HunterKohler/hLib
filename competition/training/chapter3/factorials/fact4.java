@@ -4,6 +4,8 @@ LANG: JAVA
 PROB: fact4
 */
 
+package competition.training.chapter3.factorials;
+
 import java.util.*;
 import java.io.*;
 

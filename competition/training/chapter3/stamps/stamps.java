@@ -4,6 +4,8 @@ LANG: JAVA
 PROB: stamps
 */
 
+package competition.training.chapter3.stamps;
+
 import java.util.*;
 import java.io.*;
 

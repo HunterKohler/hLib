@@ -1,4 +1,7 @@
-package library.util;
+// Formerly part of competition-library
+
+package lib.utils.java;
+
 import java.util.*;
 
 public class Methods {

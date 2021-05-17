@@ -4,6 +4,8 @@ LANG: JAVA
 PROB: spin
 */
 
+package competition.training.chapter3.spin;
+
 import java.util.*;
 import java.io.*;
 import java.math.*;

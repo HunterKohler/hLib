@@ -4,6 +4,8 @@ LANG: JAVA
 PROB: inflate
 */
 
+package competition.training.chapter3.inflate;
+
 import java.io.*;
 import java.util.*;
 import java.math.*;

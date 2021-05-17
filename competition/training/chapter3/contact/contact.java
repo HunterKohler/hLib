@@ -4,6 +4,8 @@ LANG: JAVA
 TASK: contact
 */
 
+package competition.training.chapter3.contact;
+
 import java.io.*;
 import java.util.*;
 

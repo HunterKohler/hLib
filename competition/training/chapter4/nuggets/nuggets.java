@@ -4,6 +4,8 @@ LANG: JAVA
 PROB: nuggets
 */
 
+package competition.training.chapter4.nuggets;
+
 import java.io.*;
 import java.util.*;
 import static java.lang.Integer.parseInt;

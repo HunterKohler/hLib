@@ -1,4 +1,6 @@
-package library.graph;
+// Formerly part of competition-library
+
+package lib.data_structures;
 
 public class DisjointSet {
     int n;

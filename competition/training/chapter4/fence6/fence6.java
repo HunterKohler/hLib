@@ -4,6 +4,8 @@ LANG: JAVA
 PROB: fence6
 */
 
+package competition.training.chapter4.fence6;
+
 import java.io.*;
 import java.util.*;
 import static java.lang.Integer.parseInt;

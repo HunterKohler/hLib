@@ -4,6 +4,8 @@ LANG: JAVA
 TASK: ditch
 */
 
+package competition.training.chapter4.ditch;
+
 import java.io.*;
 import java.util.*;
 
