@@ -1,0 +1,9 @@
+*.in
+*.out
+*.class
+*.jar
+*.log
+*.dSYM
+temp
+.DS_Store
+gen.py
