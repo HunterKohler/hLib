@@ -1,0 +1,281 @@
+\documentclass[11pt]{scrreprt}
+\usepackage{amsmath}
+\usepackage{amsfonts} 
+\usepackage{enumitem}
+\usepackage{mathtools}
+\usepackage{refcount}
+\usepackage[bottom]{footmisc}
+
+\usepackage{times}
+
+\title{Notes on Introductory Series}
+\author{John Hunter Kohler}
+\date{March 2020}
+
+
+\newcommand{\define}{\coloneqq}
+\newcommand{\abs}[1]{\left| #1 \right|}
+\newcommand{\inreal}{\in\mathbb{R}}
+\newcommand{\innat}{\in\mathbb{N}}
+
+\begin{document}
+\maketitle
+
+\quad Though the formal definition\footnote{This definition is extremely similar to the Epsilon-Delta definition of a functional limit. The exeption 
+to this of course is that the delta is not required obviously.} of sequences and series limits will not be given. 
+The notation used will be standard and informal. No proofs will be given. Assume all sequences and series are real.
+
+\section*{Foundation of Sequences}
+	This secition focuses on the basics of sequences and methods of computation on the infinite terms of some sequence. 
+	A sequence $\{a_n\}$ is said to be convergent if
+		\begin{equation}
+			\lim_{n\to\infty} a_n \inreal
+		\end{equation}
+	If the above property is not held, the sequence is said to be divergent. When computing limits of two 
+	convergent sequences $\{a_n\},\{b_n\}$, it is possible to seperatly evaluate the sequences.
+		\begin{equation}
+			\lim_{n\to\infty} f(a_n,b_n) = f(\lim_{n\to\infty} a_n, \lim_{n\to\infty} b_n)
+		\end{equation}
+	A simple tool for the evaluation of limits upon convergent series is the squeeze theorem for series.
+		\begin{gather}
+			a_n <= c_n <= b_n\,,\ \text{for} \ n > (N\innat) \\ 
+			\lim_{n\to\infty} a_n = \lim_{n\to\infty} b_n = L
+			\implies \lim_{n\to\infty} c_n = L
+		\end{gather}
+	Sequences, like functions, are said to be monotonic if they are strictly increasing or strictly decreasing.
+	Like functions, sequences may be bounded above or below by some constant. If a sequence is bounded and monotonic, 
+	then it must be convergent\footnote{Obviously, the same can be said about those sequences which are simply strictly increasing and 
+	bounded above as well as strictly decreasing and bounded below.}.
+
+\section*{Convergence of Series}
+	Here, let us take a look at simple rules for figuring if a series converges or diverges. Obviously a convergent series is the sum of
+	every term of a series such that the value is finite. If some series does not exist or is infinite, it is said to be divergent.
+	A simple proposition is that
+		\begin{equation}
+			\text{If} \ \sum a_n \ \text{converges, then} \ \lim_{n\to\infty} a_n = 0.
+		\end{equation}
+
+	\subsection*{Absolute and Conditional Convergence}
+		Now recognize two more properties of series. If some series $\sum a_n$ is convergent yet $\sum |a_n|$ is not, then the series $\sum a_n$
+		is said to be conditionally convergent. If, along with $\sum |a_n|$, $\sum a_n$ is convergent, we say that the series is absolutly
+		convergent. Otherwise, the series is divergent. From this it is important to recognize one thing: if a series is conditionally convergent,
+		then when algabraically rearranging\footnote{For the purposes of computation.} its explicit terms will allow you to, 
+		without logical error, compute the sum of the series as any real number.
+
+	\subsection*{Geometric Sums and P-Series}
+		Firstly define a partial sum -this usually uses confusing notation- as
+			\begin{equation}
+				S_n \define \sum_{i = 0}^{n}a_i
+			\end{equation}
+		The lower bound of the sum may change based on context, but this is the general notation with the exception of the differing use of capitalization
+		of $s$. For a geometric sum, based on a sequence where the ratio between each term is a constant, the partial sum formula is slightly unintuitive,
+		though important. It is vital in the proof of the infinite sum, though that will not be exemplified.
+			\begin{gather}
+				\text{for $a,r$ constant} \ S_n= \sum_{i = 0}^{n} ar^i = \dfrac{a(1-r^n)}{1-r} \\
+				\lim_{n\to\infty} S_n = \dfrac{a}{1-r} \ \text{when} \ |r| < 1 
+			\end{gather}
+		As you will see later, this is a form of a power series, with radius of convergence\footnote{Put simply, as expressed above, the infinite
+		geometric sum only converges for $|r| < 1$.} one. The other series to look at of the form for which we know convergence is the p-series
+		\footnote{The special case is $p = 1$ which is the harmonic series. Not discussed here.}. 
+			\begin{equation}
+				\sum_{n=1}^{\infty} \frac{1}{n^p} \ \text{converges for}\ p > 1
+			\end{equation}
+
+	\subsection*{Integral Test}
+		If there is some continuous, positive, strictly decreasing function $f(x)$ on,
+			\begin{align}
+				x\in[k,&\infty)\ \text{and}\ f(n) = a_n,\, n\innat,\ \text{then}\\
+				&\int_{k}^{\infty} f(x)dx\ \text{and}\ \sum_{n = k}^{\infty} a_n\ \text{converge or diverge together.}
+			\end{align}
+
+	\subsection*{Comparison Test}
+		This test is similar to, and essentially a lemma\footnote{Due to the fact a integral would simply be the 
+		application of this theorem through its definition of a Reimann Sum.} of, the last theorem: 
+			\begin{align}
+				\text{If there is some}\ \sum a_n ,\, &\sum b_n \ \text{for} \ a_n ,b_n \geq 0,\: a_n \leq b_n,\:n\innat, \\
+				\text{then} \ &\sum b_n \ \text{converges} \implies \sum a_n \ \text{converges,} \\
+				\text{and} \ &\sum a_n \ \text{diverges} \implies \sum b_n \ \text{diverges.}
+			\end{align}
+
+	\subsection*{Limit Comparison Test}
+		By taking the associated sequences of two series and compair there infinite terms, a similar association of converge as before can
+		be formed\footnote{These associations will let us extend knowledge of convergence from what we have proved to unknowns more easily.
+		Also this would give the option of working the more simple of the two series.}. 
+		\begingroup
+			\begin{align}
+				\text{Let} \sum a_n,\,\sum b_n \ \text{such that}\ &a_n \geq 0,\, b_n > 0, \\
+				n\innat,\ &\text{and let} \ C \define \lim_{n\to\infty} \dfrac{a_n}{b_n}\\
+				\text{If} \ C \inreal^{+} \ \text{then} \ \sum a_n \ \text{and}\ &\sum b_n \\
+				\text{conver}&\text{ge }\text{or diverge together.}
+			\end{align}
+		\endgroup
+
+	\subsection*{Alternating Series Test}
+		To deal with series of the form below, this test is created. Once used, if it is possible to do so, another test may be required
+		to determine the properties of the subseries. An alternating series is of the form:
+			\begin{equation}
+				a_n=(-1)^{n}b_n \ \text{or} \ a_n=(-1)^{n+1}b_n, \ \text{for} \ (b_n \geq 0 \ \text{or} \ b_n \leq 0)\footnotemark{\label{note1}},\,n\innat
+			\end{equation}
+			\footnotetext{\label{note1}For ($b_n \geq 0$ and strictly decreasing), or ($b_n \leq 0$ and strictly increasing). 
+			Note that $\sum b_n$ does not have to converge.}
+		Furthermore, the test states:
+			\begin{equation}
+				\text{If} \lim_{n\to\infty} b_n = 0 \ \text{and} \{b_n\} \ \text{is monotonic\footnote[\getrefnumber{note1}],} \ 
+				\sum_{n=1}^{\infty} a_n \ \text{is convergent.}
+			\end{equation}
+
+	\subsection*{Ratio Test}
+		The ratio test will be the best tool presented here to deal with sequences involving factorials as well as rational equations of polynomials.
+		By reviewing the test below you will see that it takes a form in which, for the described cases, we may cancel out confounding terms.
+			\begin{align}
+				\text{Let} \ L \define &\lim_{n\to\infty} \abs{\dfrac{a_{n+1}}{a_n}} \\
+				\text{If} \ L < 1, &\sum a_n \ \text{is absolutly convergent.} \\
+				\text{If} \ L > 1, &\sum a_m \ \text{is divergent.} \\
+				\text{If} \ L = 1, &\text{ the test is inconclusive.}
+			\end{align}
+
+	\subsection*{Root Test}
+		This test is similar to the ratio test. Almost\footnote{Most cases that do not abide by this principle should not be presented
+		in an introductory course. It may be worthwile checking both either way as either one may have been applied incorrectly} 
+		all sequences produce the same results in the ratio and root test. This test is best utilized for series similar to
+		$a_n = (b_n)^n$. The test functions thus:
+			\begin{align}
+				\text{Let} \ L \define &\lim_{n\to\infty} \abs{a_n}^{\frac{1}{n}} \\
+				\text{If} \ L < 1, &\sum a_n \ \text{is absolutly convergent.} \\
+				\text{If} \ L > 1, &\sum a_n \ \text{is divergent.} \\
+				\text{If} \ L = 1, &\text{ the test is inconclusive.}
+			\end{align}
+
+\section*{Series Estimation}
+	\subsection*{Bounding by Integration}
+		Utilizing function integrals, we can find bounds for the value of an infinite series. Even if the representation of a series can not
+		be integrated, we know enough integral approximation tequniques to approximate the improper integrals. Using notation of the 
+		partial sum $S_n$, we may manually compute the partial sum of a series up to some point. Next, define the $E_n$ as below as what
+		we call the remaining sum -for obvious reasons-.
+			\begin{equation}
+				E_n \define S - S_n = \sum_{i = 0}^{\infty} a_i - \sum_{i = 0}^{n} a_i = \sum_{i = n + 1}^{\infty} a_i
+			\end{equation}
+		Now it is possible to bound $E_n$ by way of integration for some function $f(x)$ that satisfies all the requirments of the Integral Test.
+		To complete the series bound, simply recognize the following:
+			\begin{align}
+				\int_{n + 1}^{\infty} f(x) \, dx \leq E_n = S - S_n \leq \int_{n}^{\infty} f(x) \, dx\\
+				S_n + \int_{n + 1}^{\infty} f(x) \, dx \leq S \leq S_n + \int_{n}^{\infty} f(x) \, dx
+			\end{align}
+		One more extension can be made to this method; namely that if we utilize a series $b_n$ that functions, in relation to $a_n$, similarly
+		to our convergence test by comparison. This can make the computation of the approximation easier by trading in accuracy.
+
+	\subsection*{Approximating Alternating Series}
+		The equation given below is derived from the proof of the Alternating Series Test. It should be intuitive however due to, again mirroring
+		the conditions of the test, $b_n$ must be strictly decreasing and positive, or the inverse. Understand that $b_n$ is our subseries of
+		the alternating series. The sum and partial sums below are of the seres of interest $a_n$.
+			\begin{align}
+				\abs{E_n} = \abs{S - S_n} \leq b_{n + 1}
+			\end{align}
+		It is important to realize that $E_n$ is simply the error of our partial sum. From above we know that we can bound the error and therefor
+		simply bound the total sum of the sequence:
+			\begin{align}
+				S_n - \abs{E_n} \leq S \leq S_n + \abs{E_n}
+			\end{align}
+
+	\subsection*{Bounding by Ratio}
+		As goes all approximations in this section, we must have some $a_n$ that follows the requirments of the corresponding test -here, the 
+		ratio test-. The formulas below are notably useful for bounding $E_n$ for sequences which are best analyzed with the Ratio Test. A last
+		obvious precondition is that $a_n$ converges.
+			\begin{align}
+				\text{Define a new geometric sequ} &\text{ence by:} \ \ r_n \define \dfrac{a_{n+1}}{a_n} \\
+					\text{Case $1$: Sequence}& \ {r_n} \ \text{is decreasing.} \\
+						\abs{E_n}& \leq \dfrac{a_{n + 1}}{1 - r_{n + 1}} \\
+					\text{Case $2$: Sequence}& \ {r_n} \ \text{is increasing.} \\
+						\abs{E_n}& \leq \dfrac{a_{n + 1}}{1 - L}
+			\end{align}
+		These are the only two cases that happen due to $\{r_n\}$ being convergent if its ratio\footnote{\label{ratioNote}When speaking about the ratio 
+		of $\{r_n\}.$, it is meant that for some $n$, namely that for which we choose $E_n$, has such a ratio} $r_n < 1$. In case two, 
+		though the geometric series $\{r_n\}$ has a ratio greater than 1, we know that as $n$ goes to infinity, that this become less that one, so we
+		use $L$ as the general ratio\footnotemark[\getrefnumber{ratioNote}].
+
+\section*{Power Series}
+	The general\footnote{This is the general power series along $\mathbb{R}$. Things such as radius of convergence make more sense when extended
+	to the complex generalization; for example, this radius truly refers to the disk in $\mathbb{C}$ for which some series representation of $p(z)$ 
+	converges} power series is thus for $a$ constant and sequence $\{c_n\}$:
+		\begin{equation}
+			p(x) = \sum_{n = 0}^{\infty} c_n (x - a)^n
+		\end{equation}
+	Let us call $\{c_n\}$ the sequence of coeffecients of $p(x)$. Breifly mentioned in the section on geometric series, 
+	the radius of convergence $R$ is the bound\footnote{Meaning that $\abs{x} \leq R$ 
+	or $\abs{x} < R$.} on $x$ for which $p(x)$ converges. Furthermore, we may call the range of $x$ for which $p(x)$ converges, its interval
+	of convergence. When attempting to find the radius of convergence for some series, the end goal tends to be to find some inequality
+	involving $x$ in solitude. To do this one would use one or multiple of the tests described in the section of series convergence. The ratio
+	test is a particularly effective tool in this case. It is not always the case that $\abs{x} = R$ is not in the interval of convergence, thus
+	one must find both $R$ and check the endpoints of said interval. Note that $R$ is in $\overline{\mathbb{R}}$, though $x$ only varies 
+	along real numbers.This implies two important points. The first of which is $x$ will have an interval of all reals for $R=\infty$. Next, 
+	even in the case of $R = 0$, the interval of $x$ will never be null due to the polynomial $p(x)$ always having a root at $a$.
+
+	\subsection*{Expressing Analytic Functions}
+		We will not describe the definition of an analytic function beyond saying that they are functions that can be expressed locally as
+		a power series. Below\footnote{All  will be easier to prove and recognize after learning the Taylor series. Note that 
+		the series below are Maclauren series.} are some frequent analytic functions\footnote{In non general form for the purposes of simplicity.} 
+		described by their power series.
+			\begin{align}
+				(1 + x)^k &= \sum^{n = 0}_{\infty} \binom{k}{n} x^n = 1 + kx + \dfrac{k(k-1)}{2!} + \cdots
+					& \abs{x} < 1\\
+				e^x &= \sum_{n = 0}^{\infty} \dfrac{x^n}{n!} = 1 + x + \dfrac{x^2}{2!} + \dfrac{x^3}{3!} + \dfrac{x^4}{4!} 
+				+ \dfrac{x^5}{5!} + \dfrac{x^6}{6!}\cdots 
+					&  x\inreal\\
+				sin(x) &= \sum_{n = 0}^{\infty} (-1)^n \dfrac{x^{2n+1}}{(2n+1)!} = x - \dfrac{x^3}{3!} + \dfrac{x^5}{5!} - \dfrac{x^7}{7!} + \cdots
+					& x\inreal \\
+				cos(x) &= \sum_{n = 0}^{\infty} (-1)^n \dfrac{x^{2n}}{(2n)!} = 1 - \dfrac{x^2}{2!} + \dfrac{x^4}{4!} - \dfrac{x^6}{6!} 
+				+ \dfrac{x^8}{8!} - \cdots
+					& x\inreal \\
+				sinh(x) &= \sum_{n = 0}^{\infty} (-1)^n \dfrac{x^{2n+1}}{(2n+1)!} = x + \dfrac{x^3}{3!} + \dfrac{x^5}{5!} + \dfrac{x^7}{7!} + \cdots
+					& x\inreal \\
+				cosh(x) &= \sum_{n = 0}^{\infty} (-1)^n \dfrac{x^{2n}}{(2n)!} = 1 + \dfrac{x^2}{2!} + \dfrac{x^4}{4!} + \dfrac{x^6}{6!} 
+				+ \dfrac{x^8}{8!} + \cdots
+					& x\inreal
+			\end{align}
+		The next step is to bring calculus into our representations. Obviously the integral or derivative of a series is simply that of
+		each individual term. Our first theorem is thus:
+			\begin{gather}
+				\text{For some differentiable, continuous} \ f(x) = \sum_{n = 0}^{\infty} c_n (x - a)^n \\
+				\dfrac{df}{dx} \ \text{and} \ \int f(x) \, dx \ \text{have the equivalent $R$ to} \ f(x)
+			\end{gather}
+		Recognize in many situations it may be benificial to the take the $n$th derivative of a function so to find a easily recognizable
+		power series, then integrate $n$ times -while solving for the integration constants- to find the power series of the original function.
+		A simple example is the power series of $ln(1-x)$. In the next section we will learn how to find the power series of this easily, but we 
+		may also find it through simply differentiating it so that it is represented as the geometric series.
+
+	\subsection*{Taylor Series}
+		Put simply, the Taylor series generalizes a power series to any infinitly differentiable function. These series still have radii of convergence
+		and are said to be centered around some $a$\footnote{This central value -this again makes more sense over a complex feild - will also be notated 
+		frequently as $x_0$. See the below that $a$ is simply some value on the domain of $f$ for which we will find $f(a)$.}. Assume $f(x)$ is a 
+		infinitly differentiable function that is continuous and differentiable at $a$.
+			\begin{align}
+				f(x) = \sum_{i = 0}^{\infty} \dfrac{f^{(i)}}{i!} (x - a)^i 
+					 = f(a) + f^{'}(a)(x - a) + \cdots
+			\end{align}
+		Note that the taylor is simply the semi-general power series described with $\{c_n\} = \{f^{(n)}(a)\}$.\footnote{To generalize this series we 
+		obviously must find a general form for $f^{(n)}$, which is not always the easiest task} As described before, this equation
+		only holds true for $x\in R_a$, where we say $R_a$ is the radius of convergence around $a$. If we have some series, we can approximate
+		the value of $f(x),\, x\in R_a$ to any level of specificity. This is extremely usefull in the cases of trancendental functions that can
+		not be calculated. I will again mention that a Taylor series around $a = 0$ is reffered to as a Maclauren series. To finish, one peice
+		of frequent of notation is that of the $n$th degree of a Taylor series denoted by $T_n$.
+			\begin{equation}
+				T_n = \sum_{i = 0}^{n} \dfrac{f^{(i)}}{i!} (x - a)^i 
+					 = f(a) + f^{'}(a)(x - a) + \cdots + \dfrac{f^{(n)}}{n!}(a)(x - a)^n
+			\end{equation}
+			
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
