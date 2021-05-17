@@ -1,3 +1,5 @@
+# previously member of competition-library
+
 from heapq import heappush, heappop, heapify
 
 class PriorityQueue:

@@ -5,6 +5,9 @@
 #include <cstddef>
 #include <functional>
 
+// previously a member of competition-library
+
+
 class point {
 public:
     int x,y;

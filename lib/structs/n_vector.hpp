@@ -3,6 +3,8 @@
 
 #include <vector>
 
+// previously a member of competition-library
+
 template <class T, size_t N>
 class n_vector: public std::vector<n_vector<T,N - 1>> {
   public:

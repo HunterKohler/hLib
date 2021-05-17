@@ -1,6 +1,9 @@
 #ifndef RSQ_SEGMENT_TREE_H
 #define RSQ_SEGMENT_TREE_H
 
+// previously a member of competition-library
+
+
 class rsq_segment_tree {
   private:
     inline int left(int i);

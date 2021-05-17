@@ -1,5 +1,7 @@
 #include <algorithm>
 
+// previously a member of competition-library
+
 #include "../include/rsq_segment_tree.hpp"
 
 rsq_st::rsq_segment_tree(int a[], int _n): n{_n} { build(a); }

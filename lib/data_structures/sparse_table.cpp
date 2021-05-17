@@ -2,6 +2,8 @@
 #include <algorithm>
 #include <iostream>
 
+// previously a member of competition-library
+
 using std::min;
 
 // memoize in real implementation

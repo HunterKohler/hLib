@@ -1,5 +1,8 @@
 #include "../include/n_vector.hpp"
 
+// previously a member of competition-library
+
+
 template <class T, size_t N>
 using nv = n_vector<T,N>;
 
