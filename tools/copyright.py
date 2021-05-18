@@ -1,12 +1,18 @@
+#!/usr/bin/env python3
+
 # Copyright 2020-2021 John Hunter Kohler. All rights reserved.
 
 import os
 import re
-from typing import Callable, Optional, Pattern
+import sys
+
+from typing import Callable, Match, Optional, Pattern
 
 Formatter = Callable[[str], str]
 
-COPYRIGHT = "Copyright 2020-2021 John Hunter Kohler. All rights reserved."
+COPYRIGHT = "Copyright 2020-2021 John Hunter Kohler. All rights reserved.\n"
+
+SHEBANG_PATTERN = re.compile(r"#!/")
 
 class CommentCategory:
     pattern: Pattern
@@ -18,11 +24,20 @@ class CommentCategory:
         self.format = format
 
     def __str__(self):
-        return self.pattern
+        return str(self.pattern)
 
     def match(self, filepath: str):
         return self.pattern.match(filepath)
 
+def insert_copyright(filepath: str, category: CommentCategory):
+    copyright = category.format(COPYRIGHT)
+    lines: list[str] = open(filepath).readlines()
+    if not copyright in "\n".join(lines[:10]): # if not in first 10 lines
+        if len(lines) == 0:
+            lines = [""]
+        match: Optional[Match] = SHEBANG_PATTERN.match(lines[0])
+        lines.insert((1 if match else 0), category.format(COPYRIGHT))
+        open(filepath, "w").writelines(lines)
 
 HASH_COMMENT = CommentCategory([
         r"py3?",
@@ -63,22 +78,26 @@ CATEGORIES = [
 def match_category(s: str) -> Optional[CommentCategory]:
     category: CommentCategory
     for category in CATEGORIES:
-        if category.match(s):
-            return s
+        if category.match(s): return category
 
 added = []
 other = []
+errors = []
 
 dir: str
 fnames: list[str]
 for dir, _, fnames in os.walk("."):
     fname: str
     for fname in fnames:
-        filepath: str = os.path.join(dir, fname)
-        category: CommentCategory = match_category(os.path.join(dir, fname))
+        filepath = os.path.join(dir, fname)
+        category = match_category(os.path.join(dir, fname))
         if category is OTHER_COMMENT:
             other.append(filepath)
         elif category is not None:
+            try:
+                insert_copyright(filepath, category)
+            except Exception as error:
+                errors.append((filepath, error))
             added.append(filepath)
 
 if len(added) > 0:
@@ -87,9 +106,14 @@ if len(added) > 0:
         print("    " + filepath)
 
 if len(other) > 0:
-    print("Could not add copyright statement to:")
+    print("Cannot automatically add copyright statement to:")
     for filepath in other:
         print("    " + filepath)
 
-
-
+if len(errors) > 0:
+    print("Errors occured writing to some files:")
+    filepath: str
+    error: Exception
+    for filename, error in errors:
+        print(f"\t{filename} {error}")
+    sys.exit(1)
