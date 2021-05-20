@@ -13,6 +13,7 @@ my resume, etc..
   - [Wargames](#wargames)
 - [Papers](#papers)
 - [Ideas](#ideas)
+- [Outside Resources](#outside-resources)
 
 # Projects
 
@@ -57,7 +58,11 @@ computer science. Find the finalized papers here:
 - [ ] Styleguides
 - [ ] Restructure Files
 - [ ] Create Site for Portfolio
-- [ ]
+
+# Outside Resources
+
+Code or other resources taken from outside the repository will be clearly
+marked as such, or identifiable by the pre-existing contents of said resource.
 
 --------------------------------------------------------------------------------
 Copyright 2020-2021 John Hunter Kohler. All rights reserved.
