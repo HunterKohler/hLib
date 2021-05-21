@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 
-import os
 import glob
+import os
 import sys
-from typing import Callable, NewType, Type
+from typing import Callable
 
-result_list = list[tuple[bool,str]]
+result_list = list[tuple[bool, str]]
 rule_return_type = tuple[bool, result_list]
 rule_type = Callable[[list[str]], rule_return_type]
+
 
 def main(argv: list[str]) -> None:
     if len(argv) != 1:
@@ -22,7 +23,7 @@ def main(argv: list[str]) -> None:
     for rule in [
         # headers,
         extensions
-        ]:
+    ]:
         any_failed, results = rule(file_paths)
         if any_failed:
             for fail, file_path in results:
@@ -32,7 +33,6 @@ def main(argv: list[str]) -> None:
                     stdout(f"    passed: {file_path}")
         else:
             stdout(f"{rule.__name__}: success")
-
 
 
 def find(paths: list[str]) -> list[str]:
@@ -59,18 +59,25 @@ def find(paths: list[str]) -> list[str]:
             sys.exit(1)
     return file_paths
 
-cpp_extension_set: set[str] = {"cpp","cxx", "cc", "c++", "hpp", "hxx", "hh", "h"}
+
+cpp_extension_set: set[str] = {
+    "cpp", "cxx", "cc", "c++", "hpp", "hxx", "hh", "h"
+}
+
+
 def find_in_dir(dir_path: str, ext: set[str] = cpp_extension_set) -> list[str]:
     file_paths = glob.glob(os.path.join(dir_path, f"**.{','.join(ext)}"))
     return file_paths
 
+
 # def headers(fule_paths: list[str]) -> rule_return_type:
 #     pass
+
 
 # Check for bad C++ file extensions
 def extensions(file_paths: list[str],
                valid_ext: list[str] = ["cpp", "h"]
-               ) -> tuple[bool, list[tuple[bool,str]]]:
+               ) -> tuple[bool, list[tuple[bool, str]]]:
     print(file_paths)
     valid_ext_set: set[str] = set(valid_ext)
     any_failed: bool = False
@@ -83,8 +90,10 @@ def extensions(file_paths: list[str],
         results.append((failed, path))
     return (any_failed, results)
 
+
 def stderr(*a, **k) -> None: print(*a, **k, file=sys.stderr)
 def stdout(*a, **k) -> None: print(*a, **k, file=sys.stdout)
+
 
 if __name__ == "__main__":
     main(sys.argv)

@@ -4,13 +4,10 @@
 import os
 import re
 import sys
-
-from typing import Callable, Match, Optional, Pattern
+from typing import Callable, Match, Optional
 
 Formatter = Callable[[str], str]
-
 COPYRIGHT = "Copyright 2020-2021 John Hunter Kohler. All rights reserved.\n"
-
 SHEBANG_PATTERN = re.compile(r"#!/")
 
 
@@ -34,7 +31,7 @@ class CommentCategory:
 def insert_copyright(filepath: str, category: CommentCategory):
     copyright = category.format(COPYRIGHT)
     lines: list[str] = open(filepath).readlines()
-    if not copyright in "\n".join(lines[:10]):  # if not in first 10 lines
+    if copyright not in "\n".join(lines[:10]):  # if not in first 10 lines
         if len(lines) == 0:
             lines = [""]
         match: Optional[Match] = SHEBANG_PATTERN.match(lines[0])

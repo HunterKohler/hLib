@@ -58,6 +58,7 @@ computer science. Find the finalized papers here:
 - [ ] Styleguides
 - [ ] Restructure Files
 - [ ] Create Site for Portfolio
+- [ ] Typesafe Generic Datastructures in C
 
 # Outside Resources
 

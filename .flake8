@@ -2,6 +2,11 @@ max-complexity = 10 # cyclomatic complexity, see mccabe, C901
 max-line-length = 79
 indent-size = 4
 
+exclude =
+    .venv,
+    .git,
+    misc/golf
+
 include =
 # mccabe
     C901, # cyclomatic complexity too high

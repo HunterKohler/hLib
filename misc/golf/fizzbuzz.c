@@ -27,6 +27,6 @@
 // #define P printf(
 // int main(i){for(i--;i++<100;i%3?(i%5?P"%d\n",i):P"Buzz\n")):(i%5?P"Fizz\n"):P"FizzBuzz\n")));}
 
-// Try 9: 103 chars
+// Try 9: 100 chars
 #define P printf(
-int main(i){for(i--;i++<100;i%3&&i%5?P"%d",i):i%3?0:P"Fizz"),i%5?0:P"Buzz"),P"\n"));}
+main(i){for(i--;i++<100;i%3&&i%5?P"%d",i):i%3?0:P"Fizz"),i%5?0:P"Buzz"),P"\n"));}
