@@ -85,12 +85,19 @@
         "set": "cpp",
         "unordered_set": "cpp",
         "io.h": "c",
-        "program.h": "c"
+        "program.h": "c",
+        "unistd.h": "c",
+        "stdio.h": "c",
+        "benchmark.h": "c",
+        "time.h": "c",
+        "__functional_03": "c",
+        "filesystem": "c"
     },
     "C_Cpp.errorSquiggles": "Disabled",
     "java.project.sourcePaths": [
         "./"
     ],
-    "python.pythonPath": "${workspaceFolder}/.venv/bin/python3.9",
-    "python.linting.enabled": false
+    "python.pythonPath": ".venv/bin/python",
+    "python.linting.enabled": true,
+    "python.formatting.provider": "autopep8"
 }
