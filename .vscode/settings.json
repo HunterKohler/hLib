@@ -91,7 +91,22 @@
         "benchmark.h": "c",
         "time.h": "c",
         "__functional_03": "c",
-        "filesystem": "c"
+        "filesystem": "c",
+        "cinttypes": "cpp",
+        "cassert": "cpp",
+        "stdarg.h": "c",
+        "stddef.h": "c",
+        "errno.h": "c",
+        "string.h": "c",
+        "stdlib.h": "c",
+        "_malloc.h": "c",
+        "stdbool.h": "c",
+        "generics.h": "c",
+        "stdint.h": "c",
+        "stdint-gcc.h": "c",
+        "debug.h": "c",
+        "_size_t.h": "c",
+        "_types.h": "c"
     },
     "C_Cpp.errorSquiggles": "Disabled",
     "java.project.sourcePaths": [
