@@ -5,9 +5,6 @@
 #include <stdbool.h>
 #include <unistd.h>
 
-#include "debug.h"
-#include "generics.h"
-
 int fprint_usage(FILE *stream, char *name) {
     return fprintf(stream, "Usage: %s [options] file\n", name ? name : "bf");
 }
@@ -110,7 +107,6 @@ int main(int argc, char* argv[]) {
     char **lstack_end = lstack + lstack_size;
 
     while(body_ptr < body_end) {
-
         switch(*body_ptr) {
             case '>':
                 ++memory_ptr;
@@ -148,7 +144,8 @@ int main(int argc, char* argv[]) {
                 } else {
                     while(*body_ptr != ']') {
                         if(body_ptr == body_end) {
-                            fprintf(stderr, "Unexceptected EOF while parsing\n");
+                            fprintf(stderr,
+                                    "Unexceptected EOF while parsing\n");
                             exit(1);
                         }
 
@@ -173,11 +170,4 @@ int main(int argc, char* argv[]) {
 
         ++body_ptr;
     }
-
-    // printf("\n");
-    // for(char *ptr = memory; ptr - memory < 10; ++ptr) {
-    //     printf("%d, ", *ptr);
-    // }
-
-    // printf("\n");
 }

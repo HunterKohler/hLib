@@ -1,8 +1,5 @@
-#ifndef HLIB_BF_GENERICS_H_
-#define HLIB_BF_GENERICS_H_
-
-#include <stdbool.h>
-#include <stdint.h>
+#ifndef HLIB_UTILS_C_GENERICS_H_
+#define HLIB_UTILS_C_GENERICS_H_
 
 #define FORMAT_SPECIFIER(X) \
     _Generic((X), \

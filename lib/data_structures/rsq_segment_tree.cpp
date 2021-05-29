@@ -1,6 +1,6 @@
 #include <algorithm>
 
-#include "../rsq_segment_tree.h"
+#include "./rsq_segment_tree.h"
 
 // previously a member of competition-library
 
@@ -48,5 +48,3 @@ void rsq_st::update(int v, int l, int r, int i, int val) {
 inline int rsq_st::left(int i) { return i << 1; }
 inline int rsq_st::right(int i) { return (i << 1) + 1; }
 inline int rsq_st::mid(int i, int j) { return (i + j) / 2; }
-
-int main() {}

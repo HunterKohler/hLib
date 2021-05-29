@@ -106,9 +106,10 @@
         "stdint-gcc.h": "c",
         "debug.h": "c",
         "_size_t.h": "c",
-        "_types.h": "c"
+        "_types.h": "c",
+        "va_args.h": "c"
     },
-    "C_Cpp.errorSquiggles": "Disabled",
+    "C_Cpp.errorSquiggles": "Enabled",
     "java.project.sourcePaths": [
         "./"
     ],

@@ -7,7 +7,6 @@
 #include <chrono>
 #include <atomic>
 
-
 using namespace std;
 
 constexpr int MAX_TEST_SIZE = 8;
@@ -45,8 +44,6 @@ void thread_test_helper(int n) {
     }
 }
 
-#pragma region main
-
 using hr_clock = chrono::high_resolution_clock;
 using hr_timepoint = chrono::time_point<hr_clock>;
 
@@ -69,6 +66,4 @@ int main() {
         thread_test(n);
     }
 }
-
-#pragma endregion
 

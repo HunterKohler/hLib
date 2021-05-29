@@ -1,8 +1,7 @@
-#ifndef HLIB_BF_DEBUG_H_
-#define HLIB_BF_DEBUG_H_
+#ifndef HLIB_UTILS_C_DEBUG_H_
+#define HLIB_UTILS_C_DEBUG_H_
 
-#include "generics.h"
-#include "va_args.h"
+#include "./generics.h"
 
 #define _STR(X) #X
 #define STR(X) _STR(X)
@@ -14,7 +13,6 @@
         printf(FORMAT_SPECIFIER(X), X); \
         printf("\n"); \
     } while (0)
-
 
 
 #endif

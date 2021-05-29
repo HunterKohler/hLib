@@ -1,22 +1,22 @@
-#include "linked_list.h"
+#include "./linked_list.h"
 
 template<class T> linked_list<T>::node::node(T _d, node *_n): data{_d}, next{_n} {}
 template<class T> linked_list<T>::node::node(T _d): node(_d,nullptr) {}
-template<class T> linked_list<T>::linked_list(): _head{nullptr}, _tail{nullptr} {}
+template<class T> linked_list<T>::linked_list(): head{nullptr}, tail{nullptr} {}
 
 template<class T>
 void linked_list<T>::add(T i) {
     node *tmp = new node(i);
-    if(_head == nullptr) {
-        _head = _tail = tmp;
+    if(head == nullptr) {
+        head = tail = tmp;
     } else {
-        _tail->next = tmp;
-        _tail = tmp;
+        tail->next = tmp;
+        tail = tmp;
     }
 }
 
 template <class T>
 void linked_list<T>::append(linked_list<T>& l) {
-    _tail->next = l._head;
-    _tail = l._tail;
+    tail->next = l.head;
+    tail = l.tail;
 }

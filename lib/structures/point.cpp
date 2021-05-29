@@ -1,4 +1,6 @@
-#include "../include/point.h"
+#include <cmath>
+
+#include "./point.h"
 
 // previously a member of competition-library
 
@@ -31,9 +33,9 @@ template <class T1, class T2>
 std::pair<T1,T2> point::to_pair() { return {x,y}; }
 std::pair<int,int> point::to_pair() { return {x,y}; }
 
-double point::length() { return hypot(x,y); }
-double point::length(point& p) { return hypot(p.x,p.y); }
-double point::length(int x, int y) { return hypot(x,y); }
+double point::length() { return std::hypot(x,y); }
+double point::length(point& p) { return std::hypot(p.x,p.y); }
+double point::length(int x, int y) { return std::hypot(x,y); }
 
 int point::hash_sign(int x) { return x > 0 ? 2 * x : -2 * x + 1; }
 
