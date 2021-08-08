@@ -6,7 +6,7 @@
 #include <vector>
 #include <queue>
 
-bool is_bipartite(const std::vector<std::vector<int>>& adj) {
+inline bool is_bipartite(const std::vector<std::vector<int>>& adj) {
     int n = adj.size();
     std::vector<bool> vis(n);
     std::vector<bool> color(n);
