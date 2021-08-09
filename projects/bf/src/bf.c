@@ -144,8 +144,7 @@ int main(int argc, char* argv[]) {
                 } else {
                     while(*body_ptr != ']') {
                         if(body_ptr == body_end) {
-                            fprintf(stderr,
-                                    "Unexceptected EOF while parsing\n");
+                            fprintf(stderr, "Unexpected EOF while parsing\n");
                             exit(1);
                         }
 
