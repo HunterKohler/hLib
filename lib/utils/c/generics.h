@@ -1,6 +1,8 @@
 #ifndef HLIB_UTILS_C_GENERICS_H_
 #define HLIB_UTILS_C_GENERICS_H_
 
+/* Not externed C++ because no runtime symbols are defined. */
+
 #define FORMAT_SPECIFIER(X) \
     _Generic((X), \
              signed char: "%hhd", \

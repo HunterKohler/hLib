@@ -1,0 +1,24 @@
+{
+  "name": "mongoose-map-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src",
+    "start:watch": "nodemon",
+    "test": "node --experimental-vm-modules node_modules/.bin/jest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "casual": "^1.6.2",
+    "mongodb-memory-server": "^6.9.6",
+    "mongoose": "^5.12.7"
+  },
+  "devDependencies": {
+    "jest": "^26.6.3",
+    "nodemon": "^2.0.7"
+  }
+}

@@ -1,6 +1,6 @@
 .DS_Store
+.venv
 .mypy_cache
 node_modules
 a.out
-.venv
-
+.vscode

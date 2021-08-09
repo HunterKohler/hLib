@@ -1,12 +1,9 @@
 # h-Library
 
---------------------------------------------------------------------------------
+---
 
-The [mono-repo](https://en.wikipedia.org/wiki/Monorepo) for the
-public work of John Hunter Kohler. Also used to showcase projects, skills,
-my resume, etc..
+<!-- toc -->
 
-- [h-Library](#h-library)
 - [Projects](#projects)
   - [C++ Standard Template Library](#c-standard-template-library)
   - [Cryptography](#cryptography)
@@ -14,6 +11,12 @@ my resume, etc..
 - [Papers](#papers)
 - [Ideas](#ideas)
 - [Outside Resources](#outside-resources)
+
+<!-- tocstop -->
+
+The [mono-repo](https://en.wikipedia.org/wiki/Monorepo) for the
+public work of John Hunter Kohler. Also used to showcase projects, skills,
+my resume, etc..
 
 # Projects
 
@@ -38,7 +41,7 @@ and data structures. These are intended to be fully functional implementations b
 
 Collection of efforts to learn more about software security, networking,
 and related fields. Includes work related to the participation in
-[wargames](https://en.wikipedia.org/wiki/Wargame_(hacking)),
+[wargames](<https://en.wikipedia.org/wiki/Wargame_(hacking)>),
 and the study of
 [pen-testing](https://en.wikipedia.org/wiki/Penetration_test).
 Interest in wargames eventually drove an interest into more areas of
@@ -65,5 +68,6 @@ computer science. Find the finalized papers here:
 Code or other resources taken from outside the repository will be clearly
 marked as such, or identifiable by the pre-existing contents of said resource.
 
---------------------------------------------------------------------------------
+---
+
 Copyright 2020-2021 John Hunter Kohler. All rights reserved.

@@ -1,0 +1,136 @@
+#!/usr/bin/env zsh
+
+declare -r NAME=$(basename ${(%):-%x})
+declare command
+declare -a files
+declare -A opts=(
+    [help]=false
+    [print]=false
+    [quiet]=false
+    [no_null]=false
+    [interactive]=false
+)
+
+declare -r USAGE="\
+Usage: 
+    $NAME [option...] [files...] command
+
+    Load environment from env files. White spaces are trimmed from the end of 
+    lines.
+
+Options:
+    Some options shown are unimplemented.
+
+    -h, --help         print this help message
+    -p, --print        print loaded variables
+    -i, --interactive  read variable names from stdin until EOF provided
+    -q, --quiet        suppress all output
+    --no-null          disallow null variables"
+
+function throw {
+    >&2 echo "Error: $argv"
+    >&2 echo "Try '$NAME --help' for more information."
+    exit 1
+}
+
+function uthrow {
+    >&2 echo "Error: $argv"
+    >&2 echo
+    >&2 echo $USAGE
+    exit 1
+}
+
+function printasc {
+    echo $1:
+    for key in ${(Pk)1} ; do
+        echo "    $key: ${${(P)1}[$key]}"
+    done
+}
+
+
+while [[ -n $argv ]] ; do
+    case $1 in 
+        -h|--help) 
+            echo $USAGE
+            exit 
+            ;;
+        -p|--print) 
+            opts[print]=true 
+            ;;
+        -i|--interactive) 
+            opts[interactive]=true
+            throw "interactive mode unimplemented"
+            ;;
+        -q|--quiet) 
+            opts[quiet]=true 
+            ;;
+        --no-null) 
+            opts[no_null]=true 
+            ;;
+        -*) 
+            throw "unknown option: $1" 
+            ;;
+        *) 
+            if (( $# == 1 )) ; then
+                command=$1
+            else 
+                files+=($1)
+            fi
+            ;;
+    esac
+    shift
+done
+
+declare -r opts
+declare -r command
+declare -r files
+
+if [[ -z $command ]] ; then
+    uthrow "no command"
+fi
+
+echo "Command: $command"
+echo
+echo "Options:"
+for k in ${(k)opts} ; do
+    echo "    $k: ${opts[$k]}"
+done
+echo
+echo "Files:"
+for file in $files ; do
+    echo "    $file"
+done
+echo
+
+declare -A dotenv
+declare -a order
+
+echo "Env: "
+for file in $files ; do
+    declare -i n=0
+    while IFS= read -r line ; do
+        (( n++ ))
+
+        if [[ $line =~ ^(\s*|\#.*)$ ]] ; then
+            continue
+        elif ! [[ $line =~ = ]] ; then
+            throw "bad assignment line $n"
+        fi
+
+        key=${line%%=*}
+        val=${${line#*=}%${${line#*=}##*[![:space:]]}}
+        dotenv[$key]=$val
+        order+=(key)
+
+        if ! [[ $key =~ ^[a-zA-Z0-9_]+$ ]] ; then
+            throw "invalid variable name: '$key'"
+        fi
+        
+        if ${opts[print]} ; then
+            echo "    $key: $val"
+        fi
+    done <<< $(cat $file)
+done
+
+declare -r dotenv
+declare -r order

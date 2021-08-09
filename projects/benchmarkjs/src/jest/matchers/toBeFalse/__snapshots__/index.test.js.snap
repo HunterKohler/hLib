@@ -1,0 +1,89 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`.not.toBeFalse fail when given false 1`] = `
+"[2mexpect([22m[31mrecieved[39m[2m).not.toBeFalse()[22m
+
+Expected value to not be false, recieved:
+    [31mfalse[39m"
+`;
+
+exports[`.toBeFalse fail when given  1`] = `
+"[2mexpect([22m[31mrecieved[39m[2m).toBeFalse()[22m
+
+Expected value to be false:
+    [32mfalse[39m
+Recieved:
+    [31m\\"\\"[39m"
+`;
+
+exports[`.toBeFalse fail when given [] 1`] = `
+"[2mexpect([22m[31mrecieved[39m[2m).toBeFalse()[22m
+
+Expected value to be false:
+    [32mfalse[39m
+Recieved:
+    [31m[][39m"
+`;
+
+exports[`.toBeFalse fail when given {} 1`] = `
+"[2mexpect([22m[31mrecieved[39m[2m).toBeFalse()[22m
+
+Expected value to be false:
+    [32mfalse[39m
+Recieved:
+    [31m{}[39m"
+`;
+
+exports[`.toBeFalse fail when given 0 1`] = `
+"[2mexpect([22m[31mrecieved[39m[2m).toBeFalse()[22m
+
+Expected value to be false:
+    [32mfalse[39m
+Recieved:
+    [31m0[39m"
+`;
+
+exports[`.toBeFalse fail when given 1 1`] = `
+"[2mexpect([22m[31mrecieved[39m[2m).toBeFalse()[22m
+
+Expected value to be false:
+    [32mfalse[39m
+Recieved:
+    [31m1[39m"
+`;
+
+exports[`.toBeFalse fail when given NaN 1`] = `
+"[2mexpect([22m[31mrecieved[39m[2m).toBeFalse()[22m
+
+Expected value to be false:
+    [32mfalse[39m
+Recieved:
+    [31mNaN[39m"
+`;
+
+exports[`.toBeFalse fail when given null 1`] = `
+"[2mexpect([22m[31mrecieved[39m[2m).toBeFalse()[22m
+
+Expected value to be false:
+    [32mfalse[39m
+Recieved:
+    [31mnull[39m"
+`;
+
+exports[`.toBeFalse fail when given true 1`] = `
+"[2mexpect([22m[31mrecieved[39m[2m).toBeFalse()[22m
+
+Expected value to be false:
+    [32mfalse[39m
+Recieved:
+    [31mtrue[39m"
+`;
+
+exports[`.toBeFalse fail when given undefined 1`] = `
+"[2mexpect([22m[31mrecieved[39m[2m).toBeFalse()[22m
+
+Expected value to be false:
+    [32mfalse[39m
+Recieved:
+    [31mundefined[39m"
+`;

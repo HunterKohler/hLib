@@ -1,0 +1,89 @@
+#!/usr/bin/env zsh
+
+_matcher=$1
+_usage="Usage: new_matcher NAME"
+_dirs=("" "__snapshots__")   
+
+declare -A _files
+
+_files=(
+[index.js]='
+import { matcherHint, printReceived, printExpected } from "jest-matcher-utils";
+import predicate from "./predicate";
+
+const passMessage = (/* ... */) => () =>
+    matcherHint(".not.NAME", /* ... */) 
+    + "\n\n"
+    + // ...
+
+const failMessage = (/* ... */) => () =>
+    matcherHint(".NAME", /* ... */)
+    + "\n\n"
+    + // ...
+
+export default function NAME(/* ... */) {
+    const pass = predicate(/* ... */);
+    return { pass, message: pass
+        ? passMessage(/* ... */)
+        : failMessage(/* ... */)
+    };
+}'
+
+[index.test.js]='
+import NAME from "./";
+
+expect.extend({ NAME });
+
+describe(".NAME", () => {
+    // ...
+});
+
+describe(".not.NAME", () => {
+    // ...
+});'
+
+[predicate.js]='
+export default (/* ...  */) => {
+    // ...
+};'
+
+[predicate.test.js]='
+import predicate from "./predicate";
+
+describe("NAME Predicate", () =>  {
+    // ...
+});'
+
+[__snapshots__/index.test.js.snap]=
+)
+
+_help=false
+for i in $@ ; do
+    case $i in -h|--help) 
+        _help=true
+        ;;
+    esac
+done;
+
+if $_help ; then
+    echo "$_usage"
+elif ! [[ $_matcher =~ ^[a-z][a-zA-Z0-9]*$ ]] ; then
+    >&2 echo "Error: NAME must be an alphanumeric, camel case string"
+elif [[ -d "$_matcher" ]] ; then
+    >&2 echo "Error: directory exists: $_matcher"
+else
+    echo "created directories:"
+    mkdir "$_matcher"
+    echo "    ./$_matcher/"
+    for _dir in ${_dirs[@]} ; do
+        _path="./$_matcher/$_dir/"
+        mkdir "$_path"
+        echo "    $_path"
+    done
+    echo "created files:"
+    for _file in $(sort <<< ${(F)${(k)_files}}) ; do
+        _path="./$_matcher/$_file"
+        echo -E "${${_files[$_file]:1}//NAME/$_matcher}" > "$_path"
+        echo "    $_path"
+    done
+fi
