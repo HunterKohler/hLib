@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <unistd.h>
+#include <hlib/memory.h>
 
 int fprint_usage(FILE *stream, char *name) {
     return fprintf(stream, "Usage: %s [options] file\n", name ? name : "bf");
