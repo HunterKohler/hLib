@@ -16,7 +16,7 @@
 #endif
 
 __attribute__((always_inline, malloc))
-void* xmalloc(size_t size) {
+inline void* xmalloc(size_t size) {
     void* mem = malloc(size);
 
     if(!mem) {
@@ -27,7 +27,7 @@ void* xmalloc(size_t size) {
 }
 
 __attribute__((always_inline, malloc))
-void* xcalloc(size_t count, size_t size) {
+inline void* xcalloc(size_t count, size_t size) {
     void* mem = calloc(count, size);
 
     if(!mem) {
@@ -38,7 +38,7 @@ void* xcalloc(size_t count, size_t size) {
 }
 
 __attribute__((always_inline))
-void* xrealloc(void* ptr, size_t size) {
+inline void* xrealloc(void* ptr, size_t size) {
     ptr = realloc(ptr, size);
 
     if(!ptr) {
