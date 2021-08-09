@@ -20,41 +20,6 @@ bool in_charset(char c) {
         || c == ']';
 }
 
-void xalloc_error() {
-    fprintf(stderr, "Error allocating memory.\n");
-    exit(1);
-}
-
-void* xmalloc(size_t size) {
-    void* mem = malloc(size);
-
-    if(!mem) {
-        xalloc_error();
-    }
-
-    return mem;
-}
-
-void* xcalloc(size_t count, size_t size) {
-    void* mem = calloc(count, size);
-
-    if(!mem) {
-        xalloc_error();
-    }
-
-    return mem;
-}
-
-void* xrealloc(void* ptr, size_t size) {
-    ptr = realloc(ptr, size);
-
-    if(!ptr) {
-        xalloc_error();
-    }
-
-    return ptr;
-}
-
 int main(int argc, char* argv[]) {
     if(argc > 2) {
         fprintf(stderr, "Error: Too many arguments\n");
