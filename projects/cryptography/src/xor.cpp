@@ -30,7 +30,7 @@ namespace single_character_xor {
 
         return {min_char, apply(str, min_char) , min_error};
     }
-} // single_character_xor
+} // namespace single_character_xor
 
 namespace string_xor {
     std::string apply(std::string str, const std::string& key) {

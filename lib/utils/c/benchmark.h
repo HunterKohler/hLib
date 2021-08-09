@@ -1,6 +1,7 @@
 #ifndef HLIB_UTILS_C_BENCHMARK_H_
 #define HLIB_UTILS_C_BENCHMARK_H_
 
+#include <stdio.h>
 #include <time.h>
 
 #ifdef __cplusplus
