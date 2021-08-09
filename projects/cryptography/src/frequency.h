@@ -7,7 +7,7 @@ namespace english {
     float frequency_error(const std::string&);
 
     const char sorted_letter_frequency[] = "etaoinsrhdlucmfywgpbvkxqjz";
-    const float letter_frequency[256] = {
+    const float letter_frequency[128] = {
         [9] = 0.000057, // TAB
         [23] = 0.000000, //  1
         [32] = 0.171662, //  SPACE

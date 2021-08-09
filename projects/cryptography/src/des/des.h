@@ -1,5 +1,5 @@
-#ifndef LIBRARY_DES_H_
-#define LIBRARY_DES_H_
+#ifndef DES_H_
+#define DES_H_
 
 #include <mutex>
 #include <thread>

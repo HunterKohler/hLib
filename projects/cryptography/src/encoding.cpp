@@ -1,6 +1,6 @@
 #include <string>
 #include <tuple>
-#include "encoding.hpp"
+#include "encoding.h"
 
 namespace hex {
     std::string encode(const std::string& plain) {

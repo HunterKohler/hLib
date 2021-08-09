@@ -1,7 +1,7 @@
 #include <string>
 #include <fstream>
 #include <random>
-#include "utils.hpp"
+#include "utils.h"
 
 int hamming_distance(const std::string& a, const std::string& b) {
     return hamming_distance(std::string_view(a),std::string_view(b));

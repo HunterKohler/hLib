@@ -6,9 +6,9 @@
 #include <algorithm>
 #include <random>
 
-#include "xor.hpp"
-#include "frequency.hpp"
-#include "utils.hpp"
+#include "xor.h"
+#include "frequency.h"
+#include "utils.h"
 
 namespace single_character_xor {
     std::string apply(std::string str, char key) {
@@ -79,7 +79,7 @@ namespace string_xor {
     }
 
 
-// =====================KEYSIZE CLASS ===========================
+    // ===================== KEYSIZE CLASS ===========================
     Keysize::Keysize(int _s, const std::string& str) : _size{_s} {
         _norm_distance = 0;
         for(int i = 0, b1 = 0, b2 = 0; i < BLOCKS; i++) {

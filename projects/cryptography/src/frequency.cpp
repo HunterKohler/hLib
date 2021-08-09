@@ -1,5 +1,5 @@
 #include <string>
-#include "frequency.hpp"
+#include "frequency.h"
 
 namespace english {
     float frequency_error(const std::string& str) {
