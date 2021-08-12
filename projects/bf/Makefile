@@ -3,7 +3,11 @@ SHELL := /usr/bin/env bash
 CC := gcc-11
 
 CFLAGS := -std=c99 -Wall
-CPPFLAGS := -MD -MP -I../../hlib/include                                                                                         vc
+CPPFLAGS := -MD -MP -I../../hlib/include
+
+LDFLAGS :=
+LDLIBS :=
+
 SRC_DIR := src
 BUILD_DIR := build
 BIN_DIR := bin
@@ -22,6 +26,7 @@ clean:
 
 $(EXE): $(OBJ) | $(BIN_DIR)
 	$(CC) $(OBJ) $(LDFLAGS) $(LDLIBS) -o $@
+	@echo "done"
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c | $(BUILD_DIR)
 	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ -c $<

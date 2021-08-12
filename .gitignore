@@ -3,4 +3,8 @@
 .mypy_cache
 node_modules
 a.out
-.vscode
+*.d
+*.o
+*.pch
+*.temp.*
+*.temp

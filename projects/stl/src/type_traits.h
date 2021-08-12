@@ -1,11 +1,10 @@
-#ifndef HLIB_TYPES_STANDARD_H_
-#define HLIB_TYPES_STANDARD_H_
+#ifndef HLIB_STL_TYPE_TRAITS_H_
+#define HLIB_STL_TYPE_TRAITS_H_
 
 // C++20 STL <type_traits>
 //      referencing draft N4860
 
-
-// TEMPORARY
+// INCLUDE FOR TESTING TEMPORARILY
 #include <type_traits>
 #include <iostream>
 
