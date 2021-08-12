@@ -1,138 +1,156 @@
-#include <string.h>
-#include <errno.h>
-#include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
-#include <unistd.h>
-#include <hlibc/memory.h>
+#include <string.h>
+#include <ctype.h>
+#include <getopt.h>
+#include <hlibc/io.h>
 
-int fprint_usage(FILE *stream, char *name) {
-    return fprintf(stream, "Usage: %s [options] file\n", name ? name : "bf");
-}
+#include "bf.h"
 
-bool in_charset(char c) {
-    return c == '>'
-        || c == '<'
-        || c == '+'
-        || c == '-'
-        || c == '.'
-        || c == ','
-        || c == '['
-        || c == ']';
-}
-
-int main(int argc, char* argv[]) {
-    if(argc > 2) {
-        fprintf(stderr, "Error: Too many arguments\n");
-        fprint_usage(stderr, argv[0]);
-        exit(errno);
-    } else if(argc < 2) {
-        fprintf(stderr, "Error: Missing file argument\n");
-        fprint_usage(stderr, argv[0]);
-        exit(errno);
+int main(int argc, char *argv[]) {
+    if(argc == 2 && !strcmp(argv[1], "help")) {
+        printf(usage);
+        exit(0);
     }
 
-    FILE* stream = fopen(argv[1], "r");
+    const char short_options[] = "hqvV";
+    const struct option long_options[] = {
+        { "version", no_argument, NULL, 'V' },
+        { "help", no_argument, NULL, 'h' }
+    };
 
-    if(errno) {
+    int opt;
+    int index_ptr;
+    while((opt = getopt_long(argc, argv, short_options, long_options, &index_ptr)) != -1) {
+        switch(opt) {
+        case 0:
+            break;
+        case 'h':
+            printf("%s\n", usage);
+            exit(0);
+        case 'V':
+            printf("%s\n", version);
+            exit(0);
+        case '?':
+            if(isprint(optopt)) {
+                fprintf(stderr, "Unknown option '-%c'\n%s\n", optopt, usage);
+            } else {
+                fprintf(stderr, "Unknown non-printable option '-\\x%x\n%s\n", optopt, usage);
+            }
+            exit(1);
+        }
+    }
+
+    if(optind == argc) {
+        fprintf(stderr, "No input files\n");
+        exit(1);
+    }
+
+    FILE* fp = fopen(argv[optind], "r");
+
+    if(!fp) {
         perror("Error opening file");
-        exit(errno);
+        exit(1);
     }
 
-    fseek(stream, 0, SEEK_END);
-    int64_t stream_length = ftello(stream);
-    fseek(stream, 0, SEEK_SET);
+    size_t length = fsize(fp);
 
-    if(errno) {
+    if(length == -1) {
         perror("Error reading file");
-        exit(errno);
+        exit(1);
     }
 
-    char *body = xmalloc(stream_length * sizeof(*body));
-    char *body_ptr = body;
-    for(int64_t s_index = 0; s_index < stream_length; ++s_index) {
-        char tmp = fgetc(stream);
-        if(in_charset(tmp)) {
-            *(body_ptr++) = tmp;
-        }
+    // 10 MB
+    if(length > 1e7) {
+        perror("File too large");
     }
 
-    int64_t body_length = body_ptr - body;
-    body = xrealloc(body, body_length  * sizeof(*body));
-    body_ptr = body;
-    char *body_end = body + body_length;
+    char* buffer = malloc(length + 1);
 
-    int memory_size = 1000;
-    char *memory = xcalloc(memory_size, sizeof(*memory));
-    char *memory_ptr = memory;
-    char *memory_end = memory + memory_size;
+    if(!buffer) {
+        perror("Error allocating memory");
+        fclose(fp);
+        exit(1);
+    }
 
-    int lstack_size = 1000;
-    char **lstack = xcalloc(lstack_size, sizeof(*lstack));
-    char **lstack_ptr = lstack;
-    char **lstack_end = lstack + lstack_size;
+    if(fread(buffer, 1, length, fp) != length) {
+        perror("Error reading file");
+        fclose(fp);
+        free(buffer);
+        exit(1);
+    }
 
-    while(body_ptr < body_end) {
-        switch(*body_ptr) {
-            case '>':
-                ++memory_ptr;
-                break;
+    buffer[length] = '\0';
 
-            case '<':
-                --memory_ptr;
-                break;
+    struct bf_result* result = bf_compile(buffer, length);
 
-            case '+':
-                ++(*memory_ptr);
-                break;
+    if(result->err) {
+        fprintf(stderr, "Compiler error: %s @%zu\n", BF_STRERROR[result->err], result->err_pos);
+        exit(1);
+    }
 
-            case '-':
-                --(*memory_ptr);
-                break;
+    FILE* cfile = fopen("temp.c", "w");
+    fprintf(cfile, BF_TEMPLATE, result->buffer);
+    fclose(cfile);
 
-            case '.':
-                printf("%c", *memory_ptr);
-                break;
+    // system("gcc temp.c -lncurses");
+}
 
-            case ',':
-                scanf("%c", memory_ptr);
-                break;
 
-            case '[':
-                // TODO save last ']' if seen possible
-                if(*memory_ptr) {
-                    if(lstack_ptr == lstack_end) {
-                        fprintf(stderr, "Loop overflow\n");
-                        exit(1);
-                    }
+struct bf_result* bf_compile(char* source, int length) {
+    struct bf_result* ret = malloc(sizeof *ret);
 
-                    *(++lstack_ptr) = body_ptr;
-                } else {
-                    while(*body_ptr != ']') {
-                        if(body_ptr == body_end) {
-                            fprintf(stderr, "Unexpected EOF while parsing\n");
-                            exit(1);
-                        }
+    if(!ret) {
+        return NULL;
+    }
 
-                        ++body_ptr;
-                    }
-                }
-                break;
+    ret->err = 0;
+    ret->buffer = malloc((sizeof *ret));
 
-            case ']':
-                if(lstack_ptr == lstack) {
-                    fprintf(stderr, "Unmatched closing brace\n");
-                    exit(1);
-                }
+    if(!ret->buffer) {
+        free(ret->buffer);
+        ret->err = BF_ERR_MEM;
+        return ret;
+    }
 
-                if(*memory_ptr) {
-                    body_ptr = *lstack_ptr;
-                } else {
-                    --lstack_ptr;
-                }
-                break;
+    int braces = 0;
+    char* head = ret->buffer;
+
+    for(int i = 0; i < length; ++i) {
+        switch(source[i]) {
+        case '>': *head = 'r'; break;
+        case '<': *head = 'l'; break;
+        case '+': *head = 'i'; break;
+        case '-': *head = 'd'; break;
+        case '.': *head = 'p'; break;
+        case ',': *head = 'g'; break;
+        case '[':
+            *head = 'w';
+            ++braces;
+            break;
+        case ']':
+            if(--braces < 0) {
+                free(ret->buffer);
+                ret->err = BF_ERR_CLOSE_BRACE;
+                ret->err_pos = i;
+                return ret;
+            }
+
+            *head = '}';
+            break;
+        default:
+            continue;
         }
 
-        ++body_ptr;
+        *(++head) = ';';
+        ++head;
     }
+
+    if(braces) {
+        free(ret->buffer);
+        ret->err = BF_ERR_EOF;
+        ret->err_pos = length;
+        return ret;
+    }
+
+    return ret;
 }
