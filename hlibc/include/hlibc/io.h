@@ -19,11 +19,11 @@ bool fgetsize(FILE *stream, off_t *size);
 // Rewind file pointer 'stream' to begining. Return 'true' and sets errno on
 // error, reutrns 'false' otherwise. Used to replace
 // 'void rewind(FILE *stream);', because it doesn't report errors.
-bool frewind(FILE* stream);
+bool frewind(FILE *stream);
 
 // Reads file from 'path'. Returns NULL and sets errno on failure, new buffer
 // on success of file contents.
-char *readfile(const char* path);
+char *readfile(const char *path);
 
 // Safely read remaining contents of file pointer 'stream' to a new buffer.
 // Returns NULL and sets errno on faulure. File position is reset to that which

@@ -1,7 +1,8 @@
+#include <stdlib.h>
 #include <errno.h>
 #include <sys/stat.h>
-#include "io.h"
-#include "math.h"
+#include <hlibc/io.h>
+#include <hlibc/math.h>
 
 blksize_t io_blksize(struct stat* st) {
     return max(BUFSIZ, st->st_blksize);
@@ -16,6 +17,7 @@ bool fgetsize(FILE* stream, off_t *size) {
     }
 
     *size = st.st_size;
+    return false;
 }
 
 bool frewind(FILE* stream) {
@@ -58,19 +60,19 @@ char *freadfile(FILE* stream) {
     char *end = buffer + buffer_size;
 
     blksize_t block_size = io_blksize(&st);
-    size_t read_size = block_size;
+    blksize_t read_size = block_size;
 
     while(head < end && read_size == block_size) {
-        int read_size = fread(head += block_size, 1, block_size, stream);
+        read_size = fread(head, 1, block_size, stream);
+        head += block_size;
     }
 
-    if (!feof(stream)) {
+    if (!feof(stream) || fseeko(stream, pos, SEEK_SET)) {
         free(buffer);
         errno = EIO;
         return NULL;
     }
 
-    fsetpos(stream, pos);
     return buffer;
 }
 
