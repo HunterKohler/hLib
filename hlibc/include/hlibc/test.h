@@ -41,25 +41,28 @@ struct unit_test_result {
 };
 
 char *unit_test_result_string(struct unit_test_result *result);
+
 bool unit_test_init(struct unit_test *test,
                     void (*fn)(),
                     const char *desc,
                     const char *directive,
                     const char *directive_desc);
+
 struct unit_test *unit_test_new(void (*fn)(),
                                 const char *desc,
                                 const char *directive,
                                 const char *directive_desc);
 
+int unit_test_group_launch(struct unit_test_group *group);
 bool unit_test_group_init(struct unit_test_group *group, const char *desc);
-struct unit_test_group *unit_test_group_new(const char *desc);
 bool unit_test_group_add(struct unit_test_group *group, struct unit_test *test);
 
-int unit_test_group_launch(struct unit_test_group *group);
-
+struct unit_test_group *unit_test_group_new(const char *desc);
 struct unit_test_result *unit_test_run(struct unit_test *test);
 struct unit_test_result **unit_test_group_run(struct unit_test_group *group);
 struct unit_test_result **unit_test_group_join(struct unit_test_group *group);
+
+extern thread_local struct unit_test_result *active_result;
 
 #define assert(x)                                     \
     do {                                              \
