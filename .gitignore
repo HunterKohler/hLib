@@ -8,3 +8,7 @@ a.out
 *.pch
 *.temp.*
 temp
+.pytest_cache
+__pycache__
+*.env
+.vscode
