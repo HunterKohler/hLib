@@ -5,75 +5,51 @@
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
-#include <pthread.h>
 #include <hlibc/def.h>
+
+#define UNIT_TEST_COPY_STR false
 
 struct unit_test {
     void (*fn)();
 
-    const char *desc;
+    const char *name;
     const char *directive;
     const char *directive_desc;
 };
 
-struct unit_test_group {
-    const char *desc;
+struct unit_test *unit_test_new(const char *name,
+                                const char *directive,
+                                const char *directive_desc)
+{
+    struct unit_test *ret = malloc(sizeof(*ret));
 
-    size_t test_count;
-    size_t test_cap;
+    if (!ret) {
+        return NULL;
+    } else if (!(ret->name = strdup(name)) ||
+               !(ret->directive = strdup(directive)) ||
+               !(ret->directive_desc = strdup(directive_desc))) {
+        unit_test_free(ret);
+        return NULL;
+    }
 
-    struct unit_test **tests;
+    return ret;
+}
 
-    pthread_t thread;
-    clock_t duration;
-};
+void unit_test_free(struct unit_test *test)
+{
+    free(test->name);
+    free(test->directive);
+    free(test->directive_desc);
+    free(test);
+}
+
+enum unit_test_result_status { ACTIVE, PASSED, FAILED };
 
 struct unit_test_result {
     size_t id;
-
-    bool failed;
-    const char *reason;
-    const char *file;
-    const char *fn_name;
-    unsigned int line;
-
     clock_t duration;
+
+    enum unit_test_result_status status;
 };
-
-char *unit_test_result_string(struct unit_test_result *result);
-
-bool unit_test_init(struct unit_test *test,
-                    void (*fn)(),
-                    const char *desc,
-                    const char *directive,
-                    const char *directive_desc);
-
-struct unit_test *unit_test_new(void (*fn)(),
-                                const char *desc,
-                                const char *directive,
-                                const char *directive_desc);
-
-int unit_test_group_launch(struct unit_test_group *group);
-bool unit_test_group_init(struct unit_test_group *group, const char *desc);
-bool unit_test_group_add(struct unit_test_group *group, struct unit_test *test);
-
-struct unit_test_group *unit_test_group_new(const char *desc);
-struct unit_test_result *unit_test_run(struct unit_test *test);
-struct unit_test_result **unit_test_group_run(struct unit_test_group *group);
-struct unit_test_result **unit_test_group_join(struct unit_test_group *group);
-
-extern thread_local struct unit_test_result *active_result;
-
-#define assert(x)                                     \
-    do {                                              \
-        if (!(x)) {                                   \
-            active_result->failed = true;             \
-            active_result->reason = "assert(" #x ")"; \
-            active_result->file = __FILE__;           \
-            active_result->line = __LINE__;           \
-            active_result->fn_name = __FUNCTION__;    \
-            return;                                   \
-        }                                             \
-    } while (0)
 
 #endif
