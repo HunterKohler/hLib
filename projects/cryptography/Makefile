@@ -1,36 +1,53 @@
-SHELL := /usr/bin/env bash
+SHELL = bash
 
-CXX := g++-11
-CXX_STANDARD := c++20
+# -Wno-sign-compare \
+# -Wno-implicit-fallthrough \
 
-CXXFLAGS := --std=$(CXX_STANDARD) # -Wall
-CPPFLAGS := -MP -MD
+CXXFLAGS := \
+	-std=c++20 \
+	-Wall \
+	-Wextra \
+	-fanalyzer \
+	-O2
+
+CPPFLAGS := -MD -MP
+
 LDFLAGS :=
 LDLIBS :=
 
-SRC_DIR := src
-BUILD_DIR := build
-BIN_DIR := bin
+SRC := $(shell find src -name *.cpp)
+SRC_OBJ := $(patsubst %.cpp,build/%.o,$(SRC))
 
-SRC := src/main.cpp
-OBJ := $(patsubst $(SRC_DIR)/%.cpp,$(BUILD_DIR)/%.o,$(SRC))
+TEST := $(shell find test -name *.cpp)
+TEST_OBJ := $(patsubst %.cpp,build/%.o,$(TEST))
+TEST_BIN := $(patsubst %.cpp,bin/%,$(TEST))
 
-EXE := $(BIN_DIR)/main
+OBJ := $(SRC_OBJ) $(TEST_OBJ)
+BIN := $(TEST_BIN)
 
-.PHONY: all
-all: $(EXE)
+TREE := $(foreach dir,build/ bin/, \
+	$(patsubst %,$(dir)%,$(shell find src test -type d)))
 
-$(EXE): $(OBJ) | $(BIN_DIR)
-	$(CXX) $(OBJ) -o $@ $(LDFLAGS) $(LDLIBS)
+.PHONY: all clean test tree
 
-$(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp | $(BUILD_DIR)
+all: $(BIN) $(OBJ)
+
+clean:
+	@rm -rf bin build
+
+test: $(TEST_BIN)
+	@for i in $(TEST_BIN); do printf "$$i: "; ./$$i ; done
+
+tree:
+	@mkdir -p $(TREE)
+
+$(TARGET_BIN): bin/% : build/src/%.o $(SRC_OBJ)
+$(TEST_BIN): bin/% : build/%.o
+
+$(BIN): | tree
+	$(CXX) $(LDFLAGS) $(LDLIBS) $^ -o $@
+
+$(OBJ): build/%.o : %.cpp | tree
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
 
-$(BIN_DIR) $(BUILD_DIR) $(SRC_DIR):
-	@mkdir -pv $@
-
-.PHONY: clean
-clean:
-	@$(RM) -rv $(BUILD_DIR) $(BIN_DIR)
-
--include $(BUILD_DIR)/*.d
+-include $(shell find build -name *.d 2>/dev/null)i
