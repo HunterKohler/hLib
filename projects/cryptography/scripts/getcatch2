@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+set -e
+
+get_catch_download_url() {
+    curl "https://api.github.com/repos/catchorg/Catch2/releases/latest" \
+        -s -H "Accept: application/vnd.github.v3+json" |
+    jq -r '.assets
+        | map(select(.name == "catch.hpp"))
+        | .[0].browser_download_url'
+}
+
+curl -s -L $(get_catch_download_url)
+

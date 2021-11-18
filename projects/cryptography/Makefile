@@ -7,8 +7,10 @@ CXXFLAGS := \
 	-std=c++20 \
 	-Wall \
 	-Wextra \
+	-Wno-sign-compare \
 	-fanalyzer \
-	-O2
+	-O2 \
+	-I./build/include
 
 CPPFLAGS := -MD -MP
 
@@ -25,8 +27,7 @@ TEST_BIN := $(patsubst %.cpp,bin/%,$(TEST))
 OBJ := $(SRC_OBJ) $(TEST_OBJ)
 BIN := $(TEST_BIN)
 
-TREE := $(foreach dir,build/ bin/, \
-	$(patsubst %,$(dir)%,$(shell find src test -type d)))
+CATCH2_H := build/include/catch2.h
 
 .PHONY: all clean test tree
 
@@ -38,16 +39,21 @@ clean:
 test: $(TEST_BIN)
 	@for i in $(TEST_BIN); do printf "$$i: "; ./$$i ; done
 
-tree:
-	@mkdir -p $(TREE)
+%/:
+	@mkdir -p $@
 
-$(TARGET_BIN): bin/% : build/src/%.o $(SRC_OBJ)
-$(TEST_BIN): bin/% : build/%.o
+$(CATCH2_H): build/include/
+	./scripts/getcatch2 > $(CATCH2_H)
 
-$(BIN): | tree
+$(SRC_OBJ): | build/src/
+
+$(TEST_OBJ): $(CATCH2_H) | build/test/
+$(TEST_BIN): bin/% : build/%.o | bin/test/
+
+$(BIN):
 	$(CXX) $(LDFLAGS) $(LDLIBS) $^ -o $@
 
-$(OBJ): build/%.o : %.cpp | tree
+$(OBJ): build/%.o : %.cpp
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
 
 -include $(shell find build -name *.d 2>/dev/null)i

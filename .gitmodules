@@ -1,0 +1,4 @@
+[submodule "projects/cryptography/external/Catch2"]
+	path = projects/cryptography/external/Catch2
+	url = git@github.com:catchorg/Catch2.git
+	branch = v2.x
