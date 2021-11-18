@@ -1,3 +1,6 @@
+#ifndef CRYPTO_ENCODING_H_
+#define CRYPTO_ENCODING_H_
+
 #include <stddef.h>
 
 extern const char hex_charset[];
@@ -9,3 +12,5 @@ extern const char base64_charset[];
 size_t base64_len(size_t n);
 char *base64_encode(char *restrict dest, const char *restrict src, size_t n);
 char *base64_decode(char *restrict dest, const char *restrict src, size_t n);
+
+#endif
