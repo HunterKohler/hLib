@@ -68,5 +68,5 @@ char *base64_encode(char *restrict dest, const char *restrict src, size_t n)
     return dest;
 }
 
-char *base64_decode(char *restrict dest, const char *restrict src, size_t n)
-{}
+// char *base64_decode(char *restrict dest, const char *restrict src, size_t n)
+// {}
