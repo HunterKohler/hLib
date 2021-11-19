@@ -1,59 +1,79 @@
 SHELL = bash
 
-# -Wno-sign-compare \
-# -Wno-implicit-fallthrough \
-
-CXXFLAGS := \
-	-std=c++20 \
+CFLAGS := \
+	-std=c11 \
 	-Wall \
 	-Wextra \
 	-Wno-sign-compare \
+	-Wno-implicit-fallthrough \
 	-fanalyzer \
 	-O2 \
-	-I./build/include
+	-I./build/include/
 
+# Create *.d files while compiling, then include at bottom to track changes in
+# associated headers.
 CPPFLAGS := -MD -MP
 
 LDFLAGS :=
 LDLIBS :=
 
-SRC := $(shell find src -name *.cpp)
-SRC_OBJ := $(patsubst %.cpp,build/%.o,$(SRC))
+LIB_SRC := $(shell find src -name *.c)
+LIB_OBJ := $(patsubst %.c,build/%.o,$(LIB_SRC))
+LIB_ARCHIVE := ./build/lib/crypto.a
+LIB_INCLUDE := \
+	$(patsubst src/%,build/include/crypto/%,$(shell find src -name *.h))
 
-TEST := $(shell find test -name *.cpp)
-TEST_OBJ := $(patsubst %.cpp,build/%.o,$(TEST))
-TEST_BIN := $(patsubst %.cpp,bin/%,$(TEST))
+TEST_SRC := $(shell find test -name *.c)
+TEST_OBJ := $(patsubst %.c,build/%.o,$(TEST_SRC))
+TEST_BIN := $(patsubst %.c,bin/%,$(TEST_SRC))
 
-OBJ := $(SRC_OBJ) $(TEST_OBJ)
-BIN := $(TEST_BIN)
+CRYPTOPALS_SRC := $(shell find cryptopals -name *.c)
+CRYPTOPALS_OBJ := $(patsubst %.c,build/%.o,$(CRYPTOPALS_SRC))
+CRYPTOPALS_BIN := $(patsubst %.c,bin/%,$(CRYPTOPALS_SRC))
 
-CATCH2_H := build/include/catch2.h
+SRC := $(LIB_SRC) $(TEST_SRC) $(CRYPTOPALS_SRC)
+OBJ := $(LIB_OBJ) $(TEST_OBJ) $(CRYPTOPALS_OBJ)
+BIN := $(TEST_BIN) $(CRYPTOPALS_BIN)
 
-.PHONY: all clean test tree
+# Commands
+# -----------------------------------------------------------------------------
+.PHONY := all test cryptopals
 
-all: $(BIN) $(OBJ)
-
-clean:
-	@rm -rf bin build
-
+all: $(LIB) $(OBJ) $(BIN)
 test: $(TEST_BIN)
-	@for i in $(TEST_BIN); do printf "$$i: "; ./$$i ; done
+cryptopals: $(CRYPTOPALS_BIN)
+clean:
+	@rm -rf build/ bin/
 
+# Directories
+# -----------------------------------------------------------------------------
 %/:
 	@mkdir -p $@
 
-$(CATCH2_H): build/include/
-	./scripts/getcatch2 > $(CATCH2_H)
+# Dependencies
+# -----------------------------------------------------------------------------
+$(OBJ): $(LIB_INCLUDE)
 
-$(SRC_OBJ): | build/src/
+$(CRYPTOPALS_BIN): $(LIB_ARCHIVE)
 
-$(TEST_OBJ): $(CATCH2_H) | build/test/
-$(TEST_BIN): bin/% : build/%.o | bin/test/
+# Build
+# -----------------------------------------------------------------------------
+$(OBJ): build/%.o : %.c | $(dir $(OBJ))
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 
-$(BIN):
-	$(CXX) $(LDFLAGS) $(LDLIBS) $^ -o $@
+$(BIN): bin/% : build/%.o | $(dir $(BIN))
+	$(CC) $(LDFLAGS) $(LDLIBS) -o $@ $^
 
-$(OBJ): build/%.o : %.cpp
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
+# Packaging library.
+$(LIB_ARCHIVE): $(LIB_OBJ) | $(dir $(LIB_ARCHIVE))
+	ar -rcs $@ $^
 
--include $(shell find build -name *.d 2>/dev/null)i
+# Symlink include to crypto.
+$(LIB_INCLUDE): build/include/crypto/%.h : src/%.h | $(dir $(LIB_INCLUDE))
+	@cp $< $@
+
+# Makefiles
+# -----------------------------------------------------------------------------
+-include $(shell find build -name *.d 2>/dev/null)
+
+
