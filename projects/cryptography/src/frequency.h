@@ -1,12 +1,18 @@
 #ifndef CRYPTO_FREQUENCY_H_
 #define CRYPTO_FREQUENCY_H_
 
+#include "common.h"
+
+#define NON_PRINTABLE_PENALTY 0.1
+
 /*
- * Letter frequency sourced from:
- * http://www.fitaly.com/board/domper3/posts/136.html
- * John Harms, 2002.
+ * Does not consider characters other than lowercase letters.
  */
-extern const char sorted_letter_frequency[];
-extern const double letter_frequency[];
+extern const double en_letter_frequency[];
+
+/*
+ * Compares frequency error to table, lowercasing letters.
+ */
+double en_frequency_error(const byte_t *bytes, size_t n);
 
 #endif

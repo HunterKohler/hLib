@@ -30,4 +30,6 @@
         sizeof(x) / sizeof((x)[0]);              \
     })
 
+typedef uint8_t byte_t;
+
 #endif

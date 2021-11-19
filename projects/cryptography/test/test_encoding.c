@@ -4,79 +4,76 @@
 #include <stdio.h>
 
 struct test_case {
-    const char *plain;
-    const char *hex;
-    const char *base64;
+    size_t plain_size;
+    const byte_t *plain;
+
+    size_t hex_size;
+    const byte_t *hex;
+
+    size_t base64_size;
+    const byte_t *base64;
 };
 
 struct test_case test_vector[] = {
-    {      "",             "",         ""},
-    {     "f",           "66",     "Zg=="},
-    {    "fo",         "666F",     "Zm8="},
-    {   "foo",       "666F6F",     "Zm9v"},
-    {  "foob",     "666F6F62", "Zm9vYg=="},
-    { "fooba",   "666F6F6261", "Zm9vYmE="},
-    {"foobar", "666F6F626172", "Zm9vYmE="},
+    {0,       "",  0,             "", 0,         ""},
+    {1,      "f",  2,           "66", 4,     "Zg=="},
+    {2,     "fo",  4,         "666f", 4,     "Zm8="},
+    {3,    "foo",  6,       "666f6f", 4,     "Zm9v"},
+    {4,   "foob",  8,     "666f6f62", 8, "Zm9vYg=="},
+    {5,  "fooba", 10,   "666f6f6261", 8, "Zm9vYmE="},
+    {6, "foobar", 12, "666f6f626172", 8, "Zm9vYmFy"},
 };
-
-void test_base64_len(struct test_case *tc)
-{
-    size_t size = strlen(tc->plain);
-    size_t expected = strlen(tc->base64);
-
-    assert(base64_len(size) == expected);
-}
 
 void test_base64_encode(struct test_case *tc)
 {
-    char buf[1024] = { 0 };
+    byte_t out[1024] = { 0 };
 
-    base64_encode(buf, tc->plain, strlen(tc->plain));
-    assert(!strcmp(buf, tc->base64));
+    base64_encode(tc->plain, tc->plain_size, out);
+    assert(!memcmp(out, tc->base64, tc->base64_size));
 }
 
 // void test_base64_decode(struct test_case *tc)
 // {
-//     char buf[1024] = { 0 };
+//     byte_t buf[1024] = { 0 };
 
-//     base64_decode(buf, tc->base64, strlen(tc->base64));
-//     assert(!strcmp(buf, tc->plain));
+//     base64_decode(buf, tc->base64, tc->base64_size);
+//     assert(!memcmp(buf, tc->plain, tc->size));
 // }
-
-void test_hex_len(struct test_case *tc)
-{
-    size_t size = strlen(tc->plain);
-    size_t expected = strlen(tc->hex);
-
-    assert(hex_len(size) == expected);
-}
 
 void test_hex_encode(struct test_case *tc)
 {
-    char buf[1024] = { 0 };
-
-    hex_encode(buf, tc->plain, strlen(tc->plain));
-    assert(!strcmp(buf, tc->hex));
+    byte_t out[1024] = { 0 };
+    hex_encode(tc->plain, tc->plain_size, out);
+    assert(!memcmp(out, tc->hex, tc->hex_size));
 }
 
 void test_hex_decode(struct test_case *tc)
 {
-    char buf[1024] = { 0 };
+    byte_t out[1024] = { 0 };
 
-    hex_decode(buf, tc->hex, strlen(tc->hex));
-    printf("buf: %s\ntc->plain: %s\ntc->hex: %s\n", buf, tc->plain, tc->hex);
-
-    assert(!strcmp(buf, tc->plain));
+    assert(hex_decode(tc->hex, tc->hex_size, out) == -1);
+    assert(!memcmp(out, tc->plain, tc->plain_size));
 }
+
+// void test_hex_decode_error()
+// {
+// }
+
+// void test_base64_decode_error()
+// {
+// }
 
 int main()
 {
     for (int i = 0; i < ARRAY_SIZE(test_vector); i++) {
-        test_hex_len(test_vector + i);
         test_hex_encode(test_vector + i);
         test_hex_decode(test_vector + i);
-        test_base64_len(test_vector + i);
         test_base64_encode(test_vector + i);
         // test_base64_decode(test_vector + i);
     }
+
+    // test_hex_decode_error();
+    // test_base64_decode_error();
+
+    printf("Success\n");
 }

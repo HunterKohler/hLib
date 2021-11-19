@@ -1,16 +1,16 @@
 #ifndef CRYPTO_ENCODING_H_
 #define CRYPTO_ENCODING_H_
 
-#include <stddef.h>
+#include "common.h"
 
-extern const char hex_charset[];
 size_t hex_len(size_t n);
-char *hex_encode(char *restrict dest, const char *restrict src, size_t n);
-char *hex_decode(char *restrict dest, const char *restrict src, size_t n);
 
-extern const char base64_charset[];
+void hex_encode(const byte_t *restrict src, size_t n, byte_t *restrict dest);
+int hex_decode(const byte_t *restrict src, size_t n, byte_t *restrict dest);
+
 size_t base64_len(size_t n);
-char *base64_encode(char *restrict dest, const char *restrict src, size_t n);
-char *base64_decode(char *restrict dest, const char *restrict src, size_t n);
+
+void base64_encode(const byte_t *restrict src, size_t n, byte_t *restrict dest);
+int base64_decode(const byte_t *restrict src, size_t n, byte_t *restrict dest);
 
 #endif
