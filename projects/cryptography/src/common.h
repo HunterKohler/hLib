@@ -22,7 +22,7 @@
 #endif
 
 #define IS_ARRAY(x) \
-    (!__builtin_types_compatible_p(__typeof__(x), __typeof__(&(x)[0])))
+    (!__builtin_types_compatible_p(__typeof(x), __typeof(&(x)[0])))
 
 #define ARRAY_SIZE(x)                            \
     ({                                           \

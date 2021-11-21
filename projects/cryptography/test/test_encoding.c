@@ -17,11 +17,11 @@ struct test_case {
 struct test_case test_vector[] = {
     {0,       "",  0,             "", 0,         ""},
     {1,      "f",  2,           "66", 4,     "Zg=="},
-    {2,     "fo",  4,         "666f", 4,     "Zm8="},
-    {3,    "foo",  6,       "666f6f", 4,     "Zm9v"},
-    {4,   "foob",  8,     "666f6f62", 8, "Zm9vYg=="},
-    {5,  "fooba", 10,   "666f6f6261", 8, "Zm9vYmE="},
-    {6, "foobar", 12, "666f6f626172", 8, "Zm9vYmFy"},
+    {2,     "fo",  4,         "666F", 4,     "Zm8="},
+    {3,    "foo",  6,       "666F6F", 4,     "Zm9v"},
+    {4,   "foob",  8,     "666F6F62", 8, "Zm9vYg=="},
+    {5,  "fooba", 10,   "666F6F6261", 8, "Zm9vYmE="},
+    {6, "foobar", 12, "666F6F626172", 8, "Zm9vYmFy"},
 };
 
 void test_base64_encode(struct test_case *tc)

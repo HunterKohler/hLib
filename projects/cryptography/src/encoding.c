@@ -2,7 +2,7 @@
 
 #include "encoding.h"
 
-const byte_t hex_charset[16] = "0123456789abcdef";
+const byte_t hex_charset[16] = "0123456789ABCDEF";
 
 const byte_t hex_table[256] = {
     [0 ... 255] = 16, ['0'] = 0,  ['1'] = 1,  ['2'] = 2,  ['3'] = 3,

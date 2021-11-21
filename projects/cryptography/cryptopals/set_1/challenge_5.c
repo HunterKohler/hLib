@@ -11,9 +11,9 @@ int main()
                            "I go crazy when I hear a cymbal";
     const byte_t key[] = "ICE";
     const byte_t expected[] =
-        "0b3637272a2b2e63622c2e69692a23693a2a3c6324202d623d63343c2a26226324272"
-        "765272a282b2f20430a652e2c652a3124333a653e2b2027630c692b20283165286326"
-        "302e27282f";
+        "0B3637272A2B2E63622C2E69692A23693A2A3C6324202D623D63343C2A26226324272"
+        "765272A282B2F20430A652E2C652A3124333A653E2B2027630C692B20283165286326"
+        "302E27282F";
 
     size_t n = sizeof(input) - 1;
     size_t m = sizeof(key) - 1;

@@ -7,9 +7,9 @@
 
 int main()
 {
-    const byte_t hex[] = "1c0111001f010100061a024b53535009181c";
-    const byte_t key[] = "686974207468652062756c6c277320657965";
-    const byte_t expected[] = "746865206b696420646f6e277420706c6179";
+    const byte_t hex[] = "1C0111001F010100061A024B53535009181C";
+    const byte_t key[] = "686974207468652062756C6C277320657965";
+    const byte_t expected[] = "746865206B696420646F6E277420706C6179";
 
     size_t n = sizeof(hex) - 1;
 
