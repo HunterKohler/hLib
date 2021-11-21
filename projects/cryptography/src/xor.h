@@ -15,6 +15,10 @@ void single_xor_apply(byte_t *target, size_t n, byte_t key);
 void multi_xor_apply(byte_t *restrict target, size_t n,
                      const byte_t *restrict key, size_t m);
 
+double multi_xor_keysize_dist(const byte_t *src, size_t keysize, size_t blocks);
+
+size_t multi_xor_key(const byte_t *src, size_t n, byte_t *dest);
+
 size_t hamming_distance(const void *a, const void *b, size_t n);
 
 #endif

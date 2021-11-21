@@ -39,13 +39,26 @@ BIN := $(TEST_BIN) $(CRYPTOPALS_BIN)
 
 # Commands
 # -----------------------------------------------------------------------------
-.PHONY := all test cryptopals clean
+.PHONY := all clean run_tests run_cryptopals
 
 all: $(LIB) $(OBJ) $(BIN)
-test: $(TEST_BIN)
-cryptopals: $(CRYPTOPALS_BIN)
 
-# for i in $^ ; do python $$i ; done
+run_tests: $(sort $(TEST_BIN))
+	@for i in $^; do \
+		name=$${i#bin/test/} \
+		ret=$$($$i 2>&1) && status="Pass" || status="Fail" ; \
+		printf "[Test] %s: %s\n" "$$name" "$$status" ; \
+	done
+
+run_cryptopals: $(sort $(CRYPTOPALS_BIN))
+	@for i in $^; do \
+		set=$${i#bin/cryptopals/set_} ; \
+		set=$${set%/*} ; \
+		challenge=$${i##*/challenge_} ; \
+		ret=$$($$i 2>&1) && status="Pass" || status="Fail" ; \
+		printf "[Challenge] %d.%d: %s\n" "$$set" "$$challenge" "$$status" ; \
+	done
+
 clean:
 	@rm -rf build/ bin/
 

@@ -3,6 +3,7 @@
 #include "encoding.h"
 
 const byte_t hex_charset[16] = "0123456789abcdef";
+
 const byte_t hex_table[256] = {
     [0 ... 255] = 16, ['0'] = 0,  ['1'] = 1,  ['2'] = 2,  ['3'] = 3,
     ['4'] = 4,        ['5'] = 5,  ['6'] = 6,  ['7'] = 7,  ['8'] = 8,
@@ -10,6 +11,16 @@ const byte_t hex_table[256] = {
     ['E'] = 14,       ['F'] = 15, ['a'] = 10, ['b'] = 11, ['c'] = 12,
     ['d'] = 13,       ['e'] = 14, ['f'] = 15
 };
+
+size_t hex_encode_size(size_t n)
+{
+    return n << 1;
+}
+
+size_t hex_decode_size(size_t n)
+{
+    return n >> 1;
+}
 
 void hex_encode(const byte_t *restrict src, size_t n, byte_t *restrict dest)
 {
@@ -58,14 +69,26 @@ const byte_t base64_table[256] = {
     ['7'] = 59,       ['8'] = 60, ['9'] = 61, ['+'] = 62, ['/'] = 63,
 };
 
+size_t base64_encode_size(size_t n)
+{
+    return ((n + 2) / 3) << 2;
+}
+
+size_t base64_decode_size(const byte_t *encoded, size_t n)
+{
+    if (!n)
+        return 0;
+
+    return (n >> 2) * 3 -
+           (encoded ? (encoded[n - 1] == '=') + (encoded[n - 2] == '=') : 0);
+}
+
 void base64_encode(const byte_t *restrict src, size_t n, byte_t *restrict dest)
 {
-    const byte_t *end = src + n - 3;
-
-    for (; src <= end; src += 3) {
+    for (const byte_t *end = src + n - 3; src <= end; src += 3) {
         *dest++ = base64_charset[src[0] >> 2];
-        *dest++ = base64_charset[((src[0] & 0x03) << 4) | (src[1] >> 4)];
-        *dest++ = base64_charset[((src[1] & 0x0F) << 2) | (src[2] >> 6)];
+        *dest++ = base64_charset[(src[0] & 0x03) << 4 | src[1] >> 4];
+        *dest++ = base64_charset[(src[1] & 0x0F) << 2 | src[2] >> 6];
         *dest++ = base64_charset[src[2] & 0x3F];
     }
 
@@ -78,12 +101,71 @@ void base64_encode(const byte_t *restrict src, size_t n, byte_t *restrict dest)
         break;
     case 2:
         *dest++ = base64_charset[src[0] >> 2];
-        *dest++ = base64_charset[((src[0] & 0x03) << 4) | (src[1] >> 4)];
-        *dest++ = base64_charset[((src[1] & 0x0F) << 2)];
+        *dest++ = base64_charset[(src[0] & 0x03) << 4 | src[1] >> 4];
+        *dest++ = base64_charset[(src[1] & 0x0F) << 2];
         *dest++ = '=';
         break;
     }
 }
 
-// char *base64_decode(char *restrict dest, const char *restrict src, size_t n)
-// {}
+int base64_decode(const byte_t *restrict src, size_t n, byte_t *restrict dest)
+{
+    if (n % 4)
+        return n;
+    else if (!n)
+        return -1;
+
+    int i = 0;
+    int end = n - 4 * (src[n - 1] == '=');
+
+    while (i < end) {
+        byte_t a = base64_table[src[i++]];
+        if (a >= 64)
+            return i - 1;
+
+        byte_t b = base64_table[src[i++]];
+        if (b >= 64)
+            return i - 1;
+
+        byte_t c = base64_table[src[i++]];
+        if (c >= 64)
+            return i - 1;
+
+        byte_t d = base64_table[src[i++]];
+        if (d >= 64)
+            return i - 1;
+
+        *dest++ = a << 2 | b >> 4;
+        *dest++ = b << 4 | c >> 2;
+        *dest++ = c << 6 | d;
+    }
+
+    if (src[n - 2] == '=') {
+        byte_t a = base64_table[src[i++]];
+        if (a >= 64)
+            return i - 1;
+
+        byte_t b = base64_table[src[i++]];
+        if (b >= 64)
+            return i - 1;
+
+        *dest++ = a << 2 | b >> 4;
+    } else if (src[n - 1] == '=') {
+        byte_t a = base64_table[src[i++]];
+        if (a >= 64)
+            return i - 1;
+
+        byte_t b = base64_table[src[i++]];
+        if (b >= 64)
+            return i - 1;
+
+        byte_t c = base64_table[src[i++]];
+        if (c >= 64)
+            return i - 1;
+
+        *dest++ = a << 2 | b >> 4;
+        *dest++ = b << 4 | c >> 2;
+    }
+
+    return -1;
+}

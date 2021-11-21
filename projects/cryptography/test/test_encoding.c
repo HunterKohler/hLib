@@ -32,13 +32,13 @@ void test_base64_encode(struct test_case *tc)
     assert(!memcmp(out, tc->base64, tc->base64_size));
 }
 
-// void test_base64_decode(struct test_case *tc)
-// {
-//     byte_t buf[1024] = { 0 };
+void test_base64_decode(struct test_case *tc)
+{
+    byte_t buf[1024] = { 0 };
 
-//     base64_decode(buf, tc->base64, tc->base64_size);
-//     assert(!memcmp(buf, tc->plain, tc->size));
-// }
+    base64_decode(tc->base64, tc->base64_size, buf);
+    assert(!memcmp(buf, tc->plain, tc->plain_size));
+}
 
 void test_hex_encode(struct test_case *tc)
 {
@@ -69,7 +69,7 @@ int main()
         test_hex_encode(test_vector + i);
         test_hex_decode(test_vector + i);
         test_base64_encode(test_vector + i);
-        // test_base64_decode(test_vector + i);
+        test_base64_decode(test_vector + i);
     }
 
     // test_hex_decode_error();
