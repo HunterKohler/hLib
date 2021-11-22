@@ -1,89 +1,127 @@
 #include "des.h"
 
-#define KS_MASK_LOWER ((1ULL << 28) - 1)
-#define KS_MASK_UPPER ((1ULL << 56) - 1 - KS_MASK_LOWER)
-
-static inline uint64_t permute_partial_64(uint64_t input, size_t input_width,
-                                          size_t output_width,
+/*
+ * `width` is the output width of the permutation.
+ */
+static inline uint64_t permute_partial_64(uint64_t input, size_t width,
                                           const uint8_t *permutation)
 {
     uint64_t ret = 0;
 
-    for (int i = 0; i < output_width; i++)
-        ret |= ((input >> permutation[i]) & 1) << (input_width - 1 - i);
+    for (int i = 0; i < width; i++)
+        ret |= ((input >> permutation[i]) & 1) << (width - 1 - i);
 
     return ret;
 }
 
-void des_key_schedule(uint64_t key, uint64_t *keylist)
-{
-    uint64_t k = permute_partial_64(key, 64, 56, des_PC_1);
-
-    for (int i = 0; i < 16; i++) {
-        int shift = des_LS[i];
-
-        k = (((k & KS_MASK_UPPER) << shift |
-              (k & KS_MASK_UPPER) >> (28 - shift)) &
-             KS_MASK_UPPER) |
-            (((k & KS_MASK_LOWER) << shift |
-              (k & KS_MASK_LOWER) >> (28 - shift)) &
-             KS_MASK_LOWER);
-
-        keylist[i] = permute_partial_64(k, 56, 48, des_PC_2);
-    }
-}
-
-uint64_t des(uint64_t input, uint64_t key)
+uint64_t des(uint64_t input, uint64_t key, bool encrypt)
 {
     uint64_t ks[16];
-    uint64_t lr = permute_partial_64(input, 64, 64, des_IP);
+    uint64_t lr = permute_partial_64(input, 64, des_table_IP);
 
     des_key_schedule(key, ks);
 
     for (int i = 0; i < 16; i++) {
-        lr = lr << 32 | ((lr >> 32) ^ des_f(lr & ((1ULL << 32) - 1), ks[i]));
+        uint64_t out = des_f(lr & ((1ULL << 32) - 1), ks[encrypt ? i : 15 - i]);
+        lr = lr << 32 | ((lr >> 32) ^ out);
     }
 
-    lr = permute_partial_64(lr, 64, 64, des_IP_inv);
+    lr = permute_partial_64(lr, 64, des_table_IP_inv);
     return lr;
 }
 
 uint64_t des_f(uint64_t r, uint64_t k)
 {
-    r = permute_partial_64(r, 32, 48, des_E);
+    r = permute_partial_64(r, 48, des_table_E);
     r ^= k;
 
     uint64_t ret = 0;
 
     for (int i = 0; i < 8; i++) {
-        ret |= des_S[i][(r >> (42 - i * 6)) & 0x3F] << (28 - i * 4);
+        ret |= des_table_S[i][(r >> (42 - i * 6)) & 0x3F] << (28 - i * 4);
     }
 
-    ret = permute_partial_64(ret, 32, 32, des_P);
+    ret = permute_partial_64(ret, 32, des_table_P);
     return ret;
 }
 
-const byte_t des_IP[] = {
+uint64_t *des_key_schedule(uint64_t key, uint64_t *keylist)
+{
+    uint64_t k = des_PC_1(key);
+    for (int i = 0; i < 16; i++) {
+        k = des_LS(k, i);
+        keylist[i] = des_PC_2(k);
+    }
+    return keylist;
+}
+
+uint64_t des_IP(uint64_t x)
+{
+    return permute_partial_64(x, 64, des_table_IP);
+}
+
+uint64_t des_IP_inv(uint64_t x)
+{
+    return permute_partial_64(x, 64, des_table_IP_inv);
+}
+
+uint64_t des_E(uint64_t x)
+{
+    return permute_partial_64(x, 48, des_table_E);
+}
+
+uint64_t des_S(uint64_t x, size_t n)
+{
+    return des_table_S[n][(x >> (42 - 6 * n)) & 0x3F];
+}
+
+uint64_t des_PC_1(uint64_t x)
+{
+    return permute_partial_64(x, 56, des_table_PC_1);
+}
+
+uint64_t des_PC_2(uint64_t x)
+{
+    return permute_partial_64(x, 48, des_table_PC_2);
+}
+
+uint64_t des_LS(uint64_t k, size_t n)
+{
+    uint64_t c = k >> 28 & 0xFFFFFFF;
+    uint64_t d = k & 0xFFFFFFF;
+
+    c = (c << des_table_LS[n] | c >> (28 - des_table_LS[n])) & 0xFFFFFFF;
+    d = (d << des_table_LS[n] | d >> (28 - des_table_LS[n])) & 0xFFFFFFF;
+
+    return c << 28 | d;
+}
+
+uint64_t des_P(uint64_t x)
+{
+    return permute_partial_64(x, 32, des_table_P);
+}
+
+const byte_t des_table_IP[] = {
     6, 14, 22, 30, 38, 46, 54, 62, 4, 12, 20, 28, 36, 44, 52, 60,
     2, 10, 18, 26, 34, 42, 50, 58, 0, 8,  16, 24, 32, 40, 48, 56,
     7, 15, 23, 31, 39, 47, 55, 63, 5, 13, 21, 29, 37, 45, 53, 61,
     3, 11, 19, 27, 35, 43, 51, 59, 1, 9,  17, 25, 33, 41, 49, 57,
 };
 
-const byte_t des_IP_inv[] = {
+const byte_t des_table_IP_inv[] = {
     24, 56, 16, 48, 8,  40, 0, 32, 25, 57, 17, 49, 9,  41, 1, 33,
     26, 58, 18, 50, 10, 42, 2, 34, 27, 59, 19, 51, 11, 43, 3, 35,
     28, 60, 20, 52, 12, 44, 4, 36, 29, 61, 21, 53, 13, 45, 5, 37,
     30, 62, 22, 54, 14, 46, 6, 38, 31, 63, 23, 55, 15, 47, 7, 39,
 };
 
-const byte_t des_E[] = {
+const byte_t des_table_E[] = {
     0,  31, 30, 29, 28, 27, 28, 27, 26, 25, 24, 23, 24, 23, 22, 21,
     20, 19, 20, 19, 18, 17, 16, 15, 16, 15, 14, 13, 12, 11, 12, 11,
     10, 9,  8,  7,  8,  7,  6,  5,  4,  3,  4,  3,  2,  1,  0,  31,
 };
 
-const byte_t des_S[8][64] = {
+const byte_t des_table_S[8][64] = {
     {
         14, 0,  4,  15, 13, 7,  1,  4,  2,  14, 15, 2, 11, 13, 8,  1,
         3,  10, 10, 6,  6,  12, 12, 11, 5,  9,  9,  5, 0,  3,  7,  8,
@@ -134,21 +172,23 @@ const byte_t des_S[8][64] = {
     }
 };
 
-const byte_t des_P[] = {
+const byte_t des_table_P[] = {
     16, 25, 12, 11, 3, 20, 4,  15, 31, 17, 9, 6,  27, 14, 1,  22,
     30, 24, 8,  18, 0, 5,  29, 23, 13, 19, 2, 26, 10, 21, 28, 7,
 };
 
-const byte_t des_PC_1[] = {
+const byte_t des_table_PC_1[] = {
     7,  15, 23, 31, 39, 47, 55, 63, 6,  14, 22, 30, 38, 46, 54, 62, 5,  13, 21,
     29, 37, 45, 53, 61, 4,  12, 20, 28, 1,  9,  17, 25, 33, 41, 49, 57, 2,  10,
     18, 26, 34, 42, 50, 58, 3,  11, 19, 27, 35, 43, 51, 59, 36, 44, 52, 60,
 };
 
-const byte_t des_PC_2[] = {
+const byte_t des_table_PC_2[] = {
     42, 39, 45, 32, 55, 51, 53, 28, 41, 50, 35, 46, 33, 37, 44, 52,
     30, 48, 40, 49, 29, 36, 43, 54, 15, 4,  25, 19, 9,  1,  26, 16,
     5,  11, 23, 8,  12, 7,  17, 0,  22, 3,  10, 14, 6,  20, 27, 24,
 };
 
-const byte_t des_LS[] = { 1, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1 };
+const byte_t des_table_LS[] = {
+    1, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1
+};
